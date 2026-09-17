@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroTrial — Stethoscope & Plus Logo Options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 40px 24px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #0c4a6e;
+      margin-bottom: 8px;
+    }
+    .header p {
+      font-size: 0.95rem;
+      color: #64748b;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .option-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .option-card:hover {
+      border-color: #0284c7;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+    }
+    .option-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #0284c7;
+      background: #e0f2fe;
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .option-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .option-desc {
+      font-size: 0.84rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    .preview-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .preview-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .preview-row.doctor-blue {
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+    }
+    .preview-row.patient-green {
+      background: #ffffff;
+      border: 1px solid #bbf7d0;
+    }
+    .icon-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+    .icon-badge.blue {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    }
+    .icon-badge.green {
+      background: #143324;
+      box-shadow: 0 2px 8px rgba(20, 51, 36, 0.25);
+    }
+    .brand-preview-text h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0c4a6e;
+      margin: 0;
+    }
+    .brand-preview-text.green h3 {
+      color: #143324;
+    }
+    .brand-preview-text span {
+      font-size: 0.68rem;
+      color: #64748b;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Stethoscope & Medical Plus Logo Options</h1>
+      <p>Select your favorite design combining a stethoscope with a medical plus sign</p>
+    </div>
+
+    <div class="options-grid">
+
+      <!-- Option 1: Classic Clinical Stethoscope Cradling Medical Plus Sign -->
+      <div class="option-card">
+        <span class="option-badge">Option 1 (Recommended)</span>
+        <h2 class="option-title">Clinical Stethoscope & Central Plus</h2>
+        <p class="option-desc">Stethoscope earpieces at the top with curved tubing flowing beneath and cradling a crisp medical plus sign in the center.</p>
+        <div class="preview-box">
+          <div class="preview-row doctor-blue">
+            <div class="icon-badge blue">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Center Plus Sign -->
+                <path d="M12 5V11M9 8H15" stroke-width="2.6" stroke="currentColor"/>
+                <!-- Earpieces -->
+                <path d="M5.5 3.5H7.5V6.5A4.5 4.5 0 0 0 16.5 6.5V3.5H18.5" stroke-width="1.8"/>
+                <circle cx="5.5" cy="3.5" r="0.8" fill="currentColor"/>
+                <circle cx="18.5" cy="3.5" r="0.8" fill="currentColor"/>
+                <!-- Tubing & Bell -->
+                <path d="M12 11V14.5A3.5 3.5 0 0 0 19 14.5V13" stroke-width="1.8"/>
+                <circle cx="19" cy="13" r="2.2" fill="currentColor" fill-opacity="0.3" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text">
+              <h3>NeuroTrial Clinician Portal</h3>
+              <span>Remote Video Review & Verification</span>
+            </div>
+          </div>
+          <div class="preview-row patient-green">
+            <div class="icon-badge green">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5V11M9 8H15" stroke-width="2.6" stroke="currentColor"/>
+                <path d="M5.5 3.5H7.5V6.5A4.5 4.5 0 0 0 16.5 6.5V3.5H18.5" stroke-width="1.8"/>
+                <circle cx="5.5" cy="3.5" r="0.8" fill="currentColor"/>
+                <circle cx="18.5" cy="3.5" r="0.8" fill="currentColor"/>
+                <path d="M12 11V14.5A3.5 3.5 0 0 0 19 14.5V13" stroke-width="1.8"/>
+                <circle cx="19" cy="13" r="2.2" fill="currentColor" fill-opacity="0.3" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text green">
+              <h3>NeuroTrial Patient Portal</h3>
+              <span>Autonomic Stress & Tremor Assessment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 2: Stethoscope with Solid Medical Cross -->
+      <div class="option-card">
+        <span class="option-badge">Option 2</span>
+        <h2 class="option-title">Solid Medical Cross with Stethoscope</h2>
+        <p class="option-desc">A bold, solid medical cross centered within the clean curve of a medical stethoscope.</p>
+        <div class="preview-box">
+          <div class="preview-row doctor-blue">
+            <div class="icon-badge blue">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Solid Cross in center -->
+                <rect x="10.5" y="4" width="3" height="8" rx="1.2" fill="currentColor"/>
+                <rect x="8" y="6.5" width="8" height="3" rx="1.2" fill="currentColor"/>
+                <!-- Stethoscope -->
+                <path d="M5 3.5H6.8V6A5.2 5.2 0 0 0 17.2 6V3.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="5" cy="3.5" r="0.9" fill="currentColor"/>
+                <circle cx="19" cy="3.5" r="0.9" fill="currentColor"/>
+                <path d="M12 12V14.5A3.8 3.8 0 0 0 19.5 14.5V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="19.5" cy="13" r="2.2" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text">
+              <h3>NeuroTrial Clinician Portal</h3>
+              <span>Remote Video Review & Verification</span>
+            </div>
+          </div>
+          <div class="preview-row patient-green">
+            <div class="icon-badge green">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10.5" y="4" width="3" height="8" rx="1.2" fill="currentColor"/>
+                <rect x="8" y="6.5" width="8" height="3" rx="1.2" fill="currentColor"/>
+                <path d="M5 3.5H6.8V6A5.2 5.2 0 0 0 17.2 6V3.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="5" cy="3.5" r="0.9" fill="currentColor"/>
+                <circle cx="19" cy="3.5" r="0.9" fill="currentColor"/>
+                <path d="M12 12V14.5A3.8 3.8 0 0 0 19.5 14.5V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="19.5" cy="13" r="2.2" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text green">
+              <h3>NeuroTrial Patient Portal</h3>
+              <span>Autonomic Stress & Tremor Assessment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 3: Stethoscope & Separate Right-Side Plus Sign (Non-Overlapping) -->
+      <div class="option-card">
+        <span class="option-badge">Option 3 (New)</span>
+        <h2 class="option-title">Stethoscope & Right-Side Plus Sign</h2>
+        <p class="option-desc">Stethoscope on the left with a crisp, standalone medical plus sign on the right side (zero overlap).</p>
+        <div class="preview-box">
+          <div class="preview-row doctor-blue">
+            <div class="icon-badge blue">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Stethoscope on Left -->
+                <path d="M4 4H5.5V6.5A3.2 3.2 0 0 0 12 6.5V4H13.5" stroke-width="1.8"/>
+                <circle cx="4" cy="4" r="0.8" fill="currentColor"/>
+                <circle cx="13.5" cy="4" r="0.8" fill="currentColor"/>
+                <path d="M8.8 9.7V14A3.8 3.8 0 0 0 16.5 14V11.5" stroke-width="1.8"/>
+                <circle cx="16.5" cy="11.5" r="2.2" fill="currentColor" fill-opacity="0.3" stroke-width="1.8"/>
+                <!-- Non-Overlapping Medical Plus Sign on Right Side -->
+                <path d="M19.5 4V9M17 6.5H22" stroke-width="2.6" stroke="currentColor"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text">
+              <h3>NeuroTrial Clinician Portal</h3>
+              <span>Remote Video Review & Verification</span>
+            </div>
+          </div>
+          <div class="preview-row patient-green">
+            <div class="icon-badge green">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Stethoscope on Left -->
+                <path d="M4 4H5.5V6.5A3.2 3.2 0 0 0 12 6.5V4H13.5" stroke-width="1.8"/>
+                <circle cx="4" cy="4" r="0.8" fill="currentColor"/>
+                <circle cx="13.5" cy="4" r="0.8" fill="currentColor"/>
+                <path d="M8.8 9.7V14A3.8 3.8 0 0 0 16.5 14V11.5" stroke-width="1.8"/>
+                <circle cx="16.5" cy="11.5" r="2.2" fill="currentColor" fill-opacity="0.3" stroke-width="1.8"/>
+                <!-- Non-Overlapping Medical Plus Sign on Right Side -->
+                <path d="M19.5 4V9M17 6.5H22" stroke-width="2.6" stroke="currentColor"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text green">
+              <h3>NeuroTrial Patient Portal</h3>
+              <span>Autonomic Stress & Tremor Assessment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 4: Stethoscope Forming a Heart Contour with Central Plus -->
+      <div class="option-card">
+        <span class="option-badge">Option 4</span>
+        <h2 class="option-title">Heart-Loop Stethoscope & Medical Cross</h2>
+        <p class="option-desc">Stethoscope tubing looping gracefully into an anatomical heart shape enclosing a medical cross.</p>
+        <div class="preview-box">
+          <div class="preview-row doctor-blue">
+            <div class="icon-badge blue">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Center Plus -->
+                <path d="M12 6.5V11.5M9.5 9H14.5" stroke-width="2.4" stroke="currentColor"/>
+                <!-- Earpieces -->
+                <path d="M6 3H7.5V5.5A4.5 4.5 0 0 0 16.5 5.5V3H18" stroke-width="1.8"/>
+                <!-- Heart Tubing -->
+                <path d="M12 10C8.5 12.5 4.5 14.5 4.5 17.5A3.5 3.5 0 0 0 11.5 19L12 20.5L12.5 19A3.5 3.5 0 0 0 19.5 17.5C19.5 15.5 17.5 13.5 15 12" stroke-width="1.8"/>
+                <circle cx="15" cy="12" r="1.8" fill="currentColor" fill-opacity="0.3"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text">
+              <h3>NeuroTrial Clinician Portal</h3>
+              <span>Remote Video Review & Verification</span>
+            </div>
+          </div>
+          <div class="preview-row patient-green">
+            <div class="icon-badge green">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 6.5V11.5M9.5 9H14.5" stroke-width="2.4" stroke="currentColor"/>
+                <path d="M6 3H7.5V5.5A4.5 4.5 0 0 0 16.5 5.5V3H18" stroke-width="1.8"/>
+                <path d="M12 10C8.5 12.5 4.5 14.5 4.5 17.5A3.5 3.5 0 0 0 11.5 19L12 20.5L12.5 19A3.5 3.5 0 0 0 19.5 17.5C19.5 15.5 17.5 13.5 15 12" stroke-width="1.8"/>
+                <circle cx="15" cy="12" r="1.8" fill="currentColor" fill-opacity="0.3"/>
+              </svg>
+            </div>
+            <div class="brand-preview-text green">
+              <h3>NeuroTrial Patient Portal</h3>
+              <span>Autonomic Stress & Tremor Assessment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>

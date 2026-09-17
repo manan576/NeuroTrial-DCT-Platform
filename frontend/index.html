@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroTrial Research — Autonomic Stress & Nystagmus Correlation Platform</title>
+  <meta name="description"
+    content="First steps towards quantifying the relationship between autonomic stress and involuntary nystagmus head tremor oscillations in decentralized clinical trials.">
+
+  <!-- Google Fonts: Fraunces (Editorial Serif), Inter, Outfit, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="careflow-home-body">
+
+  <div class="careflow-home-container">
+
+    <!-- ======================================================================
+         TOP NAVIGATION BAR
+         ====================================================================== -->
+    <header class="careflow-home-navbar">
+      <!-- Left: Research Brand -->
+      <a href="index.html" class="careflow-home-brand">
+        <div class="careflow-home-icon" title="NeuroTrial Research">
+          <svg class="neurotrial-logo-svg" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="3.8" cy="3.8" r="1.1" fill="currentColor"/>
+            <circle cx="11.8" cy="3.8" r="1.1" fill="currentColor"/>
+            <path d="M3.8 4.2V6.8a4 4 0 0 0 8 0V4.2"/>
+            <path d="M7.8 10.8V15a4.2 4.2 0 0 0 8.4 0v-2.2"/>
+            <circle cx="16.2" cy="12.8" r="2.2" fill="currentColor" fill-opacity="0.25" stroke-width="2"/>
+            <path d="M19.8 3v5.6M17 5.8h5.6" stroke-width="2.4"/>
+          </svg>
+        </div>
+        <div>
+          <h1>NeuroTrial</h1>
+          <span>Autonomic Stress & Nystagmus Research</span>
+        </div>
+      </a>
+
+      <!-- Right: Portal Quick Navigation Links (Sage Green & Doctor Blue Pills) -->
+      <div class="careflow-home-nav-actions">
+        <a href="patient.html" class="btn-nav-sage-pill solid" id="nav-btn-patient" title="Open Patient Portal">
+          <span>Patient Portal</span>
+          <span>↗</span>
+        </a>
+        <a href="clinician.html" class="btn-nav-sage-pill clinician-blue" id="nav-btn-clinician" title="Open Clinician Portal">
+          <span>Clinician Portal</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         EDITORIAL HERO SECTION: SIMPLE SCIENTIFIC NARRATIVE & ANIMATED EYES
+         ====================================================================== -->
+    <section class="organic-hero-section">
+      
+      <!-- Left Column: Scientific Mission & Decentralized Clinical Trials -->
+      <div class="organic-hero-left">
+        <h2 class="organic-hero-title">
+          First Quantified Research in <br>
+          <span class="nature-underline-accent">Stress & Head Nodding in Nystagmus</span>
+        </h2>
+
+        <div class="organic-hero-subheading">
+          First Step Towards Decentralized Clinical Trials
+        </div>
+
+        <p class="organic-hero-description">
+          We are taking the <strong>first steps towards scientifically quantifying that acute stress and head nodding/oscillations in nystagmus have a direct, measurable relationship</strong>. 
+          By combining real-time heart rate variability (HRV) with sub-millimeter computer vision, we are opening the door to <strong>decentralized clinical trials</strong>—enabling patients to participate in clinical studies accurately, comfortably, and remotely from their own homes without expensive hospital hardware.
+        </p>
+      </div>
+
+      <!-- Right Column: Dashed Organic Container with Big Interactive Animated Eyes -->
+      <div class="dashed-organic-stage">
+        <div class="dashed-perimeter-box" id="nystagmus-interactive-card">
+          
+          <div class="eyes-stage-header">
+            <h3 class="eyes-stage-title">Visualizing Nystagmus Dynamics</h3>
+          </div>
+
+          <!-- The Big Animated Eyes Component -->
+          <div class="animated-eyes-stage" id="animated-eyes-container" title="Eyes follow your mouse! Click the button below to see nystagmus oscillations.">
+            <!-- Left Eye -->
+            <div class="animated-eye-socket" id="nystagmus-left-eye">
+              <div class="animated-eye-iris">
+                <div class="animated-eye-pupil" id="nystagmus-left-pupil"></div>
+              </div>
+            </div>
+
+            <!-- Right Eye -->
+            <div class="animated-eye-socket" id="nystagmus-right-eye">
+              <div class="animated-eye-iris">
+                <div class="animated-eye-pupil" id="nystagmus-right-pupil"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Action Button: Look How Nystagmus Looks Like -->
+          <button type="button" class="btn-look-nystagmus" id="btn-toggle-nystagmus-demo">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+            </svg>
+            <span>Look How Nystagmus Looks Like</span>
+          </button>
+
+          <!-- Live Telemetry Waveform Monitor -->
+          <div class="waveform-container">
+            <div class="waveform-header">
+              <span>Oscillatory Amplitude (Degrees)</span>
+              <span>1.6 Hz Jerk Waveform</span>
+            </div>
+            <canvas id="nystagmus-live-waveform-canvas" class="nystagmus-live-waveform-canvas" width="280" height="38"></canvas>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         SCIENTIFIC ARCHITECTURE & 4-LEAF FEATURE GRID
+         ====================================================================== -->
+    <section class="organic-leaf-section">
+      <div class="leaf-section-header">
+        <span class="leaf-section-tag">Scientific Architecture</span>
+        <h3 class="leaf-section-title">How NeuroTrial Bridges Stress & Tremor Biomarkers</h3>
+        <p class="leaf-section-subtitle">
+          Our decentralized research pipeline connects continuous autonomic biometrics and computer vision to empower remote clinician verification.
+        </p>
+      </div>
+
+      <!-- Interactive System Architecture Flow Diagram (Single Emoji & Clean Normal Text) -->
+      <div class="arch-diagram-wrapper">
+        <div class="arch-diagram-card">
+          <div class="arch-diagram-titlebar">
+            <div class="arch-tag-badge">System Workflow</div>
+            <div class="arch-sync-status">
+              <span class="arch-dot-pulse"></span>
+              <span>Live Sync Active</span>
+            </div>
+          </div>
+
+          <div class="arch-flow-grid">
+            
+            <!-- STAGE 1: Dual Input Sensors -->
+            <div class="arch-column sensor-inputs-col">
+              <!-- Sensor A: Computer Vision -->
+              <div class="arch-node-box cv-node" title="MediaPipe Optical Tracking">
+                <div class="arch-node-emoji-hero">👁️</div>
+                <div class="arch-node-title">Computer Vision</div>
+                <div class="arch-node-subtext">Head & Eye Tremor</div>
+              </div>
+
+              <!-- Sensor B: Bluetooth ECG -->
+              <div class="arch-node-box ecg-node" title="Polar H10 BLE ECG">
+                <div class="arch-node-emoji-hero">💓</div>
+                <div class="arch-node-title">ECG Sensor</div>
+                <div class="arch-node-subtext">Live HRV (RMSSD)</div>
+              </div>
+            </div>
+
+            <!-- CONNECTOR 1 -> 2 -->
+            <div class="arch-connector-cell">
+              <span class="arch-flow-emoticon">📡</span>
+              <div class="arch-connector-line">
+                <span class="arch-flow-pulse"></span>
+              </div>
+              <span class="arch-connector-label">Sync</span>
+            </div>
+
+            <!-- STAGE 2: Patient Interaction -->
+            <div class="arch-column patient-col">
+              <div class="arch-node-box patient-node" title="Decentralized Remote Assessment">
+                <div class="arch-node-emoji-hero">👤</div>
+                <div class="arch-node-title">Patient</div>
+                <div class="arch-node-subtext">10s Video Buffer</div>
+              </div>
+            </div>
+
+            <!-- CONNECTOR 2 -> 3 -->
+            <div class="arch-connector-cell">
+              <span class="arch-flow-emoticon blue">☁️</span>
+              <div class="arch-connector-line blue">
+                <span class="arch-flow-pulse blue"></span>
+              </div>
+              <span class="arch-connector-label">Review</span>
+            </div>
+
+            <!-- STAGE 3: Clinician Verification -->
+            <div class="arch-column clinician-col">
+              <div class="arch-node-box clinician-node" title="Doctor Slow-Mo & Telemetry Adjudication">
+                <div class="arch-node-emoji-hero">🩺</div>
+                <div class="arch-node-title">Clinician Verify</div>
+                <div class="arch-node-subtext">1-Click Verification</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="leaf-grid-wrapper">
+        <div class="leaf-dashed-frame"></div>
+        <div class="leaf-grid-4">
+
+          <!-- Leaf 1: Decentralized Clinical Trials (Top-Left Curved) -->
+          <div class="leaf-card leaf-card-tl">
+            <span class="leaf-card-badge">Pillar 01</span>
+            <h4 class="leaf-card-title">Decentralized Clinical Trials (DCT)</h4>
+            <p class="leaf-card-desc">
+              Removes the burden of hospital visits and intimidating laboratory rigs. Patients participate in longitudinal neurological studies from the comfort of their home using ubiquitous webcams and wireless ECG sensors.
+            </p>
+            <div class="leaf-card-stat">
+              <span>Remote Access</span>
+              <strong>100% Browser-Based</strong>
+            </div>
+          </div>
+
+          <!-- Leaf 2: Autonomic ECG Stress Telemetry (Top-Right Curved) -->
+          <div class="leaf-card leaf-card-tr">
+            <span class="leaf-card-badge">Pillar 02</span>
+            <h4 class="leaf-card-title">Autonomic Stress Quantification</h4>
+            <p class="leaf-card-desc">
+              Live Beat-to-Beat RR intervals continuously compute rolling RMSSD (Heart Rate Variability) from a Polar H10 chest strap, instantaneously detecting sympathetic stress surges and vagal withdrawal.
+            </p>
+            <div class="leaf-card-stat">
+              <span>ECG Synchronization</span>
+              <strong>±1 ms RR Precision</strong>
+            </div>
+          </div>
+
+          <!-- Leaf 3: Sub-Millimeter Computer Vision (Bottom-Left Curved) -->
+          <div class="leaf-card leaf-card-bl">
+            <span class="leaf-card-badge">Pillar 03</span>
+            <h4 class="leaf-card-title">Sub-Millimeter Motion Tracking</h4>
+            <p class="leaf-card-desc">
+              A 468-point optical mesh tracks nose-tip and head velocity at 30 FPS without placing physical sensors on the head, accurately extracting 2–5 Hz sinusoidal oscillatory tremor waveforms.
+            </p>
+            <div class="leaf-card-stat">
+              <span>Optical Mesh</span>
+              <strong>30 FPS Velocity Capture</strong>
+            </div>
+          </div>
+
+          <!-- Leaf 4: Remote Clinician Adjudication (Bottom-Right Curved) -->
+          <div class="leaf-card leaf-card-br">
+            <span class="leaf-card-badge">Pillar 04</span>
+            <h4 class="leaf-card-title">Clinician Video Adjudication</h4>
+            <p class="leaf-card-desc">
+              When stress-correlated tremor episodes occur, an automated 10-second circular video buffer is preserved. Neurologists inspect synchronized slow-motion video to verify true nystagmus vs everyday motion artifacts.
+            </p>
+            <div class="leaf-card-stat">
+              <span>Verified Precision</span>
+              <strong>88.9% True Positive Rate</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TWO MAIN PORTAL GATEWAYS (PATIENT & CLINICIAN ACCESS)
+         ====================================================================== -->
+    <section class="organic-portals-section">
+      <div class="leaf-section-header">
+        <span class="leaf-section-tag">Interactive Portals</span>
+        <h3 class="leaf-section-title">Access the Research Platform</h3>
+        <p class="leaf-section-subtitle">
+          Choose between the guided participant assessment studio or the clinician review and adjudication workstation.
+        </p>
+      </div>
+
+      <div class="home-gateway-grid">
+
+        <!-- Gateway 1: Patient Portal -->
+        <div class="gateway-card patient-card">
+          <div class="gateway-card-header">
+            <div class="gateway-icon patient">👤</div>
+            <div>
+              <span class="gateway-tag patient">Participant Studio</span>
+              <h3 class="gateway-name">Patient Portal</h3>
+            </div>
+          </div>
+
+          <p class="gateway-desc">
+            Guided 4-step biometric assessment for trial participants. Connects Polar H10 ECG sensor,
+            aligns MediaPipe Face Mesh camera, computes baseline HRV, and conducts stress challenge tests with automated
+            10-second video buffering.
+          </p>
+
+          <div class="gateway-pipeline">
+            <div class="pipeline-step">
+              <span class="step-num">1</span>
+              <span>Connect Sensor</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">
+              <span class="step-num">2</span>
+              <span>Camera Align</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">
+              <span class="step-num">3</span>
+              <span>Baseline HRV</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">
+              <span class="step-num">4</span>
+              <span>Stress Challenge</span>
+            </div>
+          </div>
+
+          <a href="patient.html" class="gateway-cta patient" id="btn-gateway-launch-patient">
+            Launch Patient Portal →
+          </a>
+        </div>
+
+        <!-- Gateway 2: Clinician Verification Workstation -->
+        <div class="gateway-card clinician-card">
+          <div class="gateway-card-header">
+            <div class="gateway-icon clinician">🩺</div>
+            <div>
+              <span class="gateway-tag clinician">Neurology Review Hub</span>
+              <h3 class="gateway-name">Clinician Portal</h3>
+            </div>
+          </div>
+
+          <p class="gateway-desc">
+            Remote review and adjudication workstation for neurologists and researchers. Inspect 10-second synchronized
+            video captures, verify true pathological oscillations vs motion artifacts, and examine real-time RMSSD telemetry graphs.
+          </p>
+
+          <div class="gateway-pipeline">
+            <div class="pipeline-step">
+              <span class="step-num">1</span>
+              <span>Episode Queue</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">
+              <span class="step-num">2</span>
+              <span>0.5x Slow-Mo</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">
+              <span class="step-num">3</span>
+              <span>1-Click Verify</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step">
+              <span class="step-num">4</span>
+              <span>RMSSD Spline</span>
+            </div>
+          </div>
+
+          <a href="clinician.html" class="gateway-cta clinician" id="btn-gateway-launch-clinician">
+            Launch Clinician Portal →
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         FOOTER
+         ====================================================================== -->
+    <footer class="careflow-home-footer">
+      <div class="footer-left">
+        <strong>NeuroTrial Clinical Research Platform</strong> — Decentralized Autonomic Stress & Nystagmus Evaluation
+      </div>
+      <div class="footer-links">
+        <a href="patient.html">Patient Portal</a>
+        <span>•</span>
+        <a href="clinician.html">Clinician Portal</a>
+        <span>•</span>
+        <span>Version 2.5.0</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Interactive Eyes Simulation Script -->
+  <script src="js/interactive_eyes.js"></script>
+</body>
+
+</html>

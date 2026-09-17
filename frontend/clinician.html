@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroTrial Clinician Portal — Remote Video Review & Verification</title>
+
+  <!-- Google Fonts: Outfit, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Outfit:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="doctor-blue-body">
+
+  <div class="doctor-blue-container">
+
+    <!-- ======================================================================
+         HEADER: Calming Doctor Blue Clinical Navigation Bar
+         ====================================================================== -->
+    <header class="doctor-blue-header">
+      <!-- Left: Interactive Brand Link with Soothing 'Go to Home' Hover Animation -->
+      <a href="index.html" class="brand-home-transition-link" title="Click to return to Home">
+        <div class="doctor-blue-brand-icon" title="NeuroTrial Research">
+          <svg class="neurotrial-logo-svg" viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor"
+            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="3.8" cy="3.8" r="1.1" fill="currentColor" />
+            <circle cx="11.8" cy="3.8" r="1.1" fill="currentColor" />
+            <path d="M3.8 4.2V6.8a4 4 0 0 0 8 0V4.2" />
+            <path d="M7.8 10.8V15a4.2 4.2 0 0 0 8.4 0v-2.2" />
+            <circle cx="16.2" cy="12.8" r="2.2" fill="currentColor" fill-opacity="0.25" stroke-width="2" />
+            <path d="M19.8 3v5.6M17 5.8h5.6" stroke-width="2.4" />
+          </svg>
+        </div>
+        <div class="brand-text-slider">
+          <div class="brand-text-default">
+            <h1>NeuroTrial Clinician Portal</h1>
+            <span>Remote Video Review & Verification</span>
+          </div>
+          <div class="brand-text-hover">
+            <span class="brand-hover-action">Go to Home</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Center: Clean, Sleek, Non-Overflowing Multi-Patient Selector -->
+      <div class="doctor-blue-patient-selector" title="Click to switch trial participant">
+        <span class="selector-label">Subject:</span>
+        <div class="patient-dropdown-wrapper">
+          <select id="clinician-patient-select" class="doctor-blue-patient-dropdown" onchange="ClinicianApp.onPatientChanged(this.value)" title="Select patient for clinical review">
+            <!-- Populated dynamically by ClinicianApp.populatePatientDropdown() -->
+          </select>
+          <svg class="patient-dropdown-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#0284c7" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Right: Doctor Profile & Primary 'Register New Patient' Action -->
+      <div class="doctor-blue-header-actions">
+        <div class="doctor-blue-user-profile">
+          <span class="doctor-user-name">Dr. A. Sharma, MD</span>
+          <span class="doctor-user-role">Chief Clinical Neurologist</span>
+        </div>
+
+        <button type="button" class="btn-portal-nav btn-register-patient-top" onclick="ClinicianApp.openRegisterModal()" title="Onboard and register a new trial participant (Amazon Cognito RBAC)">
+          <span>➕ Register New Patient</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         3 CLINICAL TELEMETRY SUMMARY TILES (Rectangular, Essential KPIs)
+         ====================================================================== -->
+    <div class="clinician-kpi-grid">
+      <div class="clinician-kpi-card">
+        <div class="clinician-kpi-header">
+          <span class="clinician-kpi-label">Recorded Episodes</span>
+        </div>
+        <div class="clinician-kpi-val" id="kpi-total-episodes">12</div>
+        <div class="clinician-kpi-sub">10s Rolling Buffer Captures</div>
+      </div>
+
+      <div class="clinician-kpi-card">
+        <div class="clinician-kpi-header">
+          <span class="clinician-kpi-label">Clinical Precision (TP)</span>
+        </div>
+        <div class="clinician-kpi-val precision" id="kpi-clinical-precision">88.5%</div>
+        <div class="clinician-kpi-sub">True Positive Correlation Rate</div>
+      </div>
+
+      <div class="clinician-kpi-card">
+        <div class="clinician-kpi-header">
+          <span class="clinician-kpi-label">Episodes To Review</span>
+        </div>
+        <div class="clinician-kpi-val pending" id="kpi-pending-triage">4</div>
+        <div class="clinician-kpi-sub">Awaiting Clinician Verification</div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         MAIN 3-COLUMN WORKSTATION:
+         Column 1: Video Queue
+         Column 2: Video Player & Verification (Directly adjacent to Queue!)
+         Column 3: Synchronized Physiological Telemetry Graphs & Bedrock Notes
+         ====================================================================== -->
+    <div class="clinician-workstation-grid">
+
+      <!-- ====================================================================
+           COLUMN 1: PRIORITY VIDEO QUEUE
+           ==================================================================== -->
+      <div class="triage-queue-card">
+        <div class="clinical-card-header">
+          <div>
+            <h3>Video Episode Queue</h3>
+            <span class="header-subtext">Click any clip to review & verify</span>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="triage-filter-bar">
+          <button type="button" class="triage-filter-btn active" data-filter="ALL">All (<span
+              id="count-filter-all">12</span>)</button>
+          <button type="button" class="triage-filter-btn" data-filter="PENDING_REVIEW">Pending (<span
+              id="count-filter-pending">4</span>)</button>
+          <button type="button" class="triage-filter-btn" data-filter="VERIFIED_TRUE_POSITIVE">Verified (<span
+              id="count-filter-tp">6</span>)</button>
+          <button type="button" class="triage-filter-btn" data-filter="DISMISSED_FALSE_POSITIVE">Dismissed (<span
+              id="count-filter-fp">2</span>)</button>
+        </div>
+
+        <!-- Scrollable Triage Items List -->
+        <div class="triage-queue-list" id="triage-queue-list">
+          <!-- Dynamically populated by ClinicianApp.renderQueue() -->
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           COLUMN 2: VIDEO REVIEW & VERIFICATION WORKSTATION
+           ==================================================================== -->
+      <div class="video-triage-column">
+        <div class="video-player-card" id="video-player-card">
+          <div class="video-player-wrapper" id="video-player-wrapper">
+            <video id="clinical-review-video" class="clinical-video-element" loop playsinline></video>
+
+            <!-- Center Big Play Button Overlay -->
+            <button type="button" class="video-center-play-btn" id="btn-center-play"
+              onclick="ClinicianApp.togglePlayPause()">
+              <span id="center-play-icon">▶</span>
+            </button>
+
+            <!-- Video Top Diagnostic Telemetry Overlay -->
+            <div class="video-hud-overlay">
+              <span class="video-hud-badge" id="video-hud-badge">Incident Review</span>
+              <span class="video-hud-rmssd" id="video-hud-rmssd">RMSSD: -- ms</span>
+              <span class="video-hud-drop" id="video-hud-drop">Drop: --%</span>
+            </div>
+
+            <!-- Video Bottom Controls Bar -->
+            <div class="video-overlay-controls" id="video-overlay-controls">
+              <button type="button" class="btn-overlay-play" id="btn-overlay-play"
+                onclick="ClinicianApp.togglePlayPause()" title="Play / Pause">
+                <span id="overlay-play-icon">▶</span>
+              </button>
+
+              <div class="video-overlay-spacer"></div>
+
+              <div class="video-overlay-speed-group">
+                <button type="button" class="btn-overlay-speed active" id="btn-speed-1x"
+                  onclick="ClinicianApp.setPlaybackSpeed(1.0)">1x</button>
+                <button type="button" class="btn-overlay-speed" id="btn-speed-half"
+                  onclick="ClinicianApp.setPlaybackSpeed(0.5)">0.5x</button>
+              </div>
+
+              <button type="button" class="btn-overlay-expand" onclick="ClinicianApp.openExpandVideoModal()"
+                title="Expand to Full Diagnostic View">
+                ⛶ Expand
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rectangular 1-Click Verification Action Bar (Medical Authority) -->
+        <div class="verification-action-bar">
+          <button type="button" class="btn-verify-tp" id="btn-action-verify-tp"
+            onclick="ClinicianApp.verifySelectedEpisode('VERIFIED_TRUE_POSITIVE')"
+            title="Confirm true pathological oscillation and plot to session graph">
+            <span class="btn-check-icon">✓</span> Verify TP
+          </button>
+          <button type="button" class="btn-dismiss-fp" id="btn-action-dismiss-fp"
+            onclick="ClinicianApp.verifySelectedEpisode('DISMISSED_FALSE_POSITIVE')"
+            title="Mark as motion artifact or false alarm">
+            <span class="btn-dismiss-icon">✕</span> Dismiss FP
+          </button>
+        </div>
+
+        <!-- Rectangular Clinical Note Input -->
+        <div class="triage-notes-container">
+          <div class="triage-notes-inner">
+            <input type="text" id="doctor-clinical-notes-input"
+              placeholder="Add your clinical note for this video (optional)..." class="doctor-notes-input">
+          </div>
+        </div>
+
+        <!-- Amazon Bedrock Clinical Progress Note Synthesizer -->
+        <div class="bedrock-progress-card">
+          <div class="clinical-card-header">
+            <div>
+              <h3 style="font-size:0.92rem;">Clinical Progress Note (Bedrock)</h3>
+              <span class="header-subtext">Claude 3.5 Sonnet Longitudinal Synthesis</span>
+            </div>
+
+            <button type="button" class="btn-bedrock-action" id="btn-generate-bedrock-note">
+              Synthesize Note ↗
+            </button>
+          </div>
+
+          <div class="bedrock-progress-content" id="bedrock-note-container">
+            <div style="color:#64748b; font-style:italic;">
+              Click <strong>"Synthesize Note"</strong> to generate an EMR-ready neurological progress note.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           COLUMN 3: MULTI-SESSION PHYSIOLOGICAL TELEMETRY GRAPHS (Scrollable Column)
+           ==================================================================== -->
+      <div class="clinical-telemetry-column" id="clinical-telemetry-column">
+        <div class="multi-session-graphs-container" id="multi-session-graphs-container">
+          <!-- Session Graph Cards rendered dynamically by ClinicianApp.renderMultiSessionGraphs() -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ======================================================================
+       REGISTER NEW TRIAL PARTICIPANT MODAL (Amazon Cognito / DynamoDB Provisioning)
+       ====================================================================== -->
+  <div class="clinical-modal-backdrop" id="register-patient-modal" style="display: none;"
+    onclick="ClinicianApp.closeRegisterModal(event)">
+    <div class="clinical-register-modal-card" onclick="event.stopPropagation()">
+      <div class="modal-card-header">
+        <div>
+          <h3>Register New Trial Participant</h3>
+          <span class="header-subtext">Remote Subject Onboarding • Amazon Cognito RBAC</span>
+        </div>
+        <button type="button" class="btn-modal-close" onclick="ClinicianApp.closeRegisterModal()"
+          title="Close (Esc)">✕</button>
+      </div>
+
+      <form id="form-register-patient" onsubmit="ClinicianApp.handleRegisterSubmit(event)" class="register-patient-form">
+        <div class="register-form-quickbar">
+          <span class="quickbar-label">Demo Preset:</span>
+          <button type="button" class="btn-quick-fill-demo" onclick="ClinicianApp.quickFillDemoPatient()">
+            ⚡ 1-Click Quick Fill Demo Subject
+          </button>
+        </div>
+
+        <div class="register-form-grid">
+          <div class="form-group">
+            <label for="reg-patient-name">Subject Full Name <span class="req">*</span></label>
+            <input type="text" id="reg-patient-name" required placeholder="e.g., Marcus Vance" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="reg-patient-id">Assigned Subject ID <span class="req">*</span></label>
+            <input type="text" id="reg-patient-id" required placeholder="patient_004" class="form-control" readonly style="background:#f8fafc; font-family:'JetBrains Mono',monospace;">
+          </div>
+
+          <div class="form-group">
+            <label for="reg-patient-age">Age <span class="req">*</span></label>
+            <input type="number" id="reg-patient-age" required min="5" max="100" placeholder="42" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="reg-patient-gender">Gender <span class="req">*</span></label>
+            <select id="reg-patient-gender" required class="form-control">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Non-Binary">Non-Binary</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="reg-patient-diagnosis">Nystagmus Classification Protocol <span class="req">*</span></label>
+            <select id="reg-patient-diagnosis" required class="form-control">
+              <option value="Infantile Nystagmus Syndrome (INS)">Infantile Nystagmus Syndrome (INS)</option>
+              <option value="Acquired Oscillopsia (Vestibular)">Acquired Oscillopsia (Vestibular)</option>
+              <option value="Pediatric Jerk Nystagmus (Downbeat)">Pediatric Jerk Nystagmus (Downbeat)</option>
+              <option value="Congenital Latent Nystagmus">Congenital Latent Nystagmus</option>
+              <option value="Spasmus Nutans Variant">Spasmus Nutans Variant</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-patient-baseline">Target Baseline RMSSD (ms)</label>
+            <input type="number" id="reg-patient-baseline" step="0.1" value="45.0" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="reg-patient-pin">Trial Onboarding PIN <span class="req">*</span></label>
+            <input type="text" id="reg-patient-pin" required placeholder="NT-4004" class="form-control" style="font-family:'JetBrains Mono',monospace; letter-spacing:1px; font-weight:700; color:#0284c7;">
+          </div>
+        </div>
+
+        <div class="register-modal-footer">
+          <button type="button" class="btn-cancel-modal" onclick="ClinicianApp.closeRegisterModal()">Cancel</button>
+          <button type="submit" class="btn-submit-enroll">
+            <span>✓ Enroll Subject & Generate Pass</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       TRIAL PARTICIPANT ACCESS PASS MODAL (Display Credentials to Doctor)
+       ====================================================================== -->
+  <div class="clinical-modal-backdrop" id="onboarding-pass-modal" style="display: none;"
+    onclick="ClinicianApp.closeOnboardingPassModal(event)">
+    <div class="clinical-pass-modal-card" onclick="event.stopPropagation()">
+      <div class="modal-card-header pass-header">
+        <div>
+          <h3>Trial Participant Onboarded!</h3>
+          <span class="header-subtext">Credentials Generated & Synced (Amazon Cognito RBAC)</span>
+        </div>
+        <button type="button" class="btn-modal-close" onclick="ClinicianApp.closeOnboardingPassModal()"
+          title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="onboarding-pass-content">
+        <div class="pass-credentials-box">
+          <div class="pass-cred-row">
+            <span class="pass-cred-lbl">Participant Name:</span>
+            <strong id="pass-patient-name" class="pass-cred-val">Marcus Vance</strong>
+          </div>
+          <div class="pass-cred-row">
+            <span class="pass-cred-lbl">Subject Trial ID:</span>
+            <strong id="pass-patient-id" class="pass-cred-val mono">patient_004</strong>
+          </div>
+          <div class="pass-cred-row">
+            <span class="pass-cred-lbl">Protocol Scope:</span>
+            <strong id="pass-patient-diagnosis" class="pass-cred-val">Acquired Vestibular Nystagmus</strong>
+          </div>
+          <div class="pass-cred-row highlight">
+            <span class="pass-cred-lbl">Onboarding Trial PIN:</span>
+            <strong id="pass-patient-pin" class="pass-cred-val pin">NT-4004</strong>
+          </div>
+        </div>
+
+        <div class="pass-next-steps">
+          <p><strong>Next Step:</strong> The participant can now open the <strong>Patient Portal</strong> on their laptop, select their profile, and enter their trial PIN to begin remote ECG & video calibration.</p>
+        </div>
+      </div>
+
+      <div class="register-modal-footer">
+        <button type="button" class="btn-cancel-modal" onclick="ClinicianApp.closeOnboardingPassModal()">Dismiss</button>
+        <button type="button" class="btn-submit-enroll" onclick="ClinicianApp.switchToNewlyRegisteredPatient()">
+          <span>Switch to this Patient's Workstation ↗</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       EXPANDABLE HIGH-RESOLUTION CLINICAL VIDEO DIAGNOSTIC MODAL
+       ====================================================================== -->
+  <div class="clinical-video-modal-backdrop" id="clinical-video-modal" style="display: none;"
+    onclick="ClinicianApp.closeExpandVideoModal(event)">
+    <div class="clinical-video-modal-card" onclick="event.stopPropagation()">
+      <div class="modal-card-header">
+        <div>
+          <h3 id="modal-video-title">Episode Diagnostic Review (High-Definition)</h3>
+          <span class="header-subtext" id="modal-video-subtext">patient_001 • 10s Buffer Clip • Involuntary Oscillation
+            Inspection</span>
+        </div>
+        <button type="button" class="btn-modal-close" onclick="ClinicianApp.closeExpandVideoModal()"
+          title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="modal-video-wrapper">
+        <video id="modal-review-video" class="modal-video-element" loop playsinline></video>
+
+        <!-- Modal Center Play Icon -->
+        <button type="button" class="video-center-play-btn" id="btn-modal-center-play"
+          onclick="ClinicianApp.toggleModalPlayPause()">
+          <span id="modal-center-play-icon">▶</span>
+        </button>
+
+        <!-- Modal Bottom Controls Bar -->
+        <div class="video-overlay-controls modal-controls" id="modal-overlay-controls">
+          <button type="button" class="btn-overlay-play" id="btn-modal-overlay-play"
+            onclick="ClinicianApp.toggleModalPlayPause()" title="Play / Pause">
+            <span id="modal-overlay-play-icon">▶</span>
+          </button>
+
+          <!-- Flexible Spacer -->
+          <div class="video-overlay-spacer"></div>
+
+          <div class="video-overlay-speed-group">
+            <button type="button" class="btn-overlay-speed active" id="btn-modal-speed-1x"
+              onclick="ClinicianApp.setModalPlaybackSpeed(1.0)">1x</button>
+            <button type="button" class="btn-overlay-speed" id="btn-modal-speed-half"
+              onclick="ClinicianApp.setModalPlaybackSpeed(0.5)">0.5x</button>
+          </div>
+
+          <button type="button" class="btn-overlay-expand" onclick="ClinicianApp.toggleFullscreenModal()"
+            title="Native Fullscreen">
+            ⛶ Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-action-bar">
+        <div style="font-size:0.75rem; color:#64748b;">
+          Status: <strong id="modal-status-text" style="color:#0284c7;">Pending Review</strong>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-verify-tp"
+            onclick="ClinicianApp.verifySelectedEpisode('VERIFIED_TRUE_POSITIVE'); ClinicianApp.closeExpandVideoModal();">
+            <span class="btn-check-icon">✓</span> Verify TP
+          </button>
+          <button type="button" class="btn-dismiss-fp"
+            onclick="ClinicianApp.verifySelectedEpisode('DISMISSED_FALSE_POSITIVE'); ClinicianApp.closeExpandVideoModal();">
+            <span class="btn-dismiss-icon">✕</span> Dismiss FP
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       EXPANDABLE CLINICAL TELEMETRY GRAPH MODAL
+       ====================================================================== -->
+  <div class="clinical-graph-modal-backdrop" id="clinical-graph-modal" style="display: none;"
+    onclick="ClinicianApp.closeExpandGraphModal(event)">
+    <div class="clinical-graph-modal-card" onclick="event.stopPropagation()">
+      <div class="modal-card-header">
+        <div>
+          <h3 id="modal-graph-title">Baseline HRV vs Oscillation HRV</h3>
+          <span class="header-subtext" id="modal-graph-subtext">Calibrated Resting Baseline vs Verified Pathological
+            Oscillation RMSSD Drops</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="baseline-plain-text" style="font-size: 0.82rem;">Baseline: <strong
+              id="modal-legend-baseline-val">44.5 ms</strong></span>
+          <button type="button" class="btn-modal-close" onclick="ClinicianApp.closeExpandGraphModal()"
+            title="Close (Esc)">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-chart-container">
+        <canvas id="modal-session-chart"></canvas>
+      </div>
+
+      <div class="modal-graph-stats-row">
+        <div class="modal-stat-pill">
+          <span class="stat-lbl">Calibrated Baseline</span>
+          <strong id="modal-stat-baseline">44.5 ms</strong>
+        </div>
+        <div class="modal-stat-pill">
+          <span class="stat-lbl">Verified True Positives</span>
+          <strong id="modal-stat-tp-count" style="color: #be123c;">6 Events</strong>
+        </div>
+        <div class="modal-stat-pill">
+          <span class="stat-lbl">Mean Vagal Drop</span>
+          <strong id="modal-stat-avg-drop" style="color: #0284c7;">-58.4%</strong>
+        </div>
+        <div class="modal-stat-pill">
+          <span class="stat-lbl">ECG Sensor</span>
+          <strong style="color: #0c4a6e;">Polar H10 (1000 Hz)</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/auth_manager.js"></script>
+  <script src="js/sample_data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/clinician_app.js"></script>
+
+</body>
+
+</html>
