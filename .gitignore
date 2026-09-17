@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+venv/
+.venv/
+env/
+
+# Recorded WebM Video Clips (generated during runtime testing)
+*.webm
+frontend/validation_videos/*.webm
+validation_videos/*.webm
+frontend/recorded_videos/
+recorded_videos/
+
+# Data logs
+oscillation_log.csv
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+aws_config.json
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Metadata
+Thumbs.db
+.DS_Store
+
+# Temporary binary artifacts
+test_h264.mp4
+openh264-*.dll
+
