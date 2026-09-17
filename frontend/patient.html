@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroTrial Patient Portal — Decentralized Clinical Evaluation</title>
+  <meta name="description"
+    content="Decentralized in-browser clinical trial assessment portal for Nystagmus & Movement Disorder patients.">
+
+  <!-- Google Fonts: Inter, Outfit, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- MediaPipe Face Mesh CDN for precise nose tip tracking -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="careflow-patient-body">
+
+  <div class="careflow-app-card">
+
+    <!-- Top CareFlow Navbar -->
+    <header class="careflow-navbar">
+      <!-- Left: Interactive Brand Link with Soothing 'Go to Home' Hover Animation -->
+      <a href="index.html" class="brand-home-transition-link patient" title="Click to return to Home">
+        <div class="careflow-brand-icon" title="NeuroTrial Research">
+          <svg class="neurotrial-logo-svg" viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor"
+            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="3.8" cy="3.8" r="1.1" fill="currentColor"/>
+            <circle cx="11.8" cy="3.8" r="1.1" fill="currentColor"/>
+            <path d="M3.8 4.2V6.8a4 4 0 0 0 8 0V4.2"/>
+            <path d="M7.8 10.8V15a4.2 4.2 0 0 0 8.4 0v-2.2"/>
+            <circle cx="16.2" cy="12.8" r="2.2" fill="currentColor" fill-opacity="0.25" stroke-width="2"/>
+            <path d="M19.8 3v5.6M17 5.8h5.6" stroke-width="2.4"/>
+          </svg>
+        </div>
+        <div class="brand-text-slider">
+          <div class="brand-text-default">
+            <h1>NeuroTrial Patient Portal</h1>
+            <span>Autonomic Stress & Tremor Assessment</span>
+          </div>
+          <div class="brand-text-hover">
+            <span class="brand-hover-action">Go to Home</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Center: Step-by-Step Navigation Indicator & Start Over Button -->
+      <nav class="careflow-nav-pills" role="tablist">
+        <div class="careflow-nav-pill active" id="cf-nav-step-1">
+          <span>1. Sensor</span>
+        </div>
+        <div class="careflow-nav-pill" id="cf-nav-step-2">
+          <span>2. Camera</span>
+        </div>
+        <div class="careflow-nav-pill" id="cf-nav-step-3">
+          <span>3. Baseline</span>
+        </div>
+        <div class="careflow-nav-pill" id="cf-nav-step-4">
+          <span>4. Stress Test</span>
+        </div>
+        <div class="careflow-nav-divider"></div>
+        <button type="button" class="careflow-btn-startover" onclick="careflowStartOver()"
+          title="Reset session, disconnect sensor, and restart baseline calculation">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="startover-icon">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          <span>Start Over</span>
+        </button>
+      </nav>
+
+      <!-- Right: Authentication & Profile Container (Amazon Cognito) -->
+      <div class="careflow-auth-container" id="careflow-auth-container">
+        <!-- Logged Out Button -->
+        <button type="button" class="btn-patient-login-top" id="btn-patient-login-top" onclick="openPatientIdentityModal()" title="Sign in with Amazon Cognito User Pools">
+          <span>Sign In</span>
+        </button>
+
+        <!-- Logged In Profile Box (Text-only with downward arrow) -->
+        <div class="careflow-user-profile careflow-identity-clickable" id="careflow-user-profile-box" onclick="openPatientIdentityModal()" title="Click to switch participant profile" style="display:none;">
+          <div class="careflow-user-details">
+            <div class="careflow-user-name-line">
+              <span class="careflow-user-name" id="cf-patient-name">Manan B.</span>
+              <span class="careflow-dropdown-arrow" aria-hidden="true">▾</span>
+            </div>
+            <span class="careflow-user-meta" id="cf-patient-meta">22 yrs &bull; Infantile INS</span>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button type="button" class="btn-patient-logout-top" id="btn-patient-logout-top" onclick="patientLogout()" title="Sign out of trial session" style="display:none;">
+          <span>Logout</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main 2-Column Dashboard Grid (Fits in viewport without scrolling) -->
+    <div class="careflow-grid">
+
+      <!-- ====================================================================
+           LEFT COLUMN: SQUARE WEBCAM VIEWPORT & PROTOCOL STEPS TABLE
+           ==================================================================== -->
+      <div class="careflow-left-col">
+
+        <!-- Square Video Assessment Viewport Card -->
+        <div class="careflow-square-viewport-card" id="careflow-viewport-container">
+
+          <!-- Top Overlay: Patient ID, Countdown Timer & Top-Right Simulate Oscillation Button -->
+          <div class="careflow-viewport-header">
+            <div class="careflow-patient-label">
+              <h3 id="cf-viewport-title">Live Assessment Feed</h3>
+            </div>
+            <!-- Dynamic Countdown Timer Badge (Step 3 Baseline: 05:00 -> 00:00, Step 4 Stroop) -->
+            <div class="careflow-timer-badge" id="cf-viewport-timer" style="display:none;">05:00</div>
+            <!-- Top Right: Simulate Oscillation (Visible ONLY on Stage 4 / Active Background Monitoring) -->
+            <button type="button" id="btn-sim-oscillation-top" class="btn-clinical-sim-event"
+              onclick="WebTrackerEngine.triggerManualTestOscillation()"
+              style="display:none; white-space:nowrap;"
+              title="Simulate 10s horizontal head oscillation to test incident video buffer capture">
+              Simulate Oscillation
+            </button>
+          </div>
+
+          <!-- Main Square Video / Canvas Stream -->
+          <video id="guided-webcam-element" class="careflow-square-video" playsinline muted autoplay></video>
+          <canvas id="guided-canvas-element" class="careflow-square-canvas"></canvas>
+
+          <!-- Step 3 Overlay: Calming Serene Nature Ambient Canvas -->
+          <canvas id="calming-nature-canvas" class="calming-nature-ambient-canvas"></canvas>
+
+          <!-- Center Gaze Reticle for Baseline Calibration -->
+          <div class="gaze-reticle-overlay" id="cf-gaze-reticle" style="display:none; z-index:5;"
+            title="Focus gaze on center point">
+            <div class="gaze-reticle-dot"></div>
+          </div>
+
+          <!-- Step 4 Overlay: Stroop Conflict Test Container inside Square -->
+          <div id="cf-stroop-overlay"
+            style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:6; background:rgba(15,23,42,0.94); padding:24px 20px; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+
+            <!-- 1. Ready to Start View (User initiates when ready) -->
+            <div id="cf-stroop-ready-view"
+              style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:16px;">
+              <span
+                style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">
+                Neuro-Cognitive Stress Induction Protocol
+              </span>
+              <h3 style="font-family:'Outfit'; font-size:1.55rem; font-weight:800; color:#f8fafc; margin:4px 0 10px 0;">
+                60s Stroop Conflict Challenge
+              </h3>
+              <p style="font-size:0.82rem; color:#cbd5e1; max-width:380px; margin-bottom:18px; line-height:1.45;">
+                Words will appear in different ink colors. Select the <strong>INK COLOR</strong> as rapidly as possible
+                using keys <strong>[1-4]</strong> or click pads.
+              </p>
+              <button type="button" class="btn-careflow-action" onclick="careflowStartStroopTest()"
+                style="max-width:260px; background:#0284c7; color:white; font-size:0.92rem; padding:12px 22px;">
+                ▶ Start 60s Challenge
+              </button>
+            </div>
+
+            <!-- 2. Active Trial Stimulus View (Appears after user clicks Start) -->
+            <div id="cf-stroop-active-view"
+              style="display:none; width:100%; flex-direction:column; align-items:center; justify-content:center;">
+              <span
+                style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">
+                Select the INK COLOR &bull; Hotkeys [1-4]
+              </span>
+              <div id="stress-stimulus-word"
+                style="font-family:'Outfit'; font-size:3.6rem; font-weight:800; margin:8px 0; letter-spacing:2px; color:#ef4444;">
+                RED</div>
+
+              <!-- Progress bar -->
+              <div
+                style="width:80%; height:4px; background:#334155; border-radius:2px; margin:8px 0 16px 0; overflow:hidden;">
+                <div id="stress-stimulus-progress-fill" style="width:100%; height:100%; background:#0284c7;"></div>
+              </div>
+
+              <!-- Neutral text-only choices grid -->
+              <div id="stress-choices-container"
+                style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; width:88%;">
+                <button type="button" class="stress-choice-btn neutral-choice-btn" data-color="RED"
+                  onclick="StressTestEngine.submitAnswer('RED')">
+                  <span class="choice-key-badge">1</span>
+                  <span class="choice-label">RED</span>
+                </button>
+                <button type="button" class="stress-choice-btn neutral-choice-btn" data-color="BLUE"
+                  onclick="StressTestEngine.submitAnswer('BLUE')">
+                  <span class="choice-key-badge">2</span>
+                  <span class="choice-label">BLUE</span>
+                </button>
+                <button type="button" class="stress-choice-btn neutral-choice-btn" data-color="GREEN"
+                  onclick="StressTestEngine.submitAnswer('GREEN')">
+                  <span class="choice-key-badge">3</span>
+                  <span class="choice-label">GREEN</span>
+                </button>
+                <button type="button" class="stress-choice-btn neutral-choice-btn" data-color="YELLOW"
+                  onclick="StressTestEngine.submitAnswer('YELLOW')">
+                  <span class="choice-key-badge">4</span>
+                  <span class="choice-label">YELLOW</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Picture-in-Picture Mini Face Tracking Window (Positioned at Bottom-Right of Card Canvas) -->
+          <div class="careflow-pip-mini" id="careflow-pip-mini" title="Live Face Landmark Tracking">
+            <div class="careflow-pip-badge">Live Tracking</div>
+            <canvas id="careflow-pip-canvas" class="careflow-pip-canvas"></canvas>
+          </div>
+
+          <!-- Bottom Square Controls Toolbar -->
+          <div class="careflow-viewport-controls">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#10b981;"></span>
+              <span style="font-size:0.72rem; color:#cbd5e1; font-family:'JetBrains Mono',monospace;"
+                id="cf-feed-status-label">Optical Tracker: 30 FPS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Protocol Steps Table (CareFlow Style with Step Gating) -->
+        <div class="careflow-steps-card">
+          <div class="careflow-steps-header">
+            <h3>Evaluation Protocol Steps</h3>
+            <span style="font-size:0.75rem; color:#64748b; font-weight:600;">Phase Progress</span>
+          </div>
+
+          <table class="careflow-steps-table">
+            <thead>
+              <tr>
+                <th>Protocol Phase</th>
+                <th>Signal & Method</th>
+                <th>Duration</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="cf-row-step-1">
+                <td><strong>Step 1: Sensor Pairing</strong></td>
+                <td>Polar H9 BLE / Simulated ECG</td>
+                <td>Immediate</td>
+                <td><span class="careflow-step-status active" id="cf-badge-step-1">Active</span></td>
+              </tr>
+              <tr id="cf-row-step-2">
+                <td><strong>Step 2: Camera Setup</strong></td>
+                <td>468-Point Mesh & Nose Anchor</td>
+                <td>30s Setup</td>
+                <td><span class="careflow-step-status locked" id="cf-badge-step-2">Locked</span></td>
+              </tr>
+              <tr id="cf-row-step-3">
+                <td><strong>Step 3: Quiet Baseline</strong></td>
+                <td>Snake & Apple Visual Pursuit</td>
+                <td>5 Minutes</td>
+                <td><span class="careflow-step-status locked" id="cf-badge-step-3">Locked</span></td>
+              </tr>
+              <tr id="cf-row-step-4">
+                <td><strong>Step 4: Stress Challenge</strong></td>
+                <td>Stroop Color-Word Conflict</td>
+                <td>60 Seconds</td>
+                <td><span class="careflow-step-status locked" id="cf-badge-step-4">Locked</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- ====================================================================
+           RIGHT COLUMN: STACKED METRICS, CALENDAR & DIRECTIVE ACTION CARD
+           ==================================================================== -->
+      <div class="careflow-right-col">
+
+        <!-- Card 1: Vagal Baseline Sparkline Curve (Live Real-Time Waveform) -->
+        <div class="careflow-metric-card-curve">
+          <div class="careflow-metric-header">
+            <div class="careflow-metric-title">
+              <span>Heart Rate Variability (RMSSD)</span>
+            </div>
+            <span style="font-size:0.72rem; font-weight:700; color:#64748b; text-transform:uppercase;"
+              id="cf-telemetry-badge">Awaiting Sensor</span>
+          </div>
+
+          <div class="careflow-metric-big-val" id="cf-rmssd-container">
+            <span id="careflow-rmssd-display">—</span> <span id="careflow-rmssd-unit">ms</span>
+            <span id="cf-rmssd-prompt"
+              style="display:block; font-size:0.74rem; font-weight:600; color:#047857; margin-top:3px; font-family:'Inter', sans-serif;">
+              Pair Polar H9 ECG or start simulation
+            </span>
+          </div>
+
+          <!-- Live 60 FPS Telemetry Canvas Waveform -->
+          <canvas id="careflow-live-graph-canvas" class="careflow-curve-canvas"></canvas>
+        </div>
+
+        <!-- Card 2: Split 2-Column Metrics (Heart Rate & Autonomic Stress Index) -->
+        <div class="careflow-split-metrics">
+          <!-- Heart Rate Tile -->
+          <div class="careflow-split-tile">
+            <div class="careflow-split-tile-header">
+              <span>❤️</span>
+              <span>Heart Rate</span>
+            </div>
+            <div class="careflow-split-tile-val">
+              <span id="careflow-bpm-display">—</span> <span id="careflow-bpm-unit">bpm</span>
+            </div>
+            <span id="cf-bpm-prompt" style="display:block; font-size:0.68rem; color:#64748b; margin-top:2px;">
+              Awaiting ECG Strap / Sim
+            </span>
+          </div>
+
+          <!-- Autonomic Stress Index Tile -->
+          <div class="careflow-split-tile">
+            <div class="careflow-split-tile-header">
+              <span>🧠</span>
+              <span>Stress Index</span>
+            </div>
+            <div class="careflow-split-tile-val">
+              <span id="careflow-stress-display" style="font-size:1.15rem; color:#64748b;">Standby</span>
+            </div>
+            <span id="cf-stress-sub" style="display:block; font-size:0.68rem; color:#64748b; margin-top:2px;">
+              Telemetry Required
+            </span>
+          </div>
+        </div>
+
+        <!-- Action Directive & Testing Prompt Wrapper -->
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <!-- Card 3: Active Step Action Directive Banner (Mint Gradient) -->
+          <div class="careflow-action-card" id="careflow-action-directive-card">
+            <!-- Unauthenticated Sign-in Prompt Banner -->
+            <div id="cf-unauth-step1-prompt"
+              style="display:none; background:#fef3c7; border:1px solid #f59e0b; border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:0.78rem; color:#92400e; line-height:1.45;">
+              <div style="font-weight:700; display:flex; align-items:center; gap:6px; margin-bottom:2px;">
+                <span>🔒</span> <span>Authentication Required</span>
+              </div>
+              Please sign in to your trial participant account before connecting sensors and beginning clinical assessment.
+            </div>
+
+            <h4 id="cf-directive-title">Step 1: Connect Telemetry Sensor</h4>
+            <p id="cf-directive-desc">
+              Connect your Polar H9 chest strap via Bluetooth or launch the realistic simulation stream to begin
+              collecting cardiac R-R telemetry.
+            </p>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <button type="button" class="btn-careflow-action" id="cf-directive-btn"
+                onclick="careflowHandlePrimaryAction()">
+                Start Simulated Telemetry (Testing)
+              </button>
+              <button type="button" id="cf-ble-pair-btn" onclick="careflowHandleBLEPair()"
+                style="background:transparent; border:1px solid #14532d; color:#14532d; border-radius:12px; padding:8px 12px; font-size:0.78rem; font-weight:700; cursor:pointer;">
+                Pair Polar H9 via Web Bluetooth ↗
+              </button>
+            </div>
+          </div>
+
+          <!-- Pipeline Testing Prompt Callout (Below Directive Card - Visible only on last stage) -->
+          <div id="cf-pipeline-test-prompt"
+            style="display:none; background:#fffbeb; border:1.5px solid #fde68a; border-radius:12px; padding:8px 14px; align-items:center; gap:10px; box-shadow:0 2px 8px rgba(245,158,11,0.08);">
+            <span style="font-size:1.15rem; flex-shrink:0;">💡</span>
+            <div style="font-size:0.79rem; color:#92400e; line-height:1.4; font-weight:600;">
+              <strong style="color:#78350f;">Pipeline Test:</strong> Try oscillating your head left and right to test
+              the pipeline.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div> <!-- /.careflow-grid -->
+
+  </div> <!-- /.careflow-app-card -->
+
+  <!-- JavaScript Modules -->
+  <script src="js/auth_manager.js"></script>
+  <script src="js/sample_data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/webm_encoder.js"></script>
+  <script src="js/stress_test_engine.js"></script>
+  <script src="js/web_tracker.js"></script>
+  <script src="js/patient_app.js"></script>
+
+  <!-- CareFlow Step-by-Step UI Controller with Strict Clinical Guardrails -->
+  <script>
+    let currentCareflowStep = 1;
+    let step3TimerInterval = null;
+    let step3SecondsRemaining = 300;
+    let maxUnlockedStep = 1;
+
+    function careflowCanAccessStep(stepNum) {
+      if (stepNum === 1) return true;
+      if (stepNum === 2) return (window.WebTrackerEngine && WebTrackerEngine.isBleConnected);
+      if (stepNum === 3) return (window.WebTrackerEngine && WebTrackerEngine.isBleConnected && maxUnlockedStep >= 2);
+      if (stepNum === 4) return (window.WebTrackerEngine && WebTrackerEngine.hasBaselineEstablished);
+      return false;
+    }
+
+    function careflowHandleStepRowClick(stepNum) {
+      if (careflowCanAccessStep(stepNum)) {
+        careflowGoToStep(stepNum);
+      } else {
+        careflowShowStepLockPrompt(stepNum);
+      }
+    }
+
+    function careflowShowStepLockPrompt(targetStep) {
+      const directiveCard = document.getElementById("careflow-action-directive-card");
+      if (!directiveCard) return;
+
+      let msg = "";
+      if (targetStep === 2) {
+        msg = "⚠️ Please pair your Polar H9 sensor or start the simulated stream before setting up camera tracking.";
+      } else if (targetStep === 3) {
+        msg = "⚠️ Please verify your camera tracking in Step 2 before starting baseline calibration.";
+      } else if (targetStep === 4) {
+        msg = "⚠️ Baseline calibration (Step 3) must be established before running the stress challenge.";
+      }
+
+      const desc = document.getElementById("cf-directive-desc");
+      if (desc) {
+        const originalText = desc.innerHTML;
+        desc.innerHTML = `<span style="color:#b91c1c; font-weight:700;">${msg}</span>`;
+        setTimeout(() => {
+          if (desc && currentCareflowStep === 1) {
+            desc.innerHTML = originalText;
+          }
+        }, 3500);
+      }
+
+      directiveCard.style.boxShadow = "0 0 0 3px rgba(225, 29, 72, 0.4)";
+      setTimeout(() => {
+        if (directiveCard) directiveCard.style.boxShadow = "";
+      }, 1000);
+    }
+
+    function careflowGoToStep(stepNum) {
+      if (stepNum > 1 && !isPatientAuthenticated()) {
+        promptPatientLogin("proceed with assessment steps");
+        return;
+      }
+
+      if (!careflowCanAccessStep(stepNum) && stepNum > maxUnlockedStep) {
+        careflowShowStepLockPrompt(stepNum);
+        return;
+      }
+
+      currentCareflowStep = stepNum;
+      if (stepNum > maxUnlockedStep) maxUnlockedStep = stepNum;
+
+      // 1. Update Navigation Tabs and Step Status Badges
+      for (let i = 1; i <= 4; i++) {
+        const tab = document.getElementById(`cf-nav-step-${i}`);
+        const badge = document.getElementById(`cf-badge-step-${i}`);
+        const isUnlocked = careflowCanAccessStep(i) || i <= maxUnlockedStep;
+
+        if (tab) {
+          tab.classList.toggle("active", i === stepNum);
+          tab.classList.toggle("locked", !isUnlocked && i !== stepNum);
+        }
+
+        if (badge) {
+          if (i < stepNum || (i === 1 && WebTrackerEngine.isBleConnected && stepNum > 1) || (i === 3 && WebTrackerEngine.hasBaselineEstablished && stepNum === 4)) {
+            badge.textContent = "Completed";
+            badge.className = "careflow-step-status completed";
+          } else if (i === stepNum) {
+            badge.textContent = "Active";
+            badge.className = "careflow-step-status active";
+          } else if (isUnlocked) {
+            badge.textContent = "Ready";
+            badge.className = "careflow-step-status active";
+          } else {
+            badge.textContent = "Locked";
+            badge.className = "careflow-step-status locked";
+          }
+        }
+      }
+
+      // 2. Configure Viewport Elements inside Square
+      const calmCanvas = document.getElementById("calming-nature-canvas");
+      const gazeReticle = document.getElementById("cf-gaze-reticle");
+      const stroopOverlay = document.getElementById("cf-stroop-overlay");
+      const summaryOverlay = document.getElementById("cf-summary-overlay");
+      const pipMini = document.getElementById("careflow-pip-mini");
+      const timerBadge = document.getElementById("cf-viewport-timer");
+
+      const title = document.getElementById("cf-viewport-title");
+      const directiveTitle = document.getElementById("cf-directive-title");
+      const directiveDesc = document.getElementById("cf-directive-desc");
+      const directiveBtn = document.getElementById("cf-directive-btn");
+      const blePairBtn = document.getElementById("cf-ble-pair-btn");
+
+      if (calmCanvas) calmCanvas.style.display = (stepNum === 3) ? "block" : "none";
+      if (gazeReticle) gazeReticle.style.display = (stepNum === 3) ? "flex" : "none";
+      if (stroopOverlay) stroopOverlay.style.display = (stepNum === 4) ? "flex" : "none";
+      if (pipMini) pipMini.style.display = (stepNum === 3 || stepNum === 4) ? "block" : "none";
+      if (blePairBtn) blePairBtn.style.display = (stepNum === 1) ? "block" : "none";
+      if (directiveBtn) directiveBtn.style.display = "block";
+
+      const simBtn = document.getElementById("btn-sim-oscillation-top");
+      if (simBtn) simBtn.style.display = (stepNum === 4 || isBackgroundModeActive) ? "inline-flex" : "none";
+
+      const pipelinePrompt = document.getElementById("cf-pipeline-test-prompt");
+      if (pipelinePrompt) pipelinePrompt.style.display = "none";
+
+      // 3. Update Directives & Engine State per Step
+      if (stepNum === 1) {
+        if (title) title.textContent = "Step 1: Telemetry Sensor Pairing";
+        if (directiveTitle) directiveTitle.textContent = "Step 1: Connect Telemetry Sensor";
+        if (directiveDesc) directiveDesc.textContent = "Pair your Polar H9 chest strap or start the realistic simulation stream to begin measuring cardiac R-R intervals.";
+        if (directiveBtn) directiveBtn.textContent = (window.WebTrackerEngine && WebTrackerEngine.isBleConnected) ? "Proceed to Camera Setup →" : "Start Simulated Telemetry (Testing)";
+        if (timerBadge) timerBadge.style.display = "none";
+        if (window.CareflowLiveGraphRenderer) CareflowLiveGraphRenderer.setTargetRMSSD(46.0, false);
+
+        // Launch webcam video and nose tracking immediately on Stage 1 if signed in
+        if (isPatientAuthenticated() && window.WebTrackerEngine && typeof WebTrackerEngine.startCameraAndTracking === "function") {
+          WebTrackerEngine.startCameraAndTracking();
+        }
+      } else if (stepNum === 2) {
+        if (title) title.textContent = "Step 2: Camera & Nose Mesh Alignment";
+        if (directiveTitle) directiveTitle.textContent = "Step 2: Verify Face Tracking";
+        if (directiveDesc) directiveDesc.textContent = "Ensure your face is centered in the square frame and the green tracking anchor sits steadily on your nose.";
+        if (directiveBtn) directiveBtn.textContent = "Begin 5-Min Baseline Calibration →";
+        if (timerBadge) timerBadge.style.display = "none";
+        if (window.WebTrackerEngine) WebTrackerEngine.startCameraAndTracking();
+        if (window.CareflowLiveGraphRenderer) CareflowLiveGraphRenderer.setTargetRMSSD(46.0, false);
+      } else if (stepNum === 3) {
+        if (title) title.textContent = "Step 3: Visual Pursuit Baseline Recording";
+        if (directiveTitle) directiveTitle.textContent = "Step 3: Follow the Green Snake with Your Eyes";
+        if (directiveDesc) directiveDesc.textContent = "Relax your eyes and gently watch the green dotted snake navigate and eat apples. The snake moves automatically to provide smooth visual pursuit while your resting autonomic vagal tone is calibrated.";
+        if (directiveBtn) directiveBtn.textContent = "Finalize Baseline Calibration (Test Mode)";
+        if (timerBadge) {
+          timerBadge.style.display = "flex";
+          timerBadge.textContent = "05:00";
+        }
+
+        // Activate Autonomous Snake Gaze Engine
+        if (window.AutonomousSnakeGazeEngine) {
+          AutonomousSnakeGazeEngine.init("calming-nature-canvas");
+        } else if (window.SereneNatureAmbientEngine) {
+          SereneNatureAmbientEngine.init("calming-nature-canvas");
+        }
+        if (window.WebTrackerEngine) WebTrackerEngine.startBaselineCalibration();
+        if (window.CareflowLiveGraphRenderer) CareflowLiveGraphRenderer.setTargetRMSSD(46.5, false);
+
+        // Start 5-min countdown timer (300 seconds down to 0)
+        step3SecondsRemaining = 300;
+        if (step3TimerInterval) clearInterval(step3TimerInterval);
+        step3TimerInterval = setInterval(() => {
+          step3SecondsRemaining--;
+          const m = Math.floor(step3SecondsRemaining / 60);
+          const s = step3SecondsRemaining % 60;
+          if (timerBadge) {
+            timerBadge.style.display = "flex";
+            timerBadge.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+          }
+          if (step3SecondsRemaining <= 0) {
+            clearInterval(step3TimerInterval);
+            step3TimerInterval = null;
+            if (window.WebTrackerEngine) {
+              WebTrackerEngine.finalizeBaselineCalibration();
+              const rmssdEl = document.getElementById("careflow-rmssd-display");
+              if (rmssdEl) rmssdEl.textContent = WebTrackerEngine.calibratedBaselineRMSSD.toFixed(1);
+            }
+            maxUnlockedStep = Math.max(maxUnlockedStep, 4);
+            const badge3 = document.getElementById("cf-badge-step-3");
+            if (badge3) {
+              badge3.textContent = "Completed";
+              badge3.className = "careflow-step-status completed";
+            }
+            careflowGoToStep(4);
+          }
+        }, 1000);
+      } else if (stepNum === 4) {
+        if (window.AutonomousSnakeGazeEngine) AutonomousSnakeGazeEngine.stop();
+        if (step3TimerInterval) {
+          clearInterval(step3TimerInterval);
+          step3TimerInterval = null;
+        }
+
+        // Setup manual start view
+        const stroopReady = document.getElementById("cf-stroop-ready-view");
+        const stroopActive = document.getElementById("cf-stroop-active-view");
+        if (stroopReady) stroopReady.style.display = "flex";
+        if (stroopActive) stroopActive.style.display = "none";
+
+        if (title) title.textContent = "Step 4: Neuro-Cognitive Stress Protocol";
+        if (directiveTitle) directiveTitle.textContent = "Step 4: Ready to Begin Stress Protocol";
+        if (directiveDesc) directiveDesc.textContent = "When you click Start, stimulus words will appear. Identify their INK COLOR using keys [1-4] or buttons. Click Start when you are ready.";
+        if (directiveBtn) directiveBtn.textContent = "▶ Start 60s Stroop Challenge";
+        if (timerBadge) timerBadge.style.display = "none";
+        if (window.CareflowLiveGraphRenderer) CareflowLiveGraphRenderer.setTargetRMSSD(46.0, false);
+      }
+    }
+
+    let isBackgroundModeActive = false;
+
+    function careflowStartStroopTest() {
+      isBackgroundModeActive = false;
+      const stroopReady = document.getElementById("cf-stroop-ready-view");
+      const stroopActive = document.getElementById("cf-stroop-active-view");
+      if (stroopReady) stroopReady.style.display = "none";
+      if (stroopActive) stroopActive.style.display = "flex";
+
+      const timerBadge = document.getElementById("cf-viewport-timer");
+      if (timerBadge) timerBadge.style.display = "none";
+
+      const pipelinePrompt = document.getElementById("cf-pipeline-test-prompt");
+      if (pipelinePrompt) pipelinePrompt.style.display = "none";
+
+      const directiveTitle = document.getElementById("cf-directive-title");
+      const directiveDesc = document.getElementById("cf-directive-desc");
+      const directiveBtn = document.getElementById("cf-directive-btn");
+      if (directiveTitle) directiveTitle.textContent = "Step 4: Stroop Challenge In Progress";
+      if (directiveDesc) directiveDesc.textContent = "Select the INK COLOR as rapidly as possible using click pads or keys [1-4]. Observe real-time autonomic sympathetic response.";
+      if (directiveBtn) {
+        directiveBtn.style.display = "block";
+        directiveBtn.textContent = "End Challenge Early";
+      }
+
+      if (window.CareflowLiveGraphRenderer) CareflowLiveGraphRenderer.setTargetRMSSD(21.5, true);
+
+      if (window.StressTestEngine) {
+        StressTestEngine.completeTest = function () {
+          this.state = "COMPLETED";
+          if (typeof this.clearAllPendingTimers === "function") {
+            this.clearAllPendingTimers();
+          } else {
+            if (this.stimulusTimerInterval) {
+              clearInterval(this.stimulusTimerInterval);
+              this.stimulusTimerInterval = null;
+            }
+            if (this.testTimerInterval) {
+              clearInterval(this.testTimerInterval);
+              this.testTimerInterval = null;
+            }
+          }
+          if (typeof this.cleanupStressVisuals === "function") {
+            this.cleanupStressVisuals();
+          }
+          if (window.WebTrackerEngine && typeof WebTrackerEngine.onStressTestStateChange === "function") {
+            WebTrackerEngine.onStressTestStateChange(false, "COMPLETED");
+          }
+
+          const badge4 = document.getElementById("cf-badge-step-4");
+          if (badge4) {
+            badge4.textContent = "Completed";
+            badge4.className = "careflow-step-status completed";
+          }
+
+          // Immediately enter continuous background monitoring mode
+          careflowActivateBackgroundMode();
+        };
+
+        StressTestEngine.startTest("STROOP_CONFLICT", 60);
+      }
+    }
+
+    function careflowActivateBackgroundMode() {
+      isBackgroundModeActive = true;
+
+      // 1. Terminate all test timers and engines completely
+      if (window.StressTestEngine) {
+        StressTestEngine.state = "COMPLETED";
+        if (typeof StressTestEngine.clearAllPendingTimers === "function") {
+          StressTestEngine.clearAllPendingTimers();
+        }
+        if (typeof StressTestEngine.cleanupStressVisuals === "function") {
+          StressTestEngine.cleanupStressVisuals();
+        }
+        if (typeof StressTestEngine.stopTest === "function") {
+          StressTestEngine.stopTest();
+        }
+      }
+      if (window.AutonomousSnakeGazeEngine) {
+        AutonomousSnakeGazeEngine.stop();
+      }
+      if (step3TimerInterval) {
+        clearInterval(step3TimerInterval);
+        step3TimerInterval = null;
+      }
+
+      // 2. Hide all overlays, PiP & timer
+      const stroopOverlay = document.getElementById("cf-stroop-overlay");
+      if (stroopOverlay) {
+        stroopOverlay.style.display = "none";
+        stroopOverlay.classList.remove("stress-alarm-flash");
+        stroopOverlay.style.border = "";
+        stroopOverlay.style.boxShadow = "";
+        stroopOverlay.style.outline = "";
+      }
+      const calmCanvas = document.getElementById("calming-nature-canvas");
+      if (calmCanvas) calmCanvas.style.display = "none";
+      const gazeReticle = document.getElementById("cf-gaze-reticle");
+      if (gazeReticle) gazeReticle.style.display = "none";
+      const pipMini = document.getElementById("careflow-pip-mini");
+      if (pipMini) pipMini.style.display = "none";
+      const timerBadge = document.getElementById("cf-viewport-timer");
+      if (timerBadge) timerBadge.style.display = "none";
+
+      // 3. Clear any red border/outline or stress flash classes on viewport container
+      const viewportCard = document.getElementById("careflow-viewport-container") || document.querySelector(".careflow-square-viewport-card");
+      if (viewportCard) {
+        viewportCard.classList.remove("stress-alarm-flash");
+        viewportCard.style.border = "";
+        viewportCard.style.boxShadow = "";
+        viewportCard.style.outline = "";
+      }
+      document.body.classList.remove("stress-alarm-flash");
+
+      // 4. Ensure camera & tracking loop are active in main square viewport
+      if (window.WebTrackerEngine) {
+        WebTrackerEngine.state = "ACTIVE_TRACKING";
+        WebTrackerEngine.isStressTestActive = false;
+        if (!WebTrackerEngine.isBleConnected) {
+          WebTrackerEngine.startSimulatedBLE();
+        }
+        WebTrackerEngine.startCameraAndTracking();
+      }
+
+      // 4. Update Viewport Labels & HUD
+      const title = document.getElementById("cf-viewport-title");
+      if (title) title.textContent = "Live Background Monitoring & Head Tracking";
+
+      // 5. Update Directive Card
+      const directiveTitle = document.getElementById("cf-directive-title");
+      const directiveDesc = document.getElementById("cf-directive-desc");
+      const directiveBtn = document.getElementById("cf-directive-btn");
+      const blePairBtn = document.getElementById("cf-ble-pair-btn");
+
+      if (directiveTitle) directiveTitle.textContent = "🟢 Continuous Background Monitoring Active";
+      if (directiveDesc) directiveDesc.textContent = "Background monitoring is active. Your camera head tracking and telemetry are continuously recording in the background. You can leave this tab open and proceed with your other tasks on your computer.";
+      if (directiveBtn) directiveBtn.style.display = "none";
+      if (blePairBtn) blePairBtn.style.display = "none";
+
+      const pipelinePrompt = document.getElementById("cf-pipeline-test-prompt");
+      if (pipelinePrompt) pipelinePrompt.style.display = "flex";
+
+      const simBtn = document.getElementById("btn-sim-oscillation-top");
+      if (simBtn) simBtn.style.display = "inline-flex";
+
+      const badge4 = document.getElementById("cf-badge-step-4");
+      if (badge4) {
+        badge4.textContent = "Completed";
+        badge4.className = "careflow-step-status completed";
+      }
+
+      if (window.CareflowLiveGraphRenderer) CareflowLiveGraphRenderer.setTargetRMSSD(46.0, false);
+    }
+
+    function careflowHandlePrimaryAction() {
+      if (!isPatientAuthenticated()) {
+        promptPatientLogin("start simulated telemetry or connect sensors");
+        return;
+      }
+
+      if (isBackgroundModeActive) return;
+
+      if (currentCareflowStep === 1) {
+        if (!WebTrackerEngine.isBleConnected) {
+          WebTrackerEngine.startSimulatedBLE();
+          document.getElementById("cf-directive-btn").textContent = "Proceed to Camera Setup →";
+          maxUnlockedStep = 2;
+        } else {
+          careflowGoToStep(2);
+        }
+      } else if (currentCareflowStep === 2) {
+        maxUnlockedStep = 3;
+        careflowGoToStep(3);
+      } else if (currentCareflowStep === 3) {
+        if (window.WebTrackerEngine) {
+          WebTrackerEngine.finalizeBaselineCalibration();
+          const rmssdEl = document.getElementById("careflow-rmssd-display");
+          if (rmssdEl) rmssdEl.textContent = WebTrackerEngine.calibratedBaselineRMSSD.toFixed(1);
+        }
+        maxUnlockedStep = 4;
+        careflowGoToStep(4);
+      } else if (currentCareflowStep === 4) {
+        if (window.StressTestEngine && StressTestEngine.state === "RUNNING") {
+          StressTestEngine.completeTest();
+        } else if (window.StressTestEngine && StressTestEngine.state === "COMPLETED") {
+          careflowActivateBackgroundMode();
+        } else {
+          careflowStartStroopTest();
+        }
+      }
+    }
+
+    function careflowStartOver() {
+      // 1. Reset state tracking
+      isBackgroundModeActive = false;
+      currentCareflowStep = 1;
+      maxUnlockedStep = 1;
+
+      // 2. Stop and clear all background test engines and timers
+      if (window.StressTestEngine) {
+        StressTestEngine.state = "IDLE";
+        if (StressTestEngine.stimulusTimerInterval) {
+          clearInterval(StressTestEngine.stimulusTimerInterval);
+          StressTestEngine.stimulusTimerInterval = null;
+        }
+        if (StressTestEngine.testTimerInterval) {
+          clearInterval(StressTestEngine.testTimerInterval);
+          StressTestEngine.testTimerInterval = null;
+        }
+        if (typeof StressTestEngine.stopTest === "function") {
+          StressTestEngine.stopTest();
+        }
+      }
+      if (window.AutonomousSnakeGazeEngine) {
+        AutonomousSnakeGazeEngine.stop();
+      }
+      if (step3TimerInterval) {
+        clearInterval(step3TimerInterval);
+        step3TimerInterval = null;
+      }
+
+      // 3. Disconnect Polar BLE and fully reset baseline data
+      if (window.WebTrackerEngine) {
+        if (typeof WebTrackerEngine.stopSimulatedBLE === "function") {
+          WebTrackerEngine.stopSimulatedBLE();
+        }
+        if (WebTrackerEngine.bluetoothDevice && WebTrackerEngine.bluetoothDevice.gatt && WebTrackerEngine.bluetoothDevice.gatt.connected) {
+          try {
+            WebTrackerEngine.bluetoothDevice.gatt.disconnect();
+          } catch (_) { }
+        }
+        WebTrackerEngine.isBleConnected = false;
+        WebTrackerEngine.isSimulator = false;
+        WebTrackerEngine.hasBaselineEstablished = false;
+        WebTrackerEngine.calibratedBaselineRMSSD = null;
+        WebTrackerEngine.baselineRRBuffer = [];
+        WebTrackerEngine.baselineRMSSDBuffer = [];
+        WebTrackerEngine.rrBuffer = [];
+        WebTrackerEngine.currentBpm = 0;
+        WebTrackerEngine.isStressTestActive = false;
+        WebTrackerEngine.state = "STANDBY";
+
+        if (typeof WebTrackerEngine.updateTelemetryHUD === "function") {
+          WebTrackerEngine.updateTelemetryHUD();
+        }
+      }
+
+      // 4. Reset Metric Cards
+      const rmssdEl = document.getElementById("careflow-rmssd-display");
+      const rmssdPrompt = document.getElementById("cf-rmssd-prompt");
+      const telemBadge = document.getElementById("cf-telemetry-badge");
+      const bpmEl = document.getElementById("careflow-bpm-display");
+      const bpmPrompt = document.getElementById("cf-bpm-prompt");
+      const stressEl = document.getElementById("careflow-stress-display");
+      const stressSub = document.getElementById("cf-stress-sub");
+
+      if (rmssdEl) rmssdEl.textContent = "—";
+      if (rmssdPrompt) {
+        rmssdPrompt.style.display = "block";
+        rmssdPrompt.textContent = "Pair Polar H9 ECG or start simulation";
+      }
+      if (telemBadge) {
+        telemBadge.textContent = "Awaiting Sensor";
+        telemBadge.style.color = "#64748b";
+      }
+      if (bpmEl) bpmEl.textContent = "—";
+      if (bpmPrompt) {
+        bpmPrompt.style.display = "block";
+        bpmPrompt.textContent = "Awaiting ECG Strap / Sim";
+      }
+      if (stressEl) {
+        stressEl.textContent = "Standby";
+        stressEl.style.color = "#64748b";
+      }
+      if (stressSub) stressSub.textContent = "Telemetry Required";
+
+      // 5. Reset Tachogram Graph
+      if (window.CareflowLiveGraphRenderer) {
+        CareflowLiveGraphRenderer.setTargetRMSSD(46.0, false);
+      }
+
+      // 6. Reset all Viewport Overlays & Video
+      const stroopOverlay = document.getElementById("cf-stroop-overlay");
+      if (stroopOverlay) stroopOverlay.style.display = "none";
+      const stroopReady = document.getElementById("cf-stroop-ready-view");
+      if (stroopReady) stroopReady.style.display = "flex";
+      const stroopActive = document.getElementById("cf-stroop-active-view");
+      if (stroopActive) stroopActive.style.display = "none";
+      const calmCanvas = document.getElementById("calming-nature-canvas");
+      if (calmCanvas) calmCanvas.style.display = "none";
+      const gazeReticle = document.getElementById("cf-gaze-reticle");
+      if (gazeReticle) gazeReticle.style.display = "none";
+      const pipMini = document.getElementById("careflow-pip-mini");
+      if (pipMini) pipMini.style.display = "none";
+
+      // Stop and clear camera video & face tracking canvas ONLY if logged out
+      if (!isPatientAuthenticated()) {
+        if (window.WebTrackerEngine) {
+          if (WebTrackerEngine.videoStream) {
+            try {
+              WebTrackerEngine.videoStream.getTracks().forEach(track => track.stop());
+            } catch (_) {}
+            WebTrackerEngine.videoStream = null;
+          }
+          const videoEl = document.getElementById("guided-webcam-element");
+          if (videoEl) {
+            videoEl.pause();
+            videoEl.srcObject = null;
+          }
+          const canvasEl = document.getElementById("guided-canvas-element");
+          if (canvasEl) {
+            const ctx = canvasEl.getContext("2d");
+            if (ctx) ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+          }
+        }
+      } else {
+        if (window.WebTrackerEngine && typeof WebTrackerEngine.startCameraAndTracking === "function") {
+          WebTrackerEngine.startCameraAndTracking();
+        }
+      }
+
+      // 7. Go to Step 1
+      careflowGoToStep(1);
+    }
+
+    // --- Multi-Patient Authentication & Profile Switcher (Amazon Cognito) ---
+
+    function isPatientAuthenticated() {
+      if (typeof AuthManager !== "undefined" && typeof AuthManager.isLoggedIn === "function") {
+        return AuthManager.isLoggedIn();
+      }
+      return false;
+    }
+
+    function promptPatientLogin(actionName = "connect sensors") {
+      openPatientIdentityModal();
+      let banner = document.getElementById("patient-login-required-banner");
+      if (!banner) {
+        banner = document.createElement("div");
+        banner.id = "patient-login-required-banner";
+        banner.style.cssText = `
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #78350f;
+          color: #fef3c7;
+          padding: 12px 24px;
+          border-radius: 10px;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.86rem;
+          font-weight: 600;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          z-index: 100001;
+          border: 1px solid #f59e0b;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          animation: slideUpModal 0.25s ease;
+        `;
+        document.body.appendChild(banner);
+      }
+      banner.innerHTML = `
+        <span>🔒 <strong>Authentication Required:</strong> Please sign in to your trial account to ${actionName}.</span>
+        <button onclick="document.getElementById('patient-login-required-banner').remove()" style="background:none; border:none; color:#fde68a; font-size:1.2rem; cursor:pointer; padding:0 4px;">&times;</button>
+      `;
+      setTimeout(() => {
+        if (banner && banner.parentNode) banner.remove();
+      }, 5000);
+    }
+
+    function careflowHandleBLEPair() {
+      if (!isPatientAuthenticated()) {
+        promptPatientLogin("pair Polar Bluetooth sensor");
+        return;
+      }
+      if (window.WebTrackerEngine && typeof WebTrackerEngine.connectPolarH9 === "function") {
+        WebTrackerEngine.connectPolarH9();
+      }
+    }
+
+    function getActivePatient() {
+      if (!isPatientAuthenticated()) return null;
+      const activeId = (typeof AuthManager !== "undefined" && typeof AuthManager.getCurrentPatientId === "function")
+        ? AuthManager.getCurrentPatientId()
+        : (localStorage.getItem("ACTIVE_PATIENT_PORTAL_ID") || "patient_001");
+      return (typeof getClinicalPatient === "function") ? getClinicalPatient(activeId) : null;
+    }
+
+    function updatePatientHeaderUI() {
+      const isAuth = isPatientAuthenticated();
+      const loginBtn = document.getElementById("btn-patient-login-top");
+      const profileBox = document.getElementById("careflow-user-profile-box");
+      const logoutBtn = document.getElementById("btn-patient-logout-top");
+      const unauthPrompt = document.getElementById("cf-unauth-step1-prompt");
+      const nameEl = document.getElementById("cf-patient-name");
+      const metaEl = document.getElementById("cf-patient-meta");
+
+      if (!isAuth) {
+        if (loginBtn) {
+          loginBtn.style.display = "inline-flex";
+          loginBtn.classList.remove("is-hidden");
+        }
+        if (profileBox) {
+          profileBox.style.display = "none";
+          profileBox.classList.add("is-hidden");
+        }
+        if (logoutBtn) {
+          logoutBtn.style.display = "none";
+          logoutBtn.classList.add("is-hidden");
+        }
+        if (unauthPrompt) unauthPrompt.style.display = "block";
+        if (nameEl) nameEl.textContent = "";
+        if (metaEl) metaEl.textContent = "";
+        return;
+      }
+
+      // User is authenticated
+      if (loginBtn) {
+        loginBtn.style.display = "none";
+        loginBtn.classList.add("is-hidden");
+      }
+      if (profileBox) {
+        profileBox.style.display = "inline-flex";
+        profileBox.classList.remove("is-hidden");
+      }
+      if (logoutBtn) {
+        logoutBtn.style.display = "inline-flex";
+        logoutBtn.classList.remove("is-hidden");
+      }
+      if (unauthPrompt) unauthPrompt.style.display = "none";
+
+      const patient = getActivePatient();
+      if (!patient) return;
+
+      if (nameEl) nameEl.textContent = patient.name;
+      
+      let shortDiag = patient.diagnosis || "";
+      if (shortDiag.includes("Infantile")) shortDiag = "Infantile INS";
+      else if (shortDiag.includes("Congenital")) shortDiag = "Congenital INS";
+      else if (shortDiag.includes("Acquired")) shortDiag = "Acquired P-Nyst";
+      else if (shortDiag.includes("(")) shortDiag = shortDiag.match(/\(([^)]+)\)/)?.[1] || shortDiag;
+      else if (shortDiag.length > 18) shortDiag = shortDiag.substring(0, 16) + "…";
+
+      if (metaEl) metaEl.textContent = `${patient.age} yrs • ${shortDiag}`;
+
+      if (window.CareflowLiveGraphRenderer && patient.target_baseline_rmssd) {
+        CareflowLiveGraphRenderer.setTargetRMSSD(Number(patient.target_baseline_rmssd), false);
+      }
+    }
+
+    function patientLogout() {
+      if (typeof AuthManager !== "undefined" && typeof AuthManager.logout === "function") {
+        AuthManager.logout();
+      }
+      localStorage.removeItem("ACTIVE_PATIENT_PORTAL_ID");
+      careflowStartOver();
+      updatePatientHeaderUI();
+
+      let toast = document.getElementById("patient-auth-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "patient-auth-toast";
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          background: #1e293b;
+          color: #ffffff;
+          padding: 12px 20px;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          z-index: 99999;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.84rem;
+          border: 1px solid #475569;
+          animation: slideUpModal 0.25s ease;
+        `;
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `
+        <span style="font-size:1.1rem; color:#94a3b8;">⎋</span>
+        <div>
+          <div style="font-weight:700;">Signed Out</div>
+          <div style="font-size:0.72rem; color:#cbd5e1;">Participant session cleared</div>
+        </div>
+      `;
+      setTimeout(() => {
+        if (toast && toast.parentNode) toast.remove();
+      }, 3500);
+    }
+
+    function renderParticipantCards() {
+      const grid = document.getElementById("participant-cards-grid");
+      if (!grid) return;
+
+      const patients = typeof getClinicalPatientsList === "function" ? getClinicalPatientsList() : (window.CLINICAL_PATIENTS || []);
+      const activePatient = getActivePatient();
+      const activeId = activePatient ? activePatient.id : "";
+
+      grid.innerHTML = patients.map(p => {
+        const isActive = isPatientAuthenticated() && p.id === activeId;
+        const isManan = p.id === "patient_001" || (p.name && p.name.includes("Manan"));
+        return `
+          <div class="participant-select-card ${isManan ? 'judging-featured-card' : ''} ${isActive ? 'active' : ''}" onclick="selectPatient('${p.id}')">
+            ${isManan ? `
+              <div class="judging-featured-banner">
+                <span class="judging-badge">⭐ Recommended for Judges</span>
+                <span class="judging-badge-sub">Full ECG Baseline & Telemetry Suite</span>
+              </div>
+            ` : ''}
+            <div class="p-card-top">
+              <span class="p-card-avatar ${isManan ? 'avatar-featured' : ''}">${p.avatar || p.name[0]}</span>
+              <div class="p-card-info">
+                <strong class="p-card-name">${p.name} ${isManan ? '<span class="judging-star-inline" title="Recommended Profile for Hackathon Judging & Evaluation">★</span>' : ''}</strong>
+                <span class="p-card-id">${p.id} &bull; ${p.age} yrs (${p.gender})</span>
+              </div>
+            </div>
+            <div class="p-card-diag">${p.diagnosis}</div>
+            <div class="p-card-actions">
+              <span class="p-card-pin">PIN: ${p.pin || 'NT-1001'}</span>
+              <button type="button" class="btn-p-card-login ${isManan ? 'btn-judging-cta' : ''}">
+                ${isActive ? 'Active Judging Profile ✓' : (isManan ? '1-Click Sign In' : 'Sign In')}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openPatientIdentityModal() {
+      renderParticipantCards();
+      const modal = document.getElementById("patient-identity-gate-modal");
+      if (modal) modal.style.display = "flex";
+    }
+
+    function closePatientIdentityModal(e) {
+      if (e && e.target && e.target.id !== "patient-identity-gate-modal" && !e.target.classList.contains("btn-modal-close")) return;
+      const modal = document.getElementById("patient-identity-gate-modal");
+      if (modal) modal.style.display = "none";
+    }
+
+    function showSignInToast(patient) {
+      if (!patient) return;
+      let toast = document.getElementById("patient-auth-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "patient-auth-toast";
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          background: #1C2D22;
+          color: #ffffff;
+          padding: 12px 20px;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          z-index: 99999;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.84rem;
+          border: 1px solid #508A64;
+          animation: slideUpModal 0.25s ease;
+        `;
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `
+        <span style="font-size:1.1rem; color:#86EFAC;">✓</span>
+        <div>
+          <div style="font-weight:700;">Signed in as ${patient.name} (${patient.id})</div>
+          <div style="font-size:0.72rem; color:#A7F3D0;">Amazon Cognito User Pools • Scoped Session</div>
+        </div>
+      `;
+      setTimeout(() => {
+        if (toast && toast.parentNode) toast.remove();
+      }, 4000);
+    }
+
+    function selectPatient(patientId) {
+      localStorage.setItem("ACTIVE_PATIENT_PORTAL_ID", patientId);
+      if (typeof AuthManager !== "undefined" && typeof AuthManager.loginAsPatient === "function") {
+        AuthManager.loginAsPatient(patientId);
+      }
+      updatePatientHeaderUI();
+      const modal = document.getElementById("patient-identity-gate-modal");
+      if (modal) modal.style.display = "none";
+      careflowStartOver();
+      const patient = getActivePatient();
+      showSignInToast(patient);
+
+      // Start webcam video feed and green nose pointer tracking immediately on Stage 1
+      if (window.WebTrackerEngine && typeof WebTrackerEngine.startCameraAndTracking === "function") {
+        WebTrackerEngine.startCameraAndTracking();
+      }
+    }
+
+    function handleManualPinSignIn(e) {
+      if (e) e.preventDefault();
+      const id = document.getElementById("input-manual-id")?.value.trim();
+      const pin = document.getElementById("input-manual-pin")?.value.trim();
+      if (!id) return;
+      selectPatient(id);
+    }
+
+    // Attach to global window scope for inline onclick handlers
+    window.isPatientAuthenticated = isPatientAuthenticated;
+    window.promptPatientLogin = promptPatientLogin;
+    window.openPatientIdentityModal = openPatientIdentityModal;
+    window.closePatientIdentityModal = closePatientIdentityModal;
+    window.selectPatient = selectPatient;
+    window.patientLogout = patientLogout;
+    window.handleManualPinSignIn = handleManualPinSignIn;
+    window.updatePatientHeaderUI = updatePatientHeaderUI;
+
+    // Sync live metrics to right column
+    setInterval(() => {
+      if (window.WebTrackerEngine) {
+        const velEl = document.getElementById("careflow-vel-display");
+        if (velEl) {
+          velEl.textContent = Math.abs(WebTrackerEngine.velocity || 0).toFixed(1);
+        }
+      }
+    }, 300);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof AuthManager !== "undefined") {
+        AuthManager.init("PATIENT");
+      }
+      if (typeof loadPatientsFromStorage === "function") {
+        loadPatientsFromStorage();
+      }
+      updatePatientHeaderUI();
+
+      // Explicit direct click event bindings
+      const loginBtn = document.getElementById("btn-patient-login-top");
+      if (loginBtn) {
+        loginBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          openPatientIdentityModal();
+        });
+      }
+
+      const logoutBtn = document.getElementById("btn-patient-logout-top");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          patientLogout();
+        });
+      }
+
+      const profileBox = document.getElementById("careflow-user-profile-box");
+      if (profileBox) {
+        profileBox.addEventListener("click", () => {
+          openPatientIdentityModal();
+        });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          const modal = document.getElementById("patient-identity-gate-modal");
+          if (modal && modal.style.display !== "none") {
+            modal.style.display = "none";
+          }
+        }
+      });
+
+      if (window.CareflowLiveGraphRenderer) {
+        CareflowLiveGraphRenderer.init("careflow-live-graph-canvas");
+      }
+      careflowGoToStep(1);
+
+      // Launch webcam and nose tracking if already authenticated
+      if (isPatientAuthenticated() && window.WebTrackerEngine && typeof WebTrackerEngine.startCameraAndTracking === "function") {
+        WebTrackerEngine.startCameraAndTracking();
+      }
+    });
+  </script>
+
+  <!-- ======================================================================
+       PATIENT IDENTITY GATE MODAL (Amazon Cognito User Pools Simulation)
+       ====================================================================== -->
+  <div class="careflow-modal-backdrop" id="patient-identity-gate-modal" style="display: none;"
+    onclick="closePatientIdentityModal(event)">
+    <div class="careflow-identity-modal-card" onclick="event.stopPropagation()">
+      <div class="careflow-modal-header">
+        <div>
+          <h3>Select Participant Identity</h3>
+          <span class="careflow-modal-subtext">Decentralized Clinical Trial • Amazon Cognito RBAC</span>
+        </div>
+        <button type="button" class="btn-modal-close" onclick="closePatientIdentityModal()" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="careflow-identity-modal-body">
+        <div class="careflow-judging-callout">
+          <span class="judging-callout-star">⭐</span>
+          <div class="judging-callout-content">
+            <strong>For Judges & Evaluators:</strong> Please sign in with <strong>Manan B. (patient_001)</strong> for complete evaluation with calibrated baseline ECG telemetry and video event buffers.
+          </div>
+        </div>
+
+        <p class="careflow-identity-intro">
+          Select your trial participant profile to begin calibrated ECG and autonomic tremor assessment:
+        </p>
+
+        <div class="participant-cards-grid" id="participant-cards-grid">
+          <!-- Dynamically populated with Manan B., Sarah K., David Chen, and newly registered patients -->
+        </div>
+
+        <div class="careflow-auth-divider">
+          <span>Or Sign In with Participant PIN</span>
+        </div>
+
+        <form onsubmit="handleManualPinSignIn(event)" class="careflow-pin-form">
+          <div class="careflow-form-row">
+            <div class="careflow-form-group">
+              <label for="input-manual-id">Subject ID</label>
+              <input type="text" id="input-manual-id" placeholder="patient_001" class="careflow-input" style="font-family:'JetBrains Mono',monospace;">
+            </div>
+            <div class="careflow-form-group">
+              <label for="input-manual-pin">Trial PIN</label>
+              <input type="text" id="input-manual-pin" placeholder="NT-1001" class="careflow-input" style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#508A64;">
+            </div>
+            <button type="submit" class="btn-careflow-submit-pin">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
