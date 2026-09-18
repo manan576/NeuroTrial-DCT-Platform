@@ -80,7 +80,7 @@ const WebTrackerEngine = {
   directionChanges: 0,
   lastDirChangeTime: 0,
   lastOscillationTriggerTime: 0,
-  cooldownSeconds: 15,
+  cooldownSeconds: 6,
   simulatedNodDuration: 0,
   isRecordingPost: false,
   isProcessingCapture: false,
@@ -1141,7 +1141,7 @@ const WebTrackerEngine = {
     this.prevVelocity = 0;
     this.prevNoseX = null;
     this.simulatedNodDuration = 0;
-    this.lastOscillationTriggerTime = Date.now(); // Start 15s cooldown from clip finish time
+    this.lastOscillationTriggerTime = Date.now(); // Start 6s cooldown from clip finish time
 
     const incident = this.pendingIncidentData;
     if (!incident) {
