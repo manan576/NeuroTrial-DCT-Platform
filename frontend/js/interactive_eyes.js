@@ -142,7 +142,7 @@
       nystagmusToggleBtn.classList.add("active-oscillating");
       nystagmusToggleBtn.innerHTML = `
         <span class="btn-osc-pulse-dot"></span>
-        <span>Stop & Follow Cursor</span>
+        <span>Stop Simulation</span>
       `;
     }
 
