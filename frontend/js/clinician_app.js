@@ -925,7 +925,12 @@ const ClinicianApp = {
     if (window.CLINICAL_PATIENTS) {
       const patient = window.CLINICAL_PATIENTS.find(p => p.id === this.selectedPatientId) || window.CLINICAL_PATIENTS[0];
       if (patient && Array.isArray(patient.sessions) && patient.sessions.length > 0) {
-        sessions = patient.sessions;
+        sessions = patient.sessions.map(s => {
+          if (s.session_id === "sess_001_01") {
+            return { ...s, session_name: "Session 1: Stroop Test" };
+          }
+          return s;
+        });
       }
     }
 
@@ -934,9 +939,13 @@ const ClinicianApp = {
       this.episodes.forEach(ep => {
         const sId = ep.session_id || "sess_001_01";
         if (!sessionMap.has(sId)) {
+          let sName = ep.session_name;
+          if (!sName || sId === "sess_001_01" || sName.includes("Baseline")) {
+            sName = "Session 1: Stroop Test";
+          }
           sessionMap.set(sId, {
             session_id: sId,
-            session_name: ep.session_name || `Session ${sessionMap.size + 1}`,
+            session_name: sName,
             calibrated_baseline_rmssd: ep.session_baseline_rmssd || ep.baseline_rmssd || 44.5,
             date_str: ep.timestamp || "",
             oscillations: []
