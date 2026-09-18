@@ -1041,7 +1041,13 @@ const ClinicianApp = {
       if (elBaseline) elBaseline.textContent = `${baselineVal} ms`;
 
       // Filter ONLY verified TP oscillations for this specific session
-      const sessionEpisodes = this.episodes.filter(ep => ep.session_id === sess.session_id);
+      const sessionEpisodes = this.episodes.filter(ep => {
+        const epSess = ep.session_id || "sess_001_01";
+        if (epSess === "live_session") {
+          return sess.session_id === "sess_001_01" || sess.session_id.endsWith("_01");
+        }
+        return epSess === sess.session_id;
+      });
       const tpOscillations = sessionEpisodes.filter(
         osc => osc.verification_status === "VERIFIED_TRUE_POSITIVE" || osc.verification_status === "TP"
       );
@@ -1208,7 +1214,13 @@ const ClinicianApp = {
     if (statBaseline) statBaseline.textContent = `${baselineVal} ms`;
 
     // Filter ONLY verified TP oscillations for this specific session
-    const sessionEpisodes = this.episodes.filter(ep => ep.session_id === sId);
+    const sessionEpisodes = this.episodes.filter(ep => {
+      const epSess = ep.session_id || "sess_001_01";
+      if (epSess === "live_session") {
+        return sId === "sess_001_01" || sId.endsWith("_01");
+      }
+      return epSess === sId;
+    });
     const tpOscillations = sessionEpisodes.filter(
       osc => osc.verification_status === "VERIFIED_TRUE_POSITIVE" || osc.verification_status === "TP"
     );
