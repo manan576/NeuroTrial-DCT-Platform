@@ -23,6 +23,13 @@ import zipfile
 import boto3
 from botocore.exceptions import ClientError
 
+# Ensure UTF-8 output across all OS terminals
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 ROLE_NAME = "NeuroStressLambdaRole"
 TABLE_NAME = "NeuroStressTelemetry"
 API_NAME = "NeuroStressApi"
@@ -195,7 +202,7 @@ def deploy_lambdas(lambda_client, role_arn, bucket_name, region):
                 print(f"  Creating new Lambda {fn_name}...")
                 res = lambda_client.create_function(
                     FunctionName=fn_name,
-                    Runtime="python3.9",
+                    Runtime="python3.11",
                     Role=role_arn,
                     Handler=fn["handler"],
                     Code={"ZipFile": zip_bytes},

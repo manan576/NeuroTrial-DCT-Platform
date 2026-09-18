@@ -3,9 +3,9 @@
  */
 
 const API_CONFIG = {
-  getApiUrl: () => localStorage.getItem("neurostress_aws_api_url") || "",
+  getApiUrl: () => localStorage.getItem("neurostress_aws_api_url") || "https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com",
   setApiUrl: (url) => localStorage.setItem("neurostress_aws_api_url", url.trim()),
-  getDataSource: () => localStorage.getItem("neurostress_data_source") || "BENCHMARK",
+  getDataSource: () => localStorage.getItem("neurostress_data_source") || "LIVE_AWS",
   setDataSource: (source) => localStorage.setItem("neurostress_data_source", source),
 };
 

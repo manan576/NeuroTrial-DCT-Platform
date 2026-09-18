@@ -14,6 +14,12 @@ from datetime import datetime
 
 import boto3
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 
 def load_and_transform_csv(csv_path, patient_id="patient_001", shift_to_sept=True):
     """
@@ -80,7 +86,21 @@ def load_and_transform_csv(csv_path, patient_id="patient_001", shift_to_sept=Tru
             }
             items.append(item)
 
-    return items
+    # Ensure unique (patient_id, timestamp) keys for DynamoDB
+    seen_keys = set()
+    unique_items = []
+    for item in items:
+        p_id = item["patient_id"]
+        t_stamp = item["timestamp"]
+        if (p_id, t_stamp) in seen_keys:
+            cnt = 1
+            while (p_id, f"{t_stamp}.{cnt:03d}") in seen_keys:
+                cnt += 1
+            item["timestamp"] = f"{t_stamp}.{cnt:03d}"
+        seen_keys.add((p_id, item["timestamp"]))
+        unique_items.append(item)
+
+    return unique_items
 
 
 def seed_dynamodb(items, table_name="NeuroStressTelemetry", region="us-east-1"):
