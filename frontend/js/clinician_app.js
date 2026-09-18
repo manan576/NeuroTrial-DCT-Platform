@@ -504,7 +504,7 @@ const ClinicianApp = {
     const videoEl = document.getElementById("clinical-review-video");
     const videoWrapper = document.getElementById("video-player-wrapper");
     if (videoEl) {
-      let videoSrc = episode.video_url || episode.video_file || "validation_videos/nod_20260902_214353.mp4";
+      let videoSrc = episode.video_stream_url || episode.video_url || episode.video_file || "validation_videos/nod_20260902_214353.mp4";
 
       // If IndexedDB blob available for custom local recordings
       if (window.RecordingStorage && episode.event_id) {

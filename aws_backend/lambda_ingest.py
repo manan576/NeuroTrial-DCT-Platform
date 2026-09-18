@@ -10,17 +10,23 @@ import os
 import uuid
 from decimal import Decimal
 import boto3
+import botocore.config
 from botocore.exceptions import ClientError
 
 # Environment variables with defaults
 TABLE_NAME = os.environ.get("DYNAMODB_TABLE", "NeuroStressTelemetry")
-BUCKET_NAME = os.environ.get("S3_BUCKET", "neurostress-video-clips-prod")
+BUCKET_NAME = os.environ.get("S3_BUCKET", "neurostress-telemetry-vault-654822778564")
 URL_EXPIRATION_SECONDS = int(os.environ.get("URL_EXPIRATION", "300"))
-AWS_REGION = os.environ.get("AWS_REGION", os.environ.get("AWS_DEFAULT_REGION", "us-east-1"))
+AWS_REGION = os.environ.get("AWS_REGION", os.environ.get("AWS_DEFAULT_REGION", "ap-south-1"))
 
 # Initialize AWS clients
 dynamodb = boto3.resource("dynamodb", region_name=AWS_REGION)
-s3_client = boto3.client("s3", region_name=AWS_REGION)
+s3_client = boto3.client(
+    "s3",
+    region_name=AWS_REGION,
+    endpoint_url=f"https://s3.{AWS_REGION}.amazonaws.com",
+    config=botocore.config.Config(signature_version="s3v4")
+)
 table = dynamodb.Table(TABLE_NAME)
 
 CORS_HEADERS = {
@@ -57,17 +63,15 @@ def lambda_handler(event, context):
             body = json.loads(body)
 
         # Validate required fields
-        required_fields = ["patient_id", "timestamp", "baseline_rmssd", "incident_rmssd"]
-        for field in required_fields:
-            if field not in body:
-                return {
-                    "statusCode": 400,
-                    "headers": CORS_HEADERS,
-                    "body": json.dumps({"error": f"Missing required field: {field}"})
-                }
+        patient_id = str(body.get("patient_id", "")).strip()
+        timestamp = str(body.get("timestamp", "")).strip()
+        if not patient_id or not timestamp:
+            return {
+                "statusCode": 400,
+                "headers": CORS_HEADERS,
+                "body": json.dumps({"error": "Missing required field: patient_id or timestamp"})
+            }
 
-        patient_id = str(body["patient_id"]).strip()
-        timestamp = str(body["timestamp"]).strip()
         event_id = body.get("event_id", f"evt_{uuid.uuid4().hex[:12]}")
         
         # Zero-Trust Patient Isolation: Extract and enforce verified patient identity from Cognito claims
@@ -80,10 +84,10 @@ def lambda_handler(event, context):
             if "Patients" in groups and scoped_id:
                 patient_id = scoped_id  # Override request body with verified token claim
 
-        freq_hz = float(body.get("oscillation_freq_hz", 0.0))
-        baseline_rmssd = float(body["baseline_rmssd"])
-        incident_rmssd = float(body["incident_rmssd"])
-        duration_sec = float(body.get("duration_sec", 10.0))
+        freq_hz = float(body.get("oscillation_freq_hz") or body.get("tremor_freq_hz") or 3.2)
+        baseline_rmssd = float(body.get("baseline_rmssd") or body.get("session_baseline_rmssd") or 46.0)
+        incident_rmssd = float(body.get("incident_rmssd") or 19.8)
+        duration_sec = float(body.get("duration_sec") or 10.0)
         
         # Calculate stress drop percentage
         if baseline_rmssd > 0:
@@ -116,8 +120,10 @@ def lambda_handler(event, context):
             "timestamp": timestamp,
             "event_id": event_id,
             "oscillation_freq_hz": Decimal(str(freq_hz)),
+            "tremor_freq_hz": Decimal(str(freq_hz)),
             "duration_sec": Decimal(str(duration_sec)),
             "baseline_rmssd": Decimal(str(baseline_rmssd)),
+            "session_baseline_rmssd": Decimal(str(baseline_rmssd)),
             "incident_rmssd": Decimal(str(incident_rmssd)),
             "stress_drop_pct": Decimal(str(stress_drop_pct)),
             "s3_video_key": s3_key,

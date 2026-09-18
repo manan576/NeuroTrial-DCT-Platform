@@ -34,13 +34,30 @@ const ApiService = {
         }
         console.log(`[API] Fetching from AWS API Gateway: ${endpoint}`);
         const response = await fetch(endpoint, { headers: this.getHeaders() });
-        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        const data = await response.json();
-        return {
-          source: "LIVE_AWS",
-          kpi_metrics: data.kpi_metrics,
-          episodes: data.episodes
-        };
+        if (response.ok) {
+          const data = await response.json();
+          let awsEpisodes = Array.isArray(data.episodes) ? data.episodes : [];
+          
+          // Also check localStorage recorded episodes and merge any recent client captures
+          let localStoredEpisodes = [];
+          try {
+            localStoredEpisodes = JSON.parse(localStorage.getItem("neurotrial_recorded_episodes") || "[]");
+          } catch (_) {}
+
+          const seenIds = new Set(awsEpisodes.map(e => e.event_id || e.timestamp));
+          for (const localEp of localStoredEpisodes) {
+            if ((localEp.patient_id === patientId || patientId === "ALL") && !seenIds.has(localEp.event_id) && !seenIds.has(localEp.timestamp)) {
+              awsEpisodes.unshift(localEp);
+              seenIds.add(localEp.event_id || localEp.timestamp);
+            }
+          }
+
+          return {
+            source: "LIVE_AWS",
+            kpi_metrics: data.kpi_metrics,
+            episodes: awsEpisodes
+          };
+        }
       } catch (err) {
         console.warn("[API] Live AWS fetch failed, falling back to local dataset:", err);
       }

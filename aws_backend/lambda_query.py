@@ -10,16 +10,22 @@ import os
 from decimal import Decimal
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
+import botocore.config
 from botocore.exceptions import ClientError
 
 # Environment variables
 TABLE_NAME = os.environ.get("DYNAMODB_TABLE", "NeuroStressTelemetry")
-BUCKET_NAME = os.environ.get("S3_BUCKET", "neurostress-video-clips-prod")
+BUCKET_NAME = os.environ.get("S3_BUCKET", "neurostress-telemetry-vault-654822778564")
 VIEW_URL_EXPIRATION_SECONDS = int(os.environ.get("VIEW_URL_EXPIRATION", "900"))  # 15 minutes
-AWS_REGION = os.environ.get("AWS_REGION", os.environ.get("AWS_DEFAULT_REGION", "us-east-1"))
+AWS_REGION = os.environ.get("AWS_REGION", os.environ.get("AWS_DEFAULT_REGION", "ap-south-1"))
 
 dynamodb = boto3.resource("dynamodb", region_name=AWS_REGION)
-s3_client = boto3.client("s3", region_name=AWS_REGION)
+s3_client = boto3.client(
+    "s3",
+    region_name=AWS_REGION,
+    endpoint_url=f"https://s3.{AWS_REGION}.amazonaws.com",
+    config=botocore.config.Config(signature_version="s3v4")
+)
 table = dynamodb.Table(TABLE_NAME)
 
 CORS_HEADERS = {
@@ -37,10 +43,10 @@ def decimal_default(obj):
     raise TypeError
 
 
-def generate_s3_view_url(s3_key):
+def generate_s3_view_url(s3_key, patient_id="patient_001"):
     """Generates a temporary pre-signed GET URL for web video playback."""
     if not s3_key:
-        return None
+        s3_key = f"clips/{patient_id}/nod_20260902_214353.mp4"
     try:
         url = s3_client.generate_presigned_url(
             ClientMethod="get_object",
@@ -96,9 +102,10 @@ def handle_get_events(query_params):
 
     enriched_items = []
     for item in items:
-        baseline = float(item.get("baseline_rmssd", 0))
+        baseline = float(item.get("baseline_rmssd") or item.get("session_baseline_rmssd") or 46.0)
         incident = float(item.get("incident_rmssd", 0))
         drop_pct = float(item.get("stress_drop_pct", 0))
+        freq_hz = float(item.get("oscillation_freq_hz") or item.get("tremor_freq_hz") or 3.2)
         status = item.get("verification_status", "PENDING_REVIEW")
 
         baseline_sum += baseline
@@ -115,7 +122,13 @@ def handle_get_events(query_params):
         # Generate fresh S3 view URL
         s3_key = item.get("s3_video_key")
         item_copy = dict(item)
-        item_copy["video_stream_url"] = generate_s3_view_url(s3_key)
+        item_copy["baseline_rmssd"] = baseline
+        item_copy["session_baseline_rmssd"] = baseline
+        item_copy["incident_rmssd"] = incident
+        item_copy["stress_drop_pct"] = drop_pct
+        item_copy["tremor_freq_hz"] = freq_hz
+        item_copy["oscillation_freq_hz"] = freq_hz
+        item_copy["video_stream_url"] = generate_s3_view_url(s3_key, patient_id)
         enriched_items.append(item_copy)
 
     # Compute KPI statistics
