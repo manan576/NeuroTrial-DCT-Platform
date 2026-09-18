@@ -3028,7 +3028,10 @@ body.doctor-blue-body {
   display: grid;
   grid-template-columns: 1fr 1.15fr 1.25fr;
   gap: 16px;
+  height: 670px;
+  max-height: 670px;
   align-items: stretch;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1240px) {
@@ -3063,7 +3066,9 @@ body.doctor-blue-body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .triage-filter-bar {
@@ -3078,6 +3083,7 @@ body.doctor-blue-body {
   width: 100%;
   box-sizing: border-box;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .triage-filter-btn {
@@ -3107,8 +3113,10 @@ body.doctor-blue-body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  height: 480px;
-  max-height: 480px;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
   overflow-y: auto;
   padding-right: 4px;
   box-sizing: border-box;
@@ -3171,9 +3179,11 @@ body.doctor-blue-body {
 .video-triage-column {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   height: 100%;
+  max-height: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .video-player-card,
@@ -3650,6 +3660,7 @@ body.doctor-blue-body {
 /* Rectangular Clinical Observation Field */
 .triage-notes-container {
   margin-top: 0;
+  flex-shrink: 0;
 }
 
 .triage-notes-inner {
@@ -3691,14 +3702,17 @@ body.doctor-blue-body {
   background: #ffffff;
   border: 1.5px solid #dcebf7;
   border-radius: 16px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   box-shadow: 0 2px 8px rgba(12, 74, 110, 0.04);
   display: flex;
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
   flex: 1;
-  min-height: 330px;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .btn-bedrock-action {
@@ -3725,12 +3739,14 @@ body.doctor-blue-body {
   background: #f8fbfe;
   border: 1px solid #e2edf6;
   border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 0.76rem;
+  padding: 10px 12px;
+  font-size: 0.74rem;
   color: #334155;
-  line-height: 1.55;
+  line-height: 1.5;
   flex: 1;
-  min-height: 250px;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -3742,8 +3758,10 @@ body.doctor-blue-body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 100%;
   min-height: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .multi-session-graphs-container {
@@ -3752,7 +3770,10 @@ body.doctor-blue-body {
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 568px;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
   padding-right: 4px;
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -4242,45 +4263,6 @@ body.doctor-blue-body {
   box-sizing: border-box;
 }
 
-.bedrock-progress-card .clinical-card-header h3 {
-  font-size: 0.88rem;
-}
-
-.btn-bedrock-action {
-  background: #0284c7;
-  color: #ffffff;
-  border: 1px solid #0284c7;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 0.70rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2);
-}
-
-.btn-bedrock-action:hover {
-  background: #0369a1;
-  border-color: #0369a1;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
-}
-
-.bedrock-progress-content {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 0.74rem;
-  color: #334155;
-  line-height: 1.5;
-  flex: 1;
-  min-height: 250px;
-  overflow-y: auto;
-  box-sizing: border-box;
-}
-
 .bedrock-progress-content h3,
 .bedrock-progress-content h4 {
   font-family: 'Outfit', sans-serif;
@@ -4291,51 +4273,6 @@ body.doctor-blue-body {
 
 .bedrock-progress-content h3:first-child {
   margin-top: 0;
-}
-
-.bedrock-placeholder-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 18px 12px;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.bedrock-placeholder-icon {
-  font-size: 1.6rem;
-  margin-bottom: 8px;
-  filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.15));
-}
-
-.bedrock-placeholder-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #0c4a6e;
-  margin-bottom: 6px;
-}
-
-.bedrock-placeholder-desc {
-  font-size: 0.73rem;
-  color: #64748b;
-  line-height: 1.5;
-  max-width: 360px;
-  margin: 0 auto 12px auto;
-}
-
-.bedrock-placeholder-badge {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  color: #0284c7;
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  display: inline-flex;
-  align-items: center;
 }
 
 /* ==========================================================================

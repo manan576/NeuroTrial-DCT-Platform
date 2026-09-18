@@ -84,8 +84,8 @@ const ClinicianApp = {
     if (bedrockBox) {
       const pat = typeof getClinicalPatient === "function" ? getClinicalPatient(this.selectedPatientId) : null;
       bedrockBox.innerHTML = `
-        <div style="color:#64748b; font-style:italic;">
-          Click <strong>"Synthesize Note"</strong> to generate an EMR-ready neurological progress note for <strong>${pat ? pat.name : this.selectedPatientId}</strong>.
+        <div style="color:#64748b; font-size:0.75rem; line-height:1.5;">
+          Click <strong>"Synthesize Note ↗"</strong> to generate an EMR-ready neurological progress note via Amazon Bedrock for <strong>${pat ? pat.name : this.selectedPatientId}</strong>.
         </div>
       `;
     }
