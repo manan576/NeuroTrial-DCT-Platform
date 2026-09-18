@@ -3697,6 +3697,8 @@ body.doctor-blue-body {
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
+  flex: 1;
+  min-height: 330px;
 }
 
 .btn-bedrock-action {
@@ -3723,13 +3725,14 @@ body.doctor-blue-body {
   background: #f8fbfe;
   border: 1px solid #e2edf6;
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 0.76rem;
   color: #334155;
-  line-height: 1.5;
-  min-height: 70px;
-  max-height: 180px;
+  line-height: 1.55;
+  flex: 1;
+  min-height: 250px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------
@@ -4268,12 +4271,12 @@ body.doctor-blue-body {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.72rem;
+  padding: 12px 14px;
+  font-size: 0.74rem;
   color: #334155;
-  line-height: 1.45;
-  height: 95px;
-  max-height: 95px;
+  line-height: 1.5;
+  flex: 1;
+  min-height: 250px;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -4288,6 +4291,51 @@ body.doctor-blue-body {
 
 .bedrock-progress-content h3:first-child {
   margin-top: 0;
+}
+
+.bedrock-placeholder-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px 12px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.bedrock-placeholder-icon {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.15));
+}
+
+.bedrock-placeholder-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0c4a6e;
+  margin-bottom: 6px;
+}
+
+.bedrock-placeholder-desc {
+  font-size: 0.73rem;
+  color: #64748b;
+  line-height: 1.5;
+  max-width: 360px;
+  margin: 0 auto 12px auto;
+}
+
+.bedrock-placeholder-badge {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0284c7;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* ==========================================================================

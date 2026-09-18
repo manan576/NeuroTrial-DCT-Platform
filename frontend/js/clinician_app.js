@@ -1406,7 +1406,7 @@ const ClinicianApp = {
       const precision = this.kpis.clinical_precision_pct || 88.5;
       const tp = this.kpis.verified_true_positives || 6;
 
-      note = `### 🩺 Automated Neurological Progress Note (Amazon Bedrock)
+      note = `### 🩺 Automated AI Neurological Progress Note (Amazon Bedrock)
 
 #### 1. Executive Autonomic Assessment
 Telemetry analysis for **patient_001 (Manan B.)** demonstrates a statistically significant **${drop}% Drop in Parasympathetic HRV (RMSSD)** (Baseline: **${baseline} ms** $\\rightarrow$ Incident: **${incident} ms**) coinciding with involuntary head oscillation episodes.
