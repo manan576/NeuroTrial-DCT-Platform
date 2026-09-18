@@ -109,31 +109,6 @@ flowchart TD
 
 ---
 
-## 🔒 Zero-Trust Edge Buffer vs. 24/7 Cloud Streaming
-
-```mermaid
-graph LR
-    subgraph Traditional["❌ Traditional Telehealth (High Cost & Privacy Exposure)"]
-        T1[Patient Camera] -->|Continuous 24/7 Video Stream| T2[Cloud Video Servers]
-        T2 -->|Massive Bandwidth ~50 GB/day| T3[S3 Storage $$$$]
-        T3 -->|Privacy Risk / Exposure| T4[Doctor Reviews Hours of Raw Footage]
-    end
-
-    subgraph NeuroTrial_Arch["✅ NeuroTrial Zero-Trust Edge Architecture"]
-        N1[Patient Camera] -->|Local MediaPipe Mesh| N2[Volatile In-Memory Ring Buffer]
-        N2 -->|Only on Triggered Oscillation| N3[Encrypted 10s Clip to S3 ~5 MB/day]
-        N3 -->|Instant Triage| N4[Doctor Reviews 10s Focused Clips]
-        N4 --> N5[Amazon Bedrock AI Progress Notes]
-    end
-
-    classDef bad fill:#450a0a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5;
-    classDef good fill:#064e3b,stroke:#10b981,stroke-width:1.5px,color:#a7f3d0;
-    class Traditional bad;
-    class NeuroTrial_Arch good;
-```
-
----
-
 ## 🚀 Key Portal Features
 
 ### 👤 1. Patient Clinical Studio (`patient.html`)
