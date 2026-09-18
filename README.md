@@ -3,10 +3,22 @@
 **Built for the Bharat Builds AWS Hackathon (Healthcare & AI Innovation Track)**
 
 [![AWS Serverless](https://img.shields.io/badge/AWS-Serverless-orange.svg?logo=amazon-aws)](https://aws.amazon.com/)
+[![AWS Region](https://img.shields.io/badge/AWS%20Region-ap--south--1%20(Mumbai)-blue.svg)](https://aws.amazon.com/)
 [![Amazon Bedrock](https://img.shields.io/badge/Amazon-Bedrock%20Claude%203.5-blue.svg?logo=anthropic)](https://aws.amazon.com/bedrock/)
 [![MediaPipe](https://img.shields.io/badge/Computer%20Vision-MediaPipe%20%2B%20OpenCV-green.svg?logo=opencv)](https://mediapipe.dev)
 [![Architecture](https://img.shields.io/badge/Architecture-Edge%20CV%20%2B%20AWS%20Cloud-informational.svg)](./TECHNICAL_BREAKDOWN.md)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+---
+
+## 🚀 Live Deployed Application (AWS Mumbai `ap-south-1`)
+
+| Portal / Service | Live URL | Purpose |
+| :--- | :--- | :--- |
+| 🏥 **Clinician Verification Portal** | **[Launch Clinician Portal](http://neurotrial-web-654822778564.s3-website.ap-south-1.amazonaws.com/clinician.html)** | 3-Session longitudinal graphs, S3 video evidence review, True/False Positive adjudication, Bedrock AI summary. |
+| 🧑‍⚕️ **Patient Telemetry Studio** | **[Launch Patient Portal](http://neurotrial-web-654822778564.s3-website.ap-south-1.amazonaws.com/patient.html)** | 4-step CareFlow pipeline: Polar H9 BLE pairing, face tracking, resting baseline calibration, and 60s Stroop challenge. |
+| 🌐 **Platform Landing Page** | **[Launch Landing Page](http://neurotrial-web-654822778564.s3-website.ap-south-1.amazonaws.com/index.html)** | Overview of architecture, clinical study methodology, and research background. |
+| ⚡ **AWS API Gateway Endpoint** | `https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com` | Live HTTP REST API backed by AWS Lambda, DynamoDB, and Amazon Bedrock. |
 
 ---
 
