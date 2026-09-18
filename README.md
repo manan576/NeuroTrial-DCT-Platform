@@ -1,41 +1,60 @@
 # NeuroTrial — Nystagmus & Stress Digital Biomarker Platform
-### Decentralized Clinical Trial (DCT) & Remote Telemetry Evaluation System
+### Decentralized Clinical Trial (DCT) & Remote Autonomic Telemetry Evaluation System
 **Built for the Bharat Builds AWS Hackathon (Healthcare & AI Innovation Track)**
 
-[![AWS Serverless](https://img.shields.io/badge/AWS-Serverless-orange.svg?logo=amazon-aws)](https://aws.amazon.com/)
-[![AWS Region](https://img.shields.io/badge/AWS%20Region-ap--south--1%20(Mumbai)-blue.svg)](https://aws.amazon.com/)
-[![Amazon Bedrock](https://img.shields.io/badge/Amazon-Bedrock%20Claude%203.5-blue.svg?logo=anthropic)](https://aws.amazon.com/bedrock/)
-[![MediaPipe](https://img.shields.io/badge/Computer%20Vision-MediaPipe%20%2B%20OpenCV-green.svg?logo=opencv)](https://mediapipe.dev)
-[![Architecture](https://img.shields.io/badge/Architecture-Edge%20CV%20%2B%20AWS%20Cloud-informational.svg)](./TECHNICAL_BREAKDOWN.md)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![AWS Amplify](https://img.shields.io/badge/AWS-Amplify%20Live-FF9900.svg?logo=aws-amplify&logoColor=white)](https://main.dfms9o6dmkyla.amplifyapp.com/)
+[![AWS Region](https://img.shields.io/badge/AWS%20Region-ap--south--1%20(Mumbai)-blue.svg?logo=amazon-aws)](https://aws.amazon.com/)
+[![Amazon Bedrock](https://img.shields.io/badge/Amazon%20Bedrock-Claude%203.5%20Sonnet-6842FF.svg?logo=anthropic)](https://aws.amazon.com/bedrock/)
+[![Computer Vision](https://img.shields.io/badge/Computer%20Vision-MediaPipe%20%2B%20OpenCV-00C0FF.svg?logo=opencv)](https://mediapipe.dev)
+[![YouTube Video](https://img.shields.io/badge/Explainer%20Video-YouTube-FF0000.svg?logo=youtube)](https://www.youtube.com/watch?v=0W904keGQXI)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 ---
 
-## 🚀 Live Deployed Application (AWS Mumbai `ap-south-1` • 100% Secure HTTPS)
+## 🚀 Live Deployed Application (AWS Amplify • 100% HTTPS)
 
-| Portal / Service | Primary HTTPS URL (CloudFront CDN) | Mirror HTTPS URL (AWS Amplify) |
-| :--- | :--- | :--- |
-| 🧑‍⚕️ **Patient Telemetry Studio** | **[Launch Patient Portal](https://d3sigeid8sbgs9.cloudfront.net/patient.html)** | **[Amplify Mirror](https://main.dfms9o6dmkyla.amplifyapp.com/patient.html)** |
-| 🏥 **Clinician Verification Portal** | **[Launch Clinician Portal](https://d3sigeid8sbgs9.cloudfront.net/clinician.html)** | **[Amplify Mirror](https://main.dfms9o6dmkyla.amplifyapp.com/clinician.html)** |
-| 🌐 **Platform Landing Page** | **[Launch Landing Page](https://d3sigeid8sbgs9.cloudfront.net/index.html)** | **[Amplify Mirror](https://main.dfms9o6dmkyla.amplifyapp.com/index.html)** |
-| ⚡ **AWS API Gateway Endpoint** | `https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com` | — |
+| Portal / Component | Primary Live Link (AWS Amplify) | Global CDN Mirror (CloudFront) | Description |
+| :--- | :--- | :--- | :--- |
+| 🌐 **Platform Landing Page** | **[Launch Landing Portal](https://main.dfms9o6dmkyla.amplifyapp.com/index.html)** | [CloudFront Mirror](https://d3sigeid8sbgs9.cloudfront.net/index.html) | Architecture overview, scientific foundations & in-browser explainer video |
+| 🧑‍⚕️ **Patient Telemetry Studio** | **[Launch Patient Studio](https://main.dfms9o6dmkyla.amplifyapp.com/patient.html)** | [CloudFront Mirror](https://d3sigeid8sbgs9.cloudfront.net/patient.html) | In-browser MediaPipe FaceMesh tracking, BLE Polar H9 ECG, 10s ring buffer & Stroop stress test |
+| 🏥 **Clinician Verification Portal** | **[Launch Clinician Portal](https://main.dfms9o6dmkyla.amplifyapp.com/clinician.html)** | [CloudFront Mirror](https://d3sigeid8sbgs9.cloudfront.net/clinician.html) | Video triage queue, 1-click verification, 3 multi-session graphs & Bedrock AI progress notes |
+| ⚡ **AWS API Gateway REST API** | `https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com` | — | Serverless HTTP API handling real-time telemetry ingestion, queries, and verification |
+| 🎬 **Project Explainer Video** | **[Watch on YouTube](https://www.youtube.com/watch?v=0W904keGQXI)** | Embedded in Landing Page | Full walkthrough of the problem, edge vision buffer, and AWS serverless architecture |
 
 ---
 
-## 🌟 Executive Summary
+## 🌟 Why NeuroTrial Was Made & What It Aims To Do
 
-**NeuroTrial** is an end-to-end, edge-to-cloud **Decentralized Clinical Trial (DCT) and remote neurological monitoring platform**. It establishes the first real-time digital biomarker correlation between **involuntary nystagmus head/eye oscillations** and **acute autonomic stress** (measured via Heart Rate Variability / parasympathetic RMSSD withdrawal).
+### 1. The Clinical Problem
+* **Pathological Nystagmus** (congenital infantile or acquired from vestibular neuritis, multiple sclerosis, cerebellar ataxia, stroke, or traumatic brain injury) causes involuntary, rhythmic eye and compensatory head oscillations.
+* Neurologists and clinical trial investigators have long observed that **acute sympathetic stress and cognitive load dramatically exacerbate oscillation severity**, degrading patient visual acuity and functional independence.
+* **The Traditional Bottleneck**: Conventional clinical evaluations require patients to travel to specialized medical centers for infrequent, isolated snapshot visits. These snapshot tests:
+  - Fail to capture real-world diurnal fluctuations in daily life.
+  - Suffer from **"white-coat syndrome"** (artificial anxiety that elevates resting stress levels and distorts baseline measurements).
+  - Lack objective, continuous quantification of the physiological relationship between autonomic stress and tremor flares.
 
-Developed for the **Bharat Builds AWS Hackathon**, NeuroTrial solves the critical challenges of traditional neurological clinical trials: hospital-bound white-coat syndrome, bandwidth-heavy continuous video streaming, and manual clinician review burden. By combining **zero-trust in-browser/edge Computer Vision (MediaPipe Face Mesh + OpenCV)**, a **smart 10-second rolling circular ring-buffer**, and an **AWS Serverless Cloud Backend powered by Amazon Bedrock Generative AI**, NeuroTrial delivers continuous, privacy-preserving clinical monitoring at fraction-of-a-cent serverless cost.
+### 2. The Remote Monitoring Dilemma
+* Continuous 24/7 video streaming of a patient's face from home creates **severe HIPAA/DPDP privacy violations**, astronomical cloud storage costs, and prohibitive network bandwidth consumption ($\sim 50\text{ GB/day/patient}$).
+* Raw video alone without autonomic physiological telemetry leaves doctors unable to determine whether an oscillation was caused by an acute stress surge or a harmless physical movement.
+
+### 3. What NeuroTrial Aims To Do
+**NeuroTrial** establishes the first real-time, privacy-preserving digital biomarker pipeline that links **involuntary head/eye oscillations** with **acute autonomic stress** (measured via parasympathetic vagal withdrawal / RMSSD collapse):
+
+1. **Zero-Trust Edge Computer Vision**: Runs MediaPipe Face Mesh sub-pixel landmark tracking entirely **inside the client browser or local device**. No raw video is streamed to the cloud during normal monitoring.
+2. **Event-Triggered 10-Second Rolling Circular Ring-Buffer**: Keeps the last 5.0 seconds of video volatile in local RAM. Only when an oscillation anomaly exceeds validated frequency and amplitude thresholds does the system record 5.0 seconds post-trigger footage, assemble a **10.0-second encrypted clip** ($5\text{s pre} + 5\text{s post}$), and upload it to an encrypted Amazon S3 vault.
+3. **Calibrated Baseline vs. Incident RMSSD Telemetry**: Establishes a 5-minute quiet resting baseline vagal tone ($\text{RMSSD}_{\text{base}}$). During an oscillation flare, it calculates the 60-second incident window $\text{RMSSD}_{\text{incident}}$ to determine the exact **autonomic stress drop percentage**.
+4. **Human-in-the-Loop Clinician Verification**: Provides neurologists with a 1-click video triage workstation to verify True Positives (TP) vs. Dismiss False Positives (FP), dynamically plotting verified data onto multi-session correlation graphs.
+5. **Amazon Bedrock AI Neurological Copilot**: Employs Anthropic Claude 3.5 Sonnet on Amazon Bedrock to automatically synthesize longitudinal telemetry into EMR-ready SOAP progress notes.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                   NEUROTRIAL PLATFORM                                  │
 ├──────────────────────────────┬────────────────────────────┬────────────────────────────┤
 │   Patient Studio (Edge CV)   │ Clinician Workstation (UI) │   AWS Cloud Intelligence   │
-│  - MediaPipe 60 FPS Tracking │  - Video Verification Queue│  - API Gateway + Lambda    │
-│  - 10s Ring Buffer Capture   │  - Multi-Session Analytics │  - DynamoDB Telemetry Store│
-│  - BLE Polar H9 HRV Engine   │  - True/False Pos. Triage  │  - Amazon Bedrock AI Agent │
+│  - MediaPipe 60 FPS Tracking │  - Equal-Height 3-Col View │  - API Gateway + Lambda    │
+│  - 10s Ring Buffer Capture   │  - Video Verification Queue│  - DynamoDB Telemetry Store│
+│  - In-Browser WebM Stitcher  │  - 3 Multi-Session Graphs  │  - Amazon S3 Encrypted Clip│
+│  - BLE Polar H9 HRV Engine   │  - Bedrock AI SOAP Notes   │  - Amazon Bedrock (Claude) │
 └──────────────────────────────┴────────────────────────────┴────────────────────────────┘
 ```
 
@@ -43,42 +62,40 @@ Developed for the **Bharat Builds AWS Hackathon**, NeuroTrial solves the critica
 
 ## 🔄 End-to-End System Workflow
 
-The following diagram illustrates the complete patient-to-clinician data lifecycle across Edge CV, Local Circular Buffering, AWS Serverless Cloud, and Amazon Bedrock Generative AI:
-
 ```mermaid
 flowchart TD
-    subgraph Patient_Edge["👤 Patient Edge Client (Browser / Native)"]
-        A[Live WebCam Feed 60 FPS] --> B[MediaPipe Face Mesh Sub-Pixel Tracking]
-        C[Polar H9 ECG Chest Strap] -->|BLE GATT 0x2A37| D[Beat-to-Beat RR & Rolling RMSSD Engine]
-        B --> E[In-Memory 10s Circular Ring Buffer\n5s Pre-Trigger in RAM]
-        B --> F{Oscillation Anomaly Detected?\nFreq: 2.5-6.0 Hz & Amp >= 25 px/s}
-        F -- No --> G[Drop Stale Frame Chunks\nZero Cloud Ingress]
-        F -- Yes --> H[Seal 10s Clip\n5s Pre + 5s Post Context]
-        D --> I[Sample Incident RMSSD & Calculate % Stress Drop]
+    subgraph Patient_Edge["👤 Patient Edge Client (In-Browser / Web Bluetooth)"]
+        A[Webcam Feed 60 FPS] --> B[MediaPipe FaceMesh Landmark Tracking\nNose Tip Landmark #1 • EMA 0.4]
+        C[Polar H9 ECG Chest Strap\nOr Synthetic Autonomic Stream] -->|BLE GATT 0x2A37| D[Beat-to-Beat RR & Rolling RMSSD Engine]
+        B --> E[In-Memory 10s Circular Ring Buffer\n150 Pre-Trigger Frames in RAM]
+        B --> F{Oscillation Anomaly Detected?\nFreq: 2.5-6.0 Hz & Amp >= 0.8 px/frame}
+        F -- No --> G[Drop Stale Frames\nZero Video Leaves Device]
+        F -- Yes --> H[Seal 10s Clip\n150 Pre + 150 Post Frames\nIn-Browser WebM Stitcher]
+        D --> I[Sample Incident RMSSD & Compute % Stress Drop]
     end
 
-    subgraph AWS_Serverless["☁️ AWS Cloud Serverless Backend"]
+    subgraph AWS_Serverless["☁️ AWS Cloud Serverless Stack (ap-south-1 Mumbai)"]
         H -->|Presigned HTTPS PUT| J[(Amazon S3 Encrypted Vault\nneurostress-telemetry-vault)]
-        I -->|HTTPS REST POST| K[Amazon API Gateway HTTP API]
-        H -.->|Clip S3 URL| K
+        I -->|HTTPS REST POST /events| K[Amazon API Gateway HTTP API]
+        H -.->|Clip S3 Key| K
         K --> L[AWS Lambda Ingest Microservice\nlambda_ingest.py]
         L --> M[(Amazon DynamoDB\nNeuroStressTelemetry Table)]
         J -.->|Video Metadata Link| M
     end
 
-    subgraph Clinician_Review["🩺 Clinician Review & AI Copilot"]
-        N[Clinician Workstation Portal] -->|Query REST GET| O[AWS Lambda Query Microservice\nlambda_query.py]
-        O -->|Fetch Verified / Pending Records| M
-        N --> P[Edge-to-Edge Video Workstation Player]
-        P --> Q{Clinician Triage}
-        Q -->|Verify| R[Mark True Positive TP\nAdd Clinical Notes]
-        Q -->|Dismiss| S[Dismiss False Positive FP\nMotion Artifact]
-        R & S -->|Update Status| M
-        N --> T[Trigger AI Copilot Summary]
+    subgraph Clinician_Workstation["🩺 Clinician Review Workstation & Bedrock AI"]
+        N[Clinician Verification Portal] -->|Query REST GET /events| O[AWS Lambda Query Microservice\nlambda_query.py]
+        O -->|Enriched Episodes & KPIs| M
+        N --> P[Edge-to-Edge 16:9 Video Player]
+        P --> Q{Clinician 1-Click Triage}
+        Q -->|Verify TP| R[Mark True Positive TP\nPlot Drop to Session Graph]
+        Q -->|Dismiss FP| S[Dismiss False Positive FP\nMotion Artifact]
+        R & S -->|POST /verify| M
+        N --> T[Trigger Bedrock Note Synthesis]
         T --> U[AWS Lambda Bedrock Microservice\nlambda_bedrock_summary.py]
-        U -->|Fetch Longitudinal Session Telemetry| M
-        U -->|Invoke Foundation Model| V[Amazon Bedrock\nAnthropic Claude 3.5 Sonnet / Nova]
-        V --> W[Automated Neurological Progress Note\nSession-by-Session Stress Correlation]
+        U -->|Query Longitudinal Session Telemetry| M
+        U -->|Invoke Foundation Model| V[Amazon Bedrock\nAnthropic Claude 3.5 Sonnet]
+        V --> W[EMR-Ready AI Progress Note\nAutonomic & Tremor Correlation]
         W --> N
     end
 
@@ -87,120 +104,26 @@ flowchart TD
     classDef clinician fill:#0c4a6e,stroke:#10b981,stroke-width:2px,color:#f8fafc;
     class Patient_Edge edge;
     class AWS_Serverless aws;
-    class Clinician_Review clinician;
+    class Clinician_Workstation clinician;
 ```
 
 ---
 
-## 🎯 The Problem & The Clinical Vision
-
-### 1. The Clinical Problem
-* **Pathological Nystagmus** (congenital infantile or acquired from vestibular neuritis, MS, cerebellar ataxia, stroke, or TBI) causes involuntary, rhythmic ocular oscillations and compensatory head nodding.
-* Neurologists and trial investigators observe that **cognitive and sympathetic stress dramatically amplifies oscillation amplitude and frequency**, degrading visual acuity and quality of life.
-* **The Clinical Bottleneck:** Traditional clinical trial evaluations require patients to travel to specialized medical centers for isolated snapshot assessments. These snapshot visits fail to capture real-world diurnal fluctuations and are contaminated by "white-coat anxiety" (elevated baseline stress).
-
-### 2. The Remote Monitoring Dilemma
-* Continuous 24/7 video streaming of patient faces from home creates severe **HIPAA/DPDP privacy violations**, prohibitive cloud storage costs, and unmanageable network bandwidth requirements.
-* Continuous raw video without autonomic telemetry leaves clinicians unable to determine whether an oscillation burst was triggered by an acute stress surge or physical motion artifact.
-
-### 3. The NeuroTrial Solution
-1. **Edge Computer Vision & Sub-Pixel Tracking**: Facial landmarks (nose tip, pupillary contours) are tracked locally in real time (60 FPS) directly in the browser or on-device. No raw video ever leaves the device during normal state.
-2. **Event-Triggered 10s Rolling Buffer**: A local circular ring-buffer continuously retains the last 5 seconds of video in memory. Only when an oscillation anomaly exceeds statistical thresholds is a 10-second clip (5s pre-trigger + 5s post-trigger) finalized and encrypted.
-3. **Calibrated Autonomic Baseline & Incident HRV**: Each session establishes a 5-minute resting baseline parasympathetic tone ($\text{RMSSD}_{\text{base}}$). During oscillation bursts, the incident $\text{RMSSD}_{\text{incident}}$ is sampled to compute the exact **autonomic stress drop percentage**.
-4. **Human-in-the-Loop Clinician Triage**: Clinicians review queued video snippets, classify them as True Positive (TP) or False Positive (FP), and add clinical notes.
-5. **Amazon Bedrock AI Neurological Copilot**: Generates structured, longitudinal clinical progress notes correlating autonomic stress drops with oscillation severity across sessions.
-
----
-
-## 🧪 Clinical Protocol Flow (CareFlow Step Guardrails)
-
-NeuroTrial enforces rigorous clinical protocol progression to guarantee pristine baseline calibration before testing:
-
-```mermaid
-stateDiagram-v2
-    [*] --> Step1_SensorPairing: Patient Enters Portal
-
-    state Step1_SensorPairing {
-        [*] --> DiscoverBLE: Scan Bluetooth Devices
-        DiscoverBLE --> ConnectPolarH9: Pair Polar H9 ECG Strap
-        DiscoverBLE --> FallbackSimulated: Use Clinical Simulated ECG
-        ConnectPolarH9 --> StreamRR: Broadcast Beat-to-Beat RR Intervals
-        FallbackSimulated --> StreamRR
-    }
-
-    Step1_SensorPairing --> Step2_CameraMesh: Sensor Active (Step 2 Unlocked)
-
-    state Step2_CameraMesh {
-        [*] --> RequestWebcam: Access 60 FPS Camera
-        RequestWebcam --> InitMediaPipe: Load 468-Landmark Face Mesh
-        InitMediaPipe --> LockNoseAnchor: Lock Landmark #1 Sub-Pixel Tracker
-    }
-
-    Step2_CameraMesh --> Step3_BaselinePursuit: Camera Calibrated (Step 3 Unlocked)
-
-    state Step3_BaselinePursuit {
-        [*] --> StartNatureCanvas: Render Snake & Apple Pursuit
-        StartNatureCanvas --> MinimizeWebcam: Minimized PiP in Bottom-Right
-        MinimizeWebcam --> Calibrate5Min: 5-Minute Resting Vagal Calibration
-        Calibrate5Min --> ComputeBaselineRMSSD: Establish Session Baseline RMSSD
-    }
-
-    Step3_BaselinePursuit --> Step4_StressChallenge: Baseline Established (Step 4 Unlocked)
-
-    state Step4_StressChallenge {
-        [*] --> StroopChallenge: 60s Stroop Color-Word Conflict Test
-        StroopChallenge --> PassiveMonitoring: Transition to Continuous Passive Mode
-        PassiveMonitoring --> DetectAnomaly: Monitor Oscillation Anomaly (2.5-6.0 Hz)
-        DetectAnomaly --> Save10sClip: Capture 10s Ring Buffer & Sync AWS
-    }
-
-    Step4_StressChallenge --> [*]: Session Complete & Synced to DynamoDB
-```
-
----
-
-## 🏗️ System Architecture & AWS Stack
-
-NeuroTrial utilizes a modern, resilient, serverless architecture deployed on Amazon Web Services.
-
-![Architecture Diagram](assets/neurotrial_architecture_diagram.png)
-
-### AWS Serverless Components
-* **Amazon API Gateway (HTTP API)**: Ultra-low latency, auto-scaling REST API routing with CORS support for seamless web client interactions.
-* **AWS Lambda (Python 3.11 Serverless Microservices)**:
-  * `lambda_ingest.py`: Validates incoming telemetry payloads, parses HRV parameters, links S3 presigned URLs, and writes to DynamoDB.
-  * `lambda_query.py`: High-speed telemetry retrieval supporting filtering by patient ID, session ID, and triage verification status.
-  * `lambda_bedrock_summary.py`: Aggregates multi-session telemetry, formats clinical statistical profiles, and invokes Amazon Bedrock runtime.
-* **Amazon DynamoDB (`NeuroStressTelemetry`)**:
-  * Fully serverless, on-demand pay-per-request table.
-  * Partition Key (`HASH`): `patient_id` (String)
-  * Sort Key (`RANGE`): `timestamp` (String ISO-8601)
-  * Supports millisecond retrieval across longitudinal patient monitoring sessions.
-* **Amazon S3 (`neurostress-telemetry-vault-{account_id}`)**:
-  * Encrypted vault for event-triggered 10-second MP4/WebM validation clips.
-  * Configured with secure CORS policies and time-limited presigned URLs.
-* **Amazon Bedrock (Anthropic Claude 3.5 Sonnet / Amazon Nova)**:
-  * Clinical intelligence agent that interprets autonomic biomarker telemetry, evaluates parasympathetic drop percentages, and crafts formal neurological progress reports.
-* **AWS IAM**:
-  * Granular, least-privilege execution roles (`NeuroStressLambdaRole`) restricting Lambda access strictly to target DynamoDB tables, S3 vaults, and Bedrock models.
-
----
-
-## 🔒 Zero-Trust Edge Buffer vs 24/7 Cloud Streaming
+## 🔒 Zero-Trust Edge Buffer vs. 24/7 Cloud Streaming
 
 ```mermaid
 graph LR
-    subgraph Traditional["❌ Traditional Telehealth (High Cost & Privacy Risk)"]
-        T1[Patient Camera] -->|Continuous 24/7 Stream| T2[Cloud Video Servers]
+    subgraph Traditional["❌ Traditional Telehealth (High Cost & Privacy Exposure)"]
+        T1[Patient Camera] -->|Continuous 24/7 Video Stream| T2[Cloud Video Servers]
         T2 -->|Massive Bandwidth ~50 GB/day| T3[S3 Storage $$$$]
-        T3 -->|Privacy Exposure| T4[Doctor Reviews Hours of Video]
+        T3 -->|Privacy Risk / Exposure| T4[Doctor Reviews Hours of Raw Footage]
     end
 
-    subgraph NeuroTrial_Arch["✅ NeuroTrial Edge-to-Cloud (Zero-Trust & HIPAA Compliant)"]
-        N1[Patient Camera] -->|Local 60 FPS Mesh| N2[Volatile RAM Circular Buffer]
-        N2 -->|Only on Triggered Event| N3[Encrypted 10s S3 Vault ~5 MB/day]
+    subgraph NeuroTrial_Arch["✅ NeuroTrial Zero-Trust Edge Architecture"]
+        N1[Patient Camera] -->|Local MediaPipe Mesh| N2[Volatile In-Memory Ring Buffer]
+        N2 -->|Only on Triggered Oscillation| N3[Encrypted 10s Clip to S3 ~5 MB/day]
         N3 -->|Instant Triage| N4[Doctor Reviews 10s Focused Clips]
-        N4 --> N5[Amazon Bedrock Clinical Copilot]
+        N4 --> N5[Amazon Bedrock AI Progress Notes]
     end
 
     classDef bad fill:#450a0a,stroke:#ef4444,stroke-width:1.5px,color:#fca5a5;
@@ -211,93 +134,135 @@ graph LR
 
 ---
 
-## 🚀 Key Features
+## 🚀 Key Portal Features
 
 ### 👤 1. Patient Clinical Studio (`patient.html`)
-* **Live MediaPipe Landmark Detection**: Real-time 60 FPS face mesh and nose-tip Cartesian coordinate tracking ($X, Y$) with canvas visualizer.
-* **Dual Monitoring Modes**:
-  * **Interactive Assessment Mode**: Guided cognitive stress induction engine (Stroop color-word conflict tests, mental arithmetic, and visual focus tasks) to evaluate autonomic reactivity.
-  * **Unobtrusive Background Mode**: Continuous passive monitoring while the patient works, reads, or relaxes.
-* **10-Second Rolling Buffer & In-Browser Frame Stitcher**: In-memory circular pre-buffer holding 150 frames (5.0s pre-trigger context) + 150 frames (5.0s post-trigger tremor footage). An in-browser WebM multiplexer (`webm_encoder.js`) stitches all 300 frames into a 10.0s video blob in $<80\text{ms}$ with zero cloud compute cost.
-* **Integrated Bottom-Right Card PiP**: Live face tracking minimizes smoothly to the bottom-right corner of the assessment card during visual pursuit and Stroop challenges.
-* **Real-time Autonomic Telemetry**: Live heart rate (BPM), RR intervals, and real-time rolling RMSSD computation via Bluetooth Low Energy (Polar H9 ECG chest strap) or simulated autonomic engine.
-* **Local Session History & Audit Trail**: Interactive time-series charts (Chart.js) showing oscillation frequencies (Hz), pixel amplitudes ($\text{px/s}$), and autonomic stress correlation.
+* **100% In-Browser Zero-Install**: Uses standard Web APIs (Web Bluetooth, WebCam `getUserMedia`, Canvas API).
+* **MediaPipe Sub-Pixel Landmark Tracking**: Tracks Landmark `#1` (Nose Tip) with an Exponential Moving Average ($EMA = 0.4$) filter and $0.8\text{ px/frame}$ velocity sensitivity.
+* **10-Second In-Memory Ring Buffer**: Retains 150 pre-trigger frames in RAM. On detection, it captures 150 post-trigger frames and stitches all 300 frames ($10.0\text{s}$ at $30\text{ fps}$) into a standalone WebM video blob locally in $<80\text{ms}$ using `webm_encoder.js`.
+* **Post-Capture Cooldown**: 6-second lockout after clip packaging to prevent duplicate triggers.
+* **Autonomic Telemetry**: Live heart rate (BPM), beat-to-beat RR intervals, and rolling RMSSD via Polar H9 Bluetooth chest strap (or synthetic medical fallback).
+* **Guided Stress Protocol (Stroop Challenge)**: Interactive color-word conflict test designed to induce acute cognitive load and evaluate vagal withdrawal.
 
 ### 🩺 2. Clinician Video Verification Workstation (`clinician.html`)
-* **Multi-Patient Selection & Clinical Summary**: Switch instantly between registered clinical trial subjects with real-time KPI metrics (Total Episodes, True Positive Precision %, Episodes to Review).
-* **Interactive Video Triage Queue**: Filter recorded episodes by `All`, `Pending`, `Verified TP`, and `Dismissed FP`.
-* **Integrated On-Video HUD & Workstation Player**:
-  * Edge-to-edge video playback with zero card padding for maximum visibility.
-  * Top diagnostic telemetry HUD badges displaying incident RMSSD, stress drop %, and verification status.
-  * Precise clinical playback controls: $1.0\times / 0.5\times$ slow-motion toggle, center play trigger, timeline seek bar, and fullscreen expand.
-* **True Positive (TP) / False Positive (FP) Triage**: 1-click clinical verification with optional clinical note logging that immediately synchronizes with AWS DynamoDB.
-* **Multi-Session Longitudinal HRV Charts**: Visualizes resting baseline parasympathetic tone against acute incident drops for every recorded episode.
-* **Amazon Bedrock AI Neurological Report Generator**: 1-click generation of comprehensive clinical progress notes synthesizing parasympathetic withdrawal patterns across monitoring sessions.
+* **Multi-Patient Cohort Switcher**: Seamlessly switch between clinical trial subjects (`patient_001`, `patient_002`, `patient_003`) with dynamic KPI cards (Total Episodes, True Positive Precision %, Episodes to Review).
+* **Video Triage Queue (Column 1)**: Filterable by `All`, `Pending Review`, `Verified TP`, and `Dismissed FP`.
+* **Edge-to-Edge Video Review Player (Column 2)**: 16:9 video workstation with live HUD overlay (incident RMSSD, % stress drop, oscillation frequency), $1.0\times / 0.5\times$ slow-motion playback, timeline scrubbing, and 1-click `✓ Verify TP` / `✕ Dismiss FP` actions.
+* **3 Multi-Session Longitudinal Graphs (Column 3)**:
+  - **`Session 1: Stroop Test`**: Active live protocol session. Any new oscillation recorded on the Patient Portal dynamically appends here upon verification.
+  - **`Session 2 — Cognitive Fatigue & Stroop`**: Day 2 cognitive challenge session.
+  - **`Session 3 — Visual Strain & Display Contrast`**: Day 3 high-contrast screen fatigue session.
+  - **Expandable Modal (⛶)**: Full high-resolution longitudinal RMSSD drop trajectory with summary statistics.
+* **AI Clinical Progress Note (Amazon Bedrock)**: Generates EMR-ready SOAP progress notes via Anthropic Claude 3.5 Sonnet.
+* **Pixel-Perfect Equal Height Layout**: All 3 workstation columns maintain a strictly unified vertical baseline with internal scrolling.
 
-### 🐍 3. Python Native Research Pipeline (`OscillationTracker.py`)
+### 🐍 3. Python Native Hardware Pipeline (`OscillationTracker.py`)
 * Concurrent multi-threaded Python runtime:
-  * **Main Thread**: OpenCV + MediaPipe face detection, sub-pixel displacement calculation, and peak-detection algorithm.
-  * **Asynchronous BLE Thread**: Uses `bleak` and `asyncio` to interface directly with Polar H9 ECG hardware over Bluetooth GATT (0x2A37 Heart Rate Measurement).
+  - **Main Thread**: OpenCV + MediaPipe face detection, sub-pixel displacement calculation, and peak-detection algorithm.
+  - **Asynchronous BLE Thread**: Uses `bleak` and `asyncio` to interface directly with Polar H9 ECG hardware over Bluetooth GATT (`0x2A37`).
 * Real-time CSV and video logging with thread-safe data synchronization.
+
+---
+
+## 📊 Autonomic Telemetry & RMSSD Mathematics
+
+Heart Rate Variability (HRV) is the gold-standard non-invasive biomarker of Autonomic Nervous System (ANS) activity. NeuroTrial calculates **RMSSD (Root Mean Square of Successive Differences)**:
+
+$$\text{RMSSD} = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N-1} (RR_{i+1} - RR_i)^2}$$
+
+### Clinical Physiological Rationale:
+* **Parasympathetic Specificity**: RMSSD directly reflects high-frequency vagal nerve modulation ("rest-and-digest" tone).
+* **Instantaneous Response**: While Heart Rate (BPM) takes 30–60 seconds to rise, **RMSSD drops instantaneously** upon acute sympathetic arousal and vagal withdrawal.
+* **Stress Drop Calculation**:
+$$\text{Stress Drop \%} = \frac{\text{RMSSD}_{\text{baseline}} - \text{RMSSD}_{\text{incident}}}{\text{RMSSD}_{\text{baseline}}} \times 100\%$$
+
+A significant vagal drop ($\ge 25\%$) coinciding with sudden head/eye oscillations confirms a **stress-triggered neurological exacerbation** rather than an incidental motion artifact.
+
+*(For full mathematical derivations and clinical literature citations, see [`HRV_Explainer.md`](./HRV_Explainer.md)).*
+
+---
+
+## 🏗️ System Architecture & AWS Stack
+
+NeuroTrial is built on a serverless, pay-per-request architecture deployed in AWS Mumbai (`ap-south-1`):
+
+* **AWS Amplify**: Continuous deployment and global hosting for the Single Page Application.
+* **Amazon CloudFront**: Low-latency global CDN edge caching with HTTPS security.
+* **Amazon API Gateway (HTTP API)**: High-speed, auto-scaling REST endpoints with CORS support.
+* **AWS Lambda (Python 3.11 Microservices)**:
+  * `lambda_ingest.py`: Validates telemetry payloads, generates S3 presigned upload URLs, and writes to DynamoDB.
+  * `lambda_query.py`: Queries DynamoDB time-series records, enriches regional S3 video URLs, and computes real-time summary KPIs.
+  * `lambda_bedrock_summary.py`: Aggregates multi-session telemetry, formats clinical statistical profiles, and invokes Amazon Bedrock.
+* **Amazon DynamoDB (`NeuroStressTelemetry`)**:
+  * Serverless on-demand NoSQL database.
+  * **Partition Key**: `patient_id` (String) | **Sort Key**: `timestamp` (String ISO-8601).
+  * Sub-10ms retrieval for longitudinal patient datasets.
+* **Amazon S3 (`neurostress-telemetry-vault-654822778564`)**:
+  * Encrypted vault for event-triggered 10-second MP4/WebM validation clips with automated lifecycle policies.
+* **Amazon Bedrock (Anthropic Claude 3.5 Sonnet)**:
+  * Generative AI agent that interprets autonomic biomarker telemetry and formats structured clinical progress notes.
 
 ---
 
 ## 📂 Repository Structure
 
 ```
-├── OscillationTracker.py            # Python OpenCV + MediaPipe + BLE Polar H9 pipeline
+├── README.md                        # Master project documentation & hackathon guide
+├── HRV_Explainer.md                 # Deep-dive physiological guide on HRV, RMSSD & ANS
+├── TECHNICAL_BREAKDOWN.md           # Full technical architecture & design specification
+├── Hackathon_Submission_Package.md  # Comprehensive submission package & judging summary
+├── OscillationTracker.py            # Native Python OpenCV + MediaPipe + BLE Polar H9 pipeline
 ├── polar_h9_test.py                 # Standalone BLE GATT hardware diagnostic tool
-├── validate_clips.py                # Validation script for checking video clip integrity
-├── analyze_results.py               # Statistical oscillation & HRV data analysis script
-├── generate_diagram.py              # Script generating system architecture diagrams
+├── validate_clips.py                # Video clip integrity validation utility
+├── analyze_results.py               # Statistical oscillation & HRV correlation analysis
+├── generate_diagram.py              # Architecture diagram generator
 ├── oscillation_log.csv              # Benchmark trial telemetry dataset
-├── HRV_Explainer.md                 # Deep-dive clinical guide on HRV, RMSSD, and ANS physiology
-├── TECHNICAL_BREAKDOWN.md           # Comprehensive technical architecture & design document
 ├── aws_backend/                     # AWS Serverless Cloud Backend
 │   ├── deploy_infra.py              # 1-Click Boto3 Infrastructure-as-Code deployer
 │   ├── lambda_ingest.py             # Telemetry & S3 clip ingestion Lambda handler
-│   ├── lambda_query.py              # High-speed telemetry retrieval Lambda handler
-│   ├── lambda_bedrock_summary.py    # Amazon Bedrock AI clinical report generator
-│   ├── seed_dynamodb.py             # DynamoDB sample clinical data seeder
-│   └── test_backend.py              # Automated backend test suite for Lambda & Bedrock
+│   ├── lambda_query.py              # High-speed telemetry retrieval & KPI Lambda handler
+│   ├── lambda_bedrock_summary.py    # Amazon Bedrock Claude 3.5 Sonnet clinical note generator
+│   ├── seed_dynamodb.py             # Multi-session clean dataset seeder
+│   └── test_backend.py              # Automated cloud test suite for Lambda & DynamoDB
 ├── frontend/                        # Web Applications (Vanilla JS + CSS Design System)
-│   ├── index.html                   # Platform Landing Page & Gateway
-│   ├── patient.html                 # Patient Clinical Studio (Edge CV + Stress Engine)
+│   ├── index.html                   # Platform Landing Page & Explainer Video Gateway
+│   ├── patient.html                 # Patient Clinical Studio (Edge CV + Stress Protocol)
 │   ├── clinician.html               # Clinician Review Workstation & Verification Triage
 │   ├── serve.py                     # Local development web server (port 8000)
-│   ├── recorded_episodes.json       # Episode metadata and sync cache
 │   ├── css/
 │   │   └── styles.css               # Unified "Doctor Blue" & "Patient Studio" Design System
 │   └── js/
+│       ├── app.js                   # Landing page controller & video interaction
 │       ├── patient_app.js           # Patient studio controller & camera manager
-│       ├── clinician_app.js         # Clinician workstation controller & video triage engine
-│       ├── web_tracker.js           # In-browser MediaPipe Face Mesh & Ring Buffer manager
-│       ├── webm_encoder.js          # Ultra-fast in-browser WebP-to-WebM (VP8) frame stitcher
-│       ├── stress_test_engine.js    # Interactive cognitive stress protocol engine
+│       ├── clinician_app.js         # Clinician workstation controller & triage engine
+│       ├── web_tracker.js           # In-browser MediaPipe Face Mesh & 10s Ring Buffer
+│       ├── webm_encoder.js          # Fast in-browser WebP-to-WebM (VP8) frame stitcher
+│       ├── interactive_eyes.js      # Real-time ocular kinematics & gaze vector visualization
+│       ├── stress_test_engine.js    # Interactive Stroop stress test protocol engine
 │       ├── auth_manager.js          # Authentication state and profile management
 │       ├── api.js                   # AWS API Gateway & Lambda communication client
 │       ├── charts.js                # Chart.js time-series & telemetry visualization
-│       └── sample_data.js           # Multi-patient clinical trial mock dataset
+│       └── sample_data.js           # Multi-patient clinical trial dataset
 └── assets/                          # Architecture diagrams, icons, and media assets
 ```
 
 ---
 
-## ⚡ Quickstart Guide
+## ⚡ Local Setup & Running Guide
 
 ### Prerequisites
 * **Python 3.9+** (Tested on Python 3.10 and 3.11)
 * Modern Web Browser (Google Chrome, Microsoft Edge, or Firefox) with webcam access
-* *(Optional)* AWS Account with permissions for API Gateway, Lambda, DynamoDB, S3, and Bedrock
 * *(Optional)* Polar H9 or H10 Bluetooth Chest Strap for live ECG hardware testing
+* *(Optional)* AWS CLI configured with credentials for deploying serverless backend
 
 ---
 
 ### Step 1: Clone the Repository & Install Dependencies
 
 ```bash
-git clone https://github.com/manan576/Nystagmus-and-Stress-Relation.git
-cd Nystagmus-and-Stress-Relation
+git clone https://github.com/manan576/NeuroTrial-DCT-Platform.git
+cd NeuroTrial-DCT-Platform
 
 # Install Python requirements
 pip install opencv-python mediapipe numpy bleak boto3 botocore
@@ -305,39 +270,39 @@ pip install opencv-python mediapipe numpy bleak boto3 botocore
 
 ---
 
-### Step 2: Launch the Web Application
+### Step 2: Launch the Local Web Application
 
-Start the built-in development web server:
+Start the development web server:
 
 ```bash
 python frontend/serve.py
 ```
 
 Open your browser and navigate to:
-* **Landing Portal**: `http://localhost:8000/index.html`
+* **Landing Page**: `http://localhost:8000/index.html`
 * **Patient Studio**: `http://localhost:8000/patient.html`
-* **Clinician Workstation**: `http://localhost:8000/clinician.html`
+* **Clinician Portal**: `http://localhost:8000/clinician.html`
 
-> 💡 *The web application operates fully in offline/simulation mode with pre-bundled clinical datasets and synthetic stress engines, and can seamlessly connect to live AWS endpoints when deployed.*
+> 💡 *The web application operates seamlessly in offline/simulation mode with pre-bundled datasets and synthetic stress engines, and automatically connects to live AWS endpoints when deployed.*
 
 ---
 
-### Step 3: Deploy AWS Serverless Backend (1-Click IaC)
+### Step 3: Deploy AWS Serverless Backend (Optional)
 
-To deploy the full cloud infrastructure on your AWS account:
+To deploy the cloud infrastructure on your own AWS account:
 
 ```bash
-# Configure AWS CLI credentials if not already done
+# Configure AWS CLI
 aws configure
 
 # 1-Click Provisioning (DynamoDB, S3, IAM Roles, Lambdas, API Gateway)
-python aws_backend/deploy_infra.py --region us-east-1
+python aws_backend/deploy_infra.py --region ap-south-1
 
-# Seed sample multi-patient clinical trial data into DynamoDB
-python aws_backend/seed_dynamodb.py --region us-east-1
+# Seed clean clinical trial multi-session dataset into DynamoDB
+python aws_backend/seed_dynamodb.py --region ap-south-1
 
-# Run automated cloud integration tests
-python aws_backend/test_backend.py --region us-east-1
+# Run automated backend test suite
+python aws_backend/test_backend.py --region ap-south-1
 ```
 
 ---
@@ -347,66 +312,27 @@ python aws_backend/test_backend.py --region us-east-1
 To run the native desktop pipeline with real-time webcam face tracking and Polar H9 BLE heart rate integration:
 
 ```bash
-# Diagnostic scan for Polar H9 BLE sensor
+# Scan for Polar H9 BLE sensor
 python polar_h9_test.py
 
 # Launch integrated OpenCV face tracking + BLE HRV pipeline
 python OscillationTracker.py
 ```
 
-*Press `q` to terminate the pipeline and generate summary logs in `oscillation_log.csv`.*
+*Press `q` to exit the pipeline and review logs in `oscillation_log.csv`.*
 
 ---
 
-## 📊 Autonomic Telemetry & HRV Calculation
+## 🏆 Hackathon Value & Impact Matrix
 
-Heart Rate Variability (HRV) is the definitive non-invasive biomarker of Autonomic Nervous System (ANS) activity. NeuroTrial focuses on **RMSSD (Root Mean Square of Successive Differences)**:
-
-$$\text{RMSSD} = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N-1} (RR_{i+1} - RR_i)^2}$$
-
-### Why RMSSD?
-* **Parasympathetic Specificity**: RMSSD captures high-frequency beat-to-beat variability mediated by the vagus nerve ("rest-and-digest" tone).
-* **Rapid Response**: While Heart Rate (BPM) takes 30–60 seconds to rise, **RMSSD drops instantaneously** upon acute stress onset (sympathetic activation / vagal withdrawal).
-* **Stress Drop Metric**:
-$$\text{Stress Drop \%} = \frac{\text{RMSSD}_{\text{baseline}} - \text{RMSSD}_{\text{incident}}}{\text{RMSSD}_{\text{baseline}}} \times 100\%$$
-
-A significant drop ($\ge 20\%$) coinciding with sudden head/eye oscillations strongly confirms a **stress-triggered neurological exacerbation** rather than random artifact.
-
-*(For full mathematical derivations and clinical literature references, see [`HRV_Explainer.md`](./HRV_Explainer.md)).*
-
----
-
-## 🤖 Amazon Bedrock AI Clinical Copilot
-
-NeuroTrial integrates **Amazon Bedrock (Claude 3.5 Sonnet)** to transform raw numerical telemetry into actionable clinical progress notes. 
-
-### Sample Bedrock Output
-```markdown
-### 1. Executive Autonomic Assessment
-Patient patient_001 exhibits a statistically significant correlation between acute parasympathetic withdrawal and nystagmus exacerbations. Across 44 recorded episodes, verified True Positives demonstrated an average RMSSD drop of -41.2% from resting baseline (p < 0.001), indicating that autonomic stress surges act as a primary trigger for ocular-motor instability.
-
-### 2. Inter-Session & Scenario Comparison
-- Session 1 (Cognitive Stroop Challenge): Marked vagal suppression (RMSSD dropped from 48.2ms to 24.1ms) with rapid 3.7 Hz oscillation bursts.
-- Session 2 (Afternoon Work Fatigue): Higher resting baseline instability with episodic fatigue-induced drop spikes.
-
-### 3. Actionable Clinical Recommendations
-1. Resonant Frequency HRV Biofeedback: Implement 10-minute daily paced breathing exercises (0.1 Hz) to augment resting vagal tone.
-2. Cognitive Pacing & Visual Ergonomics: Introduce structured micro-breaks during high visual-demand tasks to prevent parasympathetic collapse.
-3. Longitudinal Telemetry Follow-Up: Maintain decentralized monitoring to assess therapeutic efficacy of ongoing autonomic stabilization.
-```
-
----
-
-## 🏆 Hackathon Value & Impact
-
-| Metric | Traditional In-Clinic Trials | NeuroTrial (Decentralized + AWS) |
-|---|---|---|
+| Metric | Traditional Clinical Trials | NeuroTrial (Decentralized + AWS) |
+| :--- | :--- | :--- |
 | **Monitoring Setting** | Artificial hospital visits (1x/month) | Continuous, natural home environment |
-| **Data Fidelity** | Single-snapshot subjective observation | Millisecond-precision Edge CV + ECG HRV |
-| **Video Bandwidth & Storage** | Continuous 24/7 video streaming (~50 GB/day) | **Smart 10s Rolling Buffer (~5 MB/day)** |
-| **Data Privacy** | Full facial video stored in cloud | Zero raw video on cloud; only verified 10s clips |
-| **Clinician Efficiency** | Manual review of hours of footage | **Automated AI triage + Bedrock Copilot** |
-| **Infrastructure Cost** | Dedicated server farms ($$$$) | **AWS Serverless Pay-Per-Request (< $0.05/trial)** |
+| **Data Fidelity** | Subjective clinician observation | Millisecond-precision Edge CV + ECG RMSSD |
+| **Video Bandwidth & Storage** | Continuous 24/7 video streaming ($\sim 50\text{ GB/day}$) | **Smart 10s Ring Buffer ($\sim 5\text{ MB/day}$)** |
+| **Data Privacy** | Raw facial video stored in cloud | **Zero raw video in cloud; only verified 10s anomaly clips** |
+| **Clinician Efficiency** | Manual review of hours of footage | **1-Click Triage + Amazon Bedrock AI Copilot** |
+| **Infrastructure Cost** | Dedicated server farms ($$$$) | **AWS Serverless Pay-Per-Request ($< \$0.05/\text{trial}$)** |
 
 ---
 
@@ -414,9 +340,9 @@ Patient patient_001 exhibits a statistically significant correlation between acu
 
 * **Author**: Manan Bhate ([@manan576](https://github.com/manan576))
 * **Event**: **Bharat Builds AWS Hackathon**
-* **Inspirations & Libraries**: MediaPipe, OpenCV, Amazon Web Services, Anthropic, Chart.js, Bleak.
+* **Technologies**: Amazon Web Services, Amazon Bedrock, MediaPipe, OpenCV, Chart.js, Bleak.
 
 ---
 
 ## 📄 License
-This project is open-source and licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for details.
+This project is open-source under the **MIT License**. See the [LICENSE](./LICENSE) file for details.
