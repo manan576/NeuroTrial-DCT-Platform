@@ -11,14 +11,14 @@
 
 ---
 
-## 🚀 Live Deployed Application (AWS Mumbai `ap-south-1`)
+## 🚀 Live Deployed Application (AWS Mumbai `ap-south-1` • 100% Secure HTTPS)
 
-| Portal / Service | Live URL | Purpose |
+| Portal / Service | Primary HTTPS URL (CloudFront CDN) | Mirror HTTPS URL (AWS Amplify) |
 | :--- | :--- | :--- |
-| 🏥 **Clinician Verification Portal** | **[Launch Clinician Portal](http://neurotrial-web-654822778564.s3-website.ap-south-1.amazonaws.com/clinician.html)** | 3-Session longitudinal graphs, S3 video evidence review, True/False Positive adjudication, Bedrock AI summary. |
-| 🧑‍⚕️ **Patient Telemetry Studio** | **[Launch Patient Portal](http://neurotrial-web-654822778564.s3-website.ap-south-1.amazonaws.com/patient.html)** | 4-step CareFlow pipeline: Polar H9 BLE pairing, face tracking, resting baseline calibration, and 60s Stroop challenge. |
-| 🌐 **Platform Landing Page** | **[Launch Landing Page](http://neurotrial-web-654822778564.s3-website.ap-south-1.amazonaws.com/index.html)** | Overview of architecture, clinical study methodology, and research background. |
-| ⚡ **AWS API Gateway Endpoint** | `https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com` | Live HTTP REST API backed by AWS Lambda, DynamoDB, and Amazon Bedrock. |
+| 🧑‍⚕️ **Patient Telemetry Studio** | **[Launch Patient Portal](https://d3sigeid8sbgs9.cloudfront.net/patient.html)** | **[Amplify Mirror](https://main.dfms9o6dmkyla.amplifyapp.com/patient.html)** |
+| 🏥 **Clinician Verification Portal** | **[Launch Clinician Portal](https://d3sigeid8sbgs9.cloudfront.net/clinician.html)** | **[Amplify Mirror](https://main.dfms9o6dmkyla.amplifyapp.com/clinician.html)** |
+| 🌐 **Platform Landing Page** | **[Launch Landing Page](https://d3sigeid8sbgs9.cloudfront.net/index.html)** | **[Amplify Mirror](https://main.dfms9o6dmkyla.amplifyapp.com/index.html)** |
+| ⚡ **AWS API Gateway Endpoint** | `https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com` | — |
 
 ---
 
