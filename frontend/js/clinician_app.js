@@ -950,7 +950,7 @@ const ClinicianApp = {
     if (sessions.length === 0) {
       sessions = [{
         session_id: "sess_001_01",
-        session_name: "Session 1 — Baseline & Workday Stress",
+        session_name: "Session 1: Stroop Test",
         calibrated_baseline_rmssd: 44.5,
         date_str: "Sept 8, 2026",
         oscillations: []

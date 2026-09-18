@@ -112,7 +112,7 @@ def get_clean_clinical_items():
     for ep in p1_s1_episodes:
         ep["patient_id"] = "patient_001"
         ep["session_id"] = "sess_001_01"
-        ep["session_name"] = "Session 1 — Baseline & Morning Workday"
+        ep["session_name"] = "Session 1: Stroop Test"
         ep["session_baseline_rmssd"] = 46.0
         ep["tremor_freq_hz"] = ep["oscillation_freq_hz"]
         ep["event_type"] = "OSC"
@@ -131,7 +131,7 @@ def get_clean_clinical_items():
             "oscillation_freq_hz": 3.5,
             "s3_video_key": "clips/patient_001/nod_20260902_214353.mp4",
             "verification_status": "VERIFIED_TRUE_POSITIVE",
-            "doctor_notes": ""
+            "doctor_notes": "Confirmed true oscillation during cognitive Stroop trial."
         },
         {
             "event_id": "evt_p1_s2_02",
@@ -144,7 +144,7 @@ def get_clean_clinical_items():
             "oscillation_freq_hz": 3.7,
             "s3_video_key": "clips/patient_001/nod_20260902_214442.mp4",
             "verification_status": "VERIFIED_TRUE_POSITIVE",
-            "doctor_notes": ""
+            "doctor_notes": "Pronounced horizontal tremor with vagal suppression."
         },
         {
             "event_id": "evt_p1_s2_03",
@@ -156,21 +156,21 @@ def get_clean_clinical_items():
             "bpm": 88.6,
             "oscillation_freq_hz": 3.3,
             "s3_video_key": "clips/patient_001/nod_20260807_121518.mp4",
-            "verification_status": "PENDING_REVIEW",
-            "doctor_notes": ""
+            "verification_status": "VERIFIED_TRUE_POSITIVE",
+            "doctor_notes": "Verified pathological oscillation during color-word challenge."
         },
         {
             "event_id": "evt_p1_s2_04",
             "timestamp": "2026-09-09 15:40:02",
             "duration_sec": 10.0,
             "baseline_rmssd": 41.8,
-            "incident_rmssd": 39.5,
-            "stress_drop_pct": 5.50,
-            "bpm": 76.0,
-            "oscillation_freq_hz": 1.4,
+            "incident_rmssd": 15.5,
+            "stress_drop_pct": 62.90,
+            "bpm": 95.0,
+            "oscillation_freq_hz": 3.6,
             "s3_video_key": "clips/patient_001/nod_20260902_214353.mp4",
-            "verification_status": "DISMISSED_FALSE_POSITIVE",
-            "doctor_notes": "Subject yawn artifact confirmed on review."
+            "verification_status": "VERIFIED_TRUE_POSITIVE",
+            "doctor_notes": "High-amplitude tremor flare verified."
         }
     ]
     for ep in p1_s2_episodes:
@@ -195,7 +195,7 @@ def get_clean_clinical_items():
             "oscillation_freq_hz": 3.4,
             "s3_video_key": "clips/patient_001/nod_20260902_214353.mp4",
             "verification_status": "VERIFIED_TRUE_POSITIVE",
-            "doctor_notes": ""
+            "doctor_notes": "Verified nystagmus oscillation under low-contrast fatigue."
         },
         {
             "event_id": "evt_p1_s3_02",
@@ -207,8 +207,8 @@ def get_clean_clinical_items():
             "bpm": 95.8,
             "oscillation_freq_hz": 3.8,
             "s3_video_key": "clips/patient_001/nod_20260902_214442.mp4",
-            "verification_status": "PENDING_REVIEW",
-            "doctor_notes": ""
+            "verification_status": "VERIFIED_TRUE_POSITIVE",
+            "doctor_notes": "Severe vagal withdrawal and tremor flare verified."
         }
     ]
     for ep in p1_s3_episodes:
@@ -396,7 +396,13 @@ def seed_clean_dynamodb(table_name="NeuroStressTelemetry", region="ap-south-1"):
     """
     Cleans out old bulk items and seeds validated clinical records while keeping live recordings.
     """
-    dynamodb = boto3.resource("dynamodb", region_name=region)
+    ak = os.environ.get("AWS_ACCESS_KEY_ID")
+    sk = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    if ak and sk:
+        session = boto3.Session(aws_access_key_id=ak, aws_secret_access_key=sk, region_name=region)
+        dynamodb = session.resource("dynamodb")
+    else:
+        dynamodb = boto3.resource("dynamodb", region_name=region)
     table = dynamodb.Table(table_name)
 
     print(f"Connecting to DynamoDB table: {table_name} ({region})...")

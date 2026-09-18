@@ -18,7 +18,7 @@ const INITIAL_PATIENTS_DATA = [
     sessions: [
       {
         session_id: "sess_001_01",
-        session_name: "Session 1 — Baseline & Morning Workday",
+        session_name: "Session 1: Stroop Test",
         status: "COMPLETED",
         date_str: "Sept 8, 2026 • 10:00 AM",
         calibrated_baseline_rmssd: 46.0,
@@ -49,7 +49,7 @@ const INITIAL_PATIENTS_DATA = [
             video_filename: "nod_20260908_102845.mp4",
             video_url: "validation_videos/nod_20260902_214442.mp4",
             verification_status: "VERIFIED_TRUE_POSITIVE",
-            doctor_notes: "High-amplitude oscillation flare coincided with 62% vagal RMSSD collapse."
+            doctor_notes: "High-amplitude oscillation flare coincided with 63% vagal RMSSD collapse."
           },
           {
             event_id: "evt_p1_s1_03",
@@ -57,7 +57,7 @@ const INITIAL_PATIENTS_DATA = [
             full_timestamp: "2026-09-08 10:45:10",
             duration_sec: 10.0,
             incident_rmssd: 41.2,
-            stress_drop_pct: 7.4,
+            stress_drop_pct: 10.4,
             bpm: 78.5,
             video_filename: "nod_20260908_104510.mp4",
             video_url: "validation_videos/nod_20260807_121518.mp4",
@@ -70,7 +70,7 @@ const INITIAL_PATIENTS_DATA = [
             full_timestamp: "2026-09-08 11:02:30",
             duration_sec: 10.0,
             incident_rmssd: 19.4,
-            stress_drop_pct: 56.4,
+            stress_drop_pct: 57.8,
             bpm: 89.2,
             video_filename: "nod_20260908_110230.mp4",
             video_url: "validation_videos/nod_20260902_214353.mp4",
@@ -125,7 +125,7 @@ const INITIAL_PATIENTS_DATA = [
             video_filename: "nod_20260909_144215.mp4",
             video_url: "validation_videos/nod_20260902_214353.mp4",
             verification_status: "VERIFIED_TRUE_POSITIVE",
-            doctor_notes: ""
+            doctor_notes: "Confirmed true oscillation during cognitive Stroop trial."
           },
           {
             event_id: "evt_p1_s2_02",
@@ -138,7 +138,7 @@ const INITIAL_PATIENTS_DATA = [
             video_filename: "nod_20260909_150540.mp4",
             video_url: "validation_videos/nod_20260902_214442.mp4",
             verification_status: "VERIFIED_TRUE_POSITIVE",
-            doctor_notes: ""
+            doctor_notes: "Pronounced horizontal tremor with vagal suppression."
           },
           {
             event_id: "evt_p1_s2_03",
@@ -150,21 +150,21 @@ const INITIAL_PATIENTS_DATA = [
             bpm: 88.6,
             video_filename: "nod_20260909_152211.mp4",
             video_url: "validation_videos/nod_20260807_121518.mp4",
-            verification_status: "PENDING_REVIEW",
-            doctor_notes: ""
+            verification_status: "VERIFIED_TRUE_POSITIVE",
+            doctor_notes: "Verified pathological oscillation during color-word challenge."
           },
           {
             event_id: "evt_p1_s2_04",
             timestamp: "15:40:02",
             full_timestamp: "2026-09-09 15:40:02",
             duration_sec: 10.0,
-            incident_rmssd: 39.5,
-            stress_drop_pct: 5.5,
-            bpm: 76.0,
+            incident_rmssd: 15.5,
+            stress_drop_pct: 62.9,
+            bpm: 95.0,
             video_filename: "nod_20260909_154002.mp4",
             video_url: "validation_videos/nod_20260902_214353.mp4",
-            verification_status: "DISMISSED_FALSE_POSITIVE",
-            doctor_notes: "Subject yawn artifact confirmed on review."
+            verification_status: "VERIFIED_TRUE_POSITIVE",
+            doctor_notes: "High-amplitude tremor flare verified."
           }
         ]
       },
@@ -188,7 +188,7 @@ const INITIAL_PATIENTS_DATA = [
             video_filename: "nod_20260910_161530.mp4",
             video_url: "validation_videos/nod_20260902_214353.mp4",
             verification_status: "VERIFIED_TRUE_POSITIVE",
-            doctor_notes: ""
+            doctor_notes: "Verified nystagmus oscillation under low-contrast fatigue."
           },
           {
             event_id: "evt_p1_s3_02",
@@ -200,8 +200,8 @@ const INITIAL_PATIENTS_DATA = [
             bpm: 95.8,
             video_filename: "nod_20260910_163512.mp4",
             video_url: "validation_videos/nod_20260902_214442.mp4",
-            verification_status: "PENDING_REVIEW",
-            doctor_notes: ""
+            verification_status: "VERIFIED_TRUE_POSITIVE",
+            doctor_notes: "Severe vagal withdrawal and tremor flare verified."
           }
         ]
       }
