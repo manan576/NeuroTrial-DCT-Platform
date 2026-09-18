@@ -5443,6 +5443,267 @@ body.careflow-home-body {
   }
 
   /* ==========================================================================
+   HERO VIDEO & PORTAL ACTION PILLS
+   ========================================================================== */
+  .btn-hero-video-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #143324;
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(20, 51, 36, 0.25);
+  }
+
+  .btn-hero-video-pill:hover {
+    background: #508A64;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(80, 138, 100, 0.35);
+  }
+
+  .btn-hero-portal-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #EBF3ED;
+    color: #2F5C3D;
+    border: 1px solid #C4DFC8;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-hero-portal-pill:hover {
+    background: #FFFFFF;
+    border-color: #508A64;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(80, 138, 100, 0.15);
+  }
+
+  .btn-hero-portal-pill.clinician {
+    background: #EAF2F8;
+    color: #255275;
+    border-color: #BCD6EA;
+  }
+
+  .btn-hero-portal-pill.clinician:hover {
+    background: #FFFFFF;
+    border-color: #3B729F;
+    box-shadow: 0 4px 12px rgba(59, 114, 159, 0.15);
+  }
+
+  .btn-nav-sage-pill.outline {
+    background: transparent;
+    border: 1px solid #C4DFC8;
+    color: #2F5C3D;
+  }
+
+  .btn-nav-sage-pill.outline:hover {
+    background: #EBF3ED;
+    border-color: #508A64;
+    color: #143324;
+  }
+
+  /* ==========================================================================
+   EXPLAINER VIDEO SHOWCASE SECTION
+   ========================================================================== */
+  .organic-video-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 10px;
+    border-top: 1px solid #EFEAE1;
+    scroll-margin-top: 24px;
+  }
+
+  .video-showcase-wrapper {
+    max-width: 1080px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+  }
+
+  .video-showcase-card {
+    background: #FAF7F2;
+    border: 1.5px solid #E5DDCF;
+    border-radius: 28px;
+    padding: 24px;
+    box-shadow: 0 16px 48px rgba(44, 62, 50, 0.08), 0 2px 10px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .video-showcase-card:hover {
+    border-color: #508A64;
+    box-shadow: 0 24px 60px rgba(80, 138, 100, 0.12);
+  }
+
+  .video-showcase-titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 2px 4px;
+  }
+
+  .video-titlebar-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #143324;
+    background: #EBF3ED;
+    border: 1px solid #C4DFC8;
+    padding: 5px 14px;
+    border-radius: 9999px;
+  }
+
+  .video-dot-live {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #508A64;
+    box-shadow: 0 0 0 3px rgba(80, 138, 100, 0.25);
+    animation: livePulse 2s infinite ease-in-out;
+  }
+
+  @keyframes livePulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 0.75;
+    }
+  }
+
+  .video-titlebar-info {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6C7A72;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .video-yt-link {
+    color: #0284c7;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .video-yt-link:hover {
+    color: #0369a1;
+    text-decoration: underline;
+  }
+
+  .video-iframe-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #0B1711;
+    box-shadow: 0 10px 32px rgba(20, 51, 36, 0.18);
+    border: 1px solid #D8CFBF;
+  }
+
+  .video-iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .video-highlights-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 4px;
+    padding-top: 16px;
+    border-top: 1px dashed #D8CFBF;
+  }
+
+  @media (max-width: 900px) {
+    .video-highlights-bar {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .video-highlights-bar {
+      grid-template-columns: 1fr;
+    }
+    .video-showcase-card {
+      padding: 16px;
+      border-radius: 20px;
+    }
+  }
+
+  .video-highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFFFFF;
+    border: 1px solid #E5DDCF;
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .video-highlight-item:hover {
+    transform: translateY(-2px);
+    border-color: #508A64;
+  }
+
+  .highlight-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .highlight-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .highlight-text strong {
+    font-size: 0.77rem;
+    font-weight: 700;
+    color: #1C2520;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .highlight-text span {
+    font-size: 0.69rem;
+    color: #6C7A72;
+    line-height: 1.2;
+  }
+
+  /* ==========================================================================
    PORTAL GATEWAY LAUNCH SECTION (PATIENT & CLINICIAN CARDS)
    ========================================================================== */
   .organic-portals-section {

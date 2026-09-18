@@ -47,6 +47,9 @@
 
       <!-- Right: Portal Quick Navigation Links (Sage Green & Doctor Blue Pills) -->
       <div class="careflow-home-nav-actions">
+        <a href="#explainer-video-section" class="btn-nav-sage-pill outline" id="nav-btn-video" title="Watch Explainer Video">
+          <span>▶ Watch Video</span>
+        </a>
         <a href="patient.html" class="btn-nav-sage-pill solid" id="nav-btn-patient" title="Open Patient Portal">
           <span>Patient Portal</span>
           <span>↗</span>
@@ -78,6 +81,19 @@
           We are taking the <strong>first steps towards scientifically quantifying that acute stress and head nodding/oscillations in nystagmus have a direct, measurable relationship</strong>. 
           By combining real-time heart rate variability (HRV) with sub-millimeter computer vision, we are opening the door to <strong>decentralized clinical trials</strong>—enabling patients to participate in clinical studies accurately, comfortably, and remotely from their own homes without expensive hospital hardware.
         </p>
+
+        <div class="hero-quick-actions" style="display:flex; align-items:center; gap:12px; margin-top:16px; flex-wrap:wrap;">
+          <a href="#explainer-video-section" class="btn-hero-video-pill">
+            <span style="font-size:0.9rem;">▶</span>
+            <span>Watch Explainer Video</span>
+          </a>
+          <a href="patient.html" class="btn-hero-portal-pill">
+            <span>Patient Studio →</span>
+          </a>
+          <a href="clinician.html" class="btn-hero-portal-pill clinician">
+            <span>Clinician Triage →</span>
+          </a>
+        </div>
       </div>
 
       <!-- Right Column: Dashed Organic Container with Big Interactive Animated Eyes -->
@@ -263,6 +279,82 @@
             <div class="leaf-card-stat">
               <span>Verified Precision</span>
               <strong>88.9% True Positive Rate</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         EXPLAINER VIDEO & PLATFORM WALKTHROUGH SHOWCASE
+         ====================================================================== -->
+    <section class="organic-video-section" id="explainer-video-section">
+      <div class="leaf-section-header">
+        <span class="leaf-section-tag">Platform Presentation & Scientific Walkthrough</span>
+        <h3 class="leaf-section-title">Watch the NeuroTrial Explainer</h3>
+        <p class="leaf-section-subtitle">
+          A comprehensive demonstration of the physiological link between autonomic stress surges, vagal withdrawal, and involuntary nystagmus head nodding in decentralized clinical trials.
+        </p>
+      </div>
+
+      <div class="video-showcase-wrapper">
+        <div class="video-showcase-card">
+          <div class="video-showcase-titlebar">
+            <div class="video-titlebar-badge">
+              <span class="video-dot-live"></span>
+              <span>NeuroTrial Architecture & Scientific Walkthrough</span>
+            </div>
+            <div class="video-titlebar-info">
+              <span>HD Video • In-Browser Playback</span>
+              <span>•</span>
+              <a href="https://www.youtube.com/watch?v=0W904keGQXI" target="_blank" rel="noopener noreferrer" class="video-yt-link" title="Open on YouTube in new tab">
+                Open in YouTube ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- Responsive 16:9 YouTube Embed Container -->
+          <div class="video-iframe-container">
+            <iframe 
+              src="https://www.youtube-nocookie.com/embed/0W904keGQXI?rel=0&modestbranding=1" 
+              title="NeuroTrial DCT Platform Explainer Video" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <!-- Video Key Pillar Highlights Bar -->
+          <div class="video-highlights-bar">
+            <div class="video-highlight-item">
+              <span class="highlight-icon">💓</span>
+              <div class="highlight-text">
+                <strong>Autonomic Stress Biomarkers</strong>
+                <span>Continuous RMSSD drop detection</span>
+              </div>
+            </div>
+            <div class="video-highlight-item">
+              <span class="highlight-icon">👁️</span>
+              <div class="highlight-text">
+                <strong>Computer Vision Mesh</strong>
+                <span>Sub-millimeter head oscillation tracking</span>
+              </div>
+            </div>
+            <div class="video-highlight-item">
+              <span class="highlight-icon">🩺</span>
+              <div class="highlight-text">
+                <strong>Doctor Adjudication</strong>
+                <span>10s Slow-Mo video review & EMR note</span>
+              </div>
+            </div>
+            <div class="video-highlight-item">
+              <span class="highlight-icon">☁️</span>
+              <div class="highlight-text">
+                <strong>Serverless AWS Stack</strong>
+                <span>DynamoDB, S3 Vault & Bedrock AI</span>
+              </div>
             </div>
           </div>
 
