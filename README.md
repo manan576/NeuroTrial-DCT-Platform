@@ -23,40 +23,44 @@
 
 ---
 
-## 🌟 Why NeuroTrial Was Made & What It Aims To Do
+## 🌟 About NeuroTrial & Problem Statement
 
-### 1. The Clinical Problem
-* **Pathological Nystagmus** (congenital infantile or acquired from vestibular neuritis, multiple sclerosis, cerebellar ataxia, stroke, or traumatic brain injury) causes involuntary, rhythmic eye and compensatory head oscillations.
-* Neurologists and clinical trial investigators have long observed that **acute sympathetic stress and cognitive load dramatically exacerbate oscillation severity**, degrading patient visual acuity and functional independence.
-* **The Traditional Bottleneck**: Conventional clinical evaluations require patients to travel to specialized medical centers for infrequent, isolated snapshot visits. These snapshot tests:
-  - Fail to capture real-world diurnal fluctuations in daily life.
-  - Suffer from **"white-coat syndrome"** (artificial anxiety that elevates resting stress levels and distorts baseline measurements).
-  - Lack objective, continuous quantification of the physiological relationship between autonomic stress and tremor flares.
+My name is **Manan (Team Leader)**, and I live with **Infantile Nystagmus**, a neurological condition that causes my eyes and head to oscillate involuntarily.
 
-### 2. The Remote Monitoring Dilemma
-* Continuous 24/7 video streaming of a patient's face from home creates **severe HIPAA/DPDP privacy violations**, astronomical cloud storage costs, and prohibitive network bandwidth consumption ($\sim 50\text{ GB/day/patient}$).
-* Raw video alone without autonomic physiological telemetry leaves doctors unable to determine whether an oscillation was caused by an acute stress surge or a harmless physical movement.
+For years, doctors suspected that these head oscillations were triggered by stress, but **no study had ever objectively proven this link**. 
 
-### 3. What NeuroTrial Aims To Do
-**NeuroTrial** establishes the first real-time, privacy-preserving digital biomarker pipeline that links **involuntary head/eye oscillations** with **acute autonomic stress** (measured via parasympathetic vagal withdrawal / RMSSD collapse):
+I built **NeuroTrial** to solve this and tested the entire pipeline on myself. By synchronizing real-time webcam tracking with an ECG heart rate sensor during stress challenges, **we captured the first-ever quantified proof that involuntary head oscillations in nystagmus are directly triggered by increase in stress (a sharp drop in parasympathetic HRV/RMSSD).**
 
-1. **Zero-Trust Edge Computer Vision**: Runs MediaPipe Face Mesh sub-pixel landmark tracking entirely **inside the client browser or local device**. No raw video is streamed to the cloud during normal monitoring.
-2. **Event-Triggered 10-Second Rolling Circular Ring-Buffer**: Keeps the last 5.0 seconds of video volatile in local RAM. Only when an oscillation anomaly exceeds validated frequency and amplitude thresholds does the system record 5.0 seconds post-trigger footage, assemble a **10.0-second encrypted clip** ($5\text{s pre} + 5\text{s post}$), and upload it to an encrypted Amazon S3 vault.
-3. **Calibrated Baseline vs. Incident RMSSD Telemetry**: Establishes a 5-minute quiet resting baseline vagal tone ($\text{RMSSD}_{\text{base}}$). During an oscillation flare, it calculates the 60-second incident window $\text{RMSSD}_{\text{incident}}$ to determine the exact **autonomic stress drop percentage**.
-4. **Human-in-the-Loop Clinician Verification**: Provides neurologists with a 1-click video triage workstation to verify True Positives (TP) vs. Dismiss False Positives (FP), dynamically plotting verified data onto multi-session correlation graphs.
-5. **Amazon Bedrock AI Neurological Copilot**: Employs Anthropic Claude 3.5 Sonnet on Amazon Bedrock to automatically synthesize longitudinal telemetry into EMR-ready SOAP progress notes.
+To turn this personal discovery into a worldwide study, we built NeuroTrial as a **decentralized clinical trial platform** where patients and hospitals globally can participate directly from home.
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   NEUROTRIAL PLATFORM                                  │
-├──────────────────────────────┬────────────────────────────┬────────────────────────────┤
-│   Patient Studio (Edge CV)   │ Clinician Workstation (UI) │   AWS Cloud Intelligence   │
-│  - MediaPipe 60 FPS Tracking │  - Equal-Height 3-Col View │  - API Gateway + Lambda    │
-│  - 10s Ring Buffer Capture   │  - Video Verification Queue│  - DynamoDB Telemetry Store│
-│  - In-Browser WebM Stitcher  │  - 3 Multi-Session Graphs  │  - Amazon S3 Encrypted Clip│
-│  - BLE Polar H9 HRV Engine   │  - Bedrock AI SOAP Notes   │  - Amazon Bedrock (Claude) │
-└──────────────────────────────┴────────────────────────────┴────────────────────────────┘
-```
+---
+
+### ❓ What Problem Does It Solve?
+* **Siloed Research & Lack of Collaboration**: Rare neurological movement and patient data is currently trapped in isolated hospitals with no unified way to pool patient cohorts across borders.
+* **Artificial Hospital Testing**: Whenever clinical testing is done inside a hospital, the patient always remains in stress due to "white-coat syndrome". Through NeuroTrial, patients can participate naturally from home.
+* **Missing Clinical Tool**: Doctors lacked an objective tool to link physical movement flares to physiological stress surges in disorders like Nystagmus and Parkinson's.
+
+---
+
+### ⚙️ How Does It Work?
+1. **In-Browser Motion Tracking**: Tracks facial and eye oscillations in real-time using client-side MediaPipe.
+2. **10-Second Incident Ring Buffer**: Stores a rolling memory buffer, saving only a short 10-second clip (5s before + 5s after) to Amazon S3 when an oscillation is detected.
+3. **Autonomic Stress Drop Math**: Connects to a Bluetooth ECG chest strap to measure baseline Heart Rate Variability (RMSSD) and calculate the percentage drop in stress during an episode.
+4. **Clinician Verification Portal**: Neurologists review queued 10-second clips with 1-click verification on multi-session trend graphs.
+5. **Amazon Bedrock AI Progress Notes**: Uses Claude 3.5 Sonnet on AWS to automatically generate structured clinical progress notes from multi-session trial data.
+
+---
+
+### 👥 Who Is It For?
+* **Patients Worldwide**: Can easily participate in clinical research from their living room using just a web browser and an ECG sensor.
+* **Multiple Hospitals & Global Research Units**: Allows medical institutions worldwide to collaborate on a single unified platform, pooling standardized patient cohorts and cross-validating clinical trials globally.
+* **Hospitals & Neurologists**: Remotely track, verify, and analyze movement episodes with zero travel burden.
+* **Clinical Trials (DCTs)**: Enables pharmaceutical companies to test neurological treatments at a fraction of traditional trial costs.
+
+---
+
+### 🔮 Future Extensibility
+While built and proven for Nystagmus, the exact same system can easily scale to **Parkinson’s tremors, Essential Tremor, Multiple Sclerosis, and Ataxia** worldwide.
 
 ---
 
