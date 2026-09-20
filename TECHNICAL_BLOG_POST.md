@@ -16,10 +16,11 @@ My name is **Manan**, and I live with **Infantile Nystagmus**—a neurological c
 
 For years, neurologists suspected that these head oscillations were triggered by stress, but **no scientific research or clinical study had ever objectively proven this link**. 
 
-Traditional clinical research faced three major roadblocks:
-1. **"White-Coat Syndrome"**: Infrequent hospital visits induce artificial anxiety, distorting natural baseline stress levels.
-2. **Privacy Violations**: Streaming continuous 24/7 video from a patient's home violates basic privacy (**HIPAA / DPDP**) and generates massive bandwidth costs (~50 GB/day per patient).
-3. **Missing Biomarker Correlation**: Doctors lacked a tool to synchronize physical movement flares with real-time autonomic nervous system (ANS) stress metrics.
+Traditional clinical research faced critical roadblocks:
+* **Siloed Research & Lack of Collaboration**: Rare neurological movement and patient data is currently trapped in isolated hospitals with no unified way to pool patient cohorts across borders. NeuroTrial provides a single, shared global platform where research centers and neurologists worldwide can collaborate, pool standardized data, and run multi-center decentralized trials.
+* **Missing Tool**: Doctors lacked a tool to objectively link physical movement flares to physiological stress surges in disorders like Nystagmus and Parkinson's.
+* **No White Coat Syndrome**: The hospital environment itself induces artificial anxiety which distorts natural resting baselines. NeuroTrial can be used at home or any place where the patient is comfortable.
+* **High Patient Travel Burden & Trial Dropout Rates**: NeuroTrial allows patients to participate directly from their living room using just a browser and a sensor at a fraction of traditional trial costs.
 
 I built **NeuroTrial** to solve this and tested the entire pipeline on myself. By synchronizing real-time in-browser computer vision with beat-to-beat ECG heart rate variability (HRV) telemetry, **we captured the world’s first quantified proof that involuntary head oscillations in nystagmus are directly triggered by acute autonomic stress (a sharp drop in parasympathetic RMSSD vagal tone).**
 
