@@ -8,7 +8,7 @@
 
 ---
 
-## The Personal Story & The Unsolved Clinical Mystery
+## Why I Built It
 
 My name is **Manan**, and I live with **Infantile Nystagmus**—a neurological condition that causes my eyes to oscillate involuntarily, and during stressful moments, my head starts nodding too.
 
