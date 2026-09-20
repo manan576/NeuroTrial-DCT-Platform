@@ -8,7 +8,7 @@
 
 ---
 
-## 1. The Personal Story & The Unsolved Clinical Mystery
+## The Personal Story & The Unsolved Clinical Mystery
 
 My name is **Manan**, and I live with **Infantile Nystagmus**—a neurological condition that causes my eyes to oscillate involuntarily, and during stressful moments, my head starts nodding too.
 
@@ -27,7 +27,7 @@ To turn this personal discovery into a worldwide medical platform, we built Neur
 
 ---
 
-## 2. What Problem Does NeuroTrial Solve?
+## What Problem Does NeuroTrial Solve?
 
 * **Eliminates Hospital Anxiety**: Patients participate from their living rooms, capturing true real-world daily telemetry rather than artificial hospital snapshot data.
 * **Zero-Trust Privacy-by-Design**: Raw video stays in local device RAM. Only when an oscillation flare occurs is a short **10-second encrypted clip** saved to the cloud.
@@ -36,7 +36,7 @@ To turn this personal discovery into a worldwide medical platform, we built Neur
 
 ---
 
-## 3. End-to-End System Architecture
+## End-to-End System Architecture
 
 NeuroTrial unites client-side edge computer vision, Web Bluetooth ECG hardware, and a **100% serverless AWS backend** in `ap-south-1` (Mumbai).
 
@@ -52,7 +52,7 @@ NeuroTrial unites client-side edge computer vision, Web Bluetooth ECG hardware, 
 
 ---
 
-## 4. Deep Dive: In-Browser Patient Studio (Edge Processing)
+## In-Browser Patient Studio (Edge Processing)
 
 The Patient Studio (`patient.html`) runs directly inside any web browser with **zero installation required**.
 
@@ -86,7 +86,7 @@ A drop $\ge 25\%$ confirms a **stress-triggered neurological exacerbation** rath
 
 ---
 
-## 5. Deep Dive: Clinician Review Workstation
+## Clinician Review Workstation
 
 The Clinician Workstation (`clinician.html`) provides doctors with an optimized, low-latency review interface built on a strict **equal-height 3-column workstation layout**.
 
@@ -100,7 +100,7 @@ The Clinician Workstation (`clinician.html`) provides doctors with an optimized,
 
 ---
 
-## 6. Empirical Findings: The First Quantified Proof
+## Empirical Findings: The First Quantified Proof
 
 During standardized testing on myself across cognitive stress challenges, NeuroTrial captured conclusive empirical proof that head oscillations in nystagmus are directly triggered by acute autonomic stress.
 
@@ -113,7 +113,7 @@ During standardized testing on myself across cognitive stress challenges, NeuroT
 
 ---
 
-## 7. AWS Proof of Usage (Technical Role of Each Service)
+## AWS Proof of Usage (Technical Role of Each Service)
 
 NeuroTrial runs on a 100% serverless AWS architecture deployed in `ap-south-1` (Mumbai):
 
@@ -135,7 +135,7 @@ NeuroTrial runs on a 100% serverless AWS architecture deployed in `ap-south-1` (
 
 ---
 
-## 8. Mandatory Disclosures & Open-Source Attributions
+## Mandatory Disclosures & Open-Source Attributions
 
 ### A. Disclosure of AI Tools Used
 * **Google Antigravity IDE**: Used as an agentic AI coding assistant for architecture planning, script automation, and debugging.
@@ -151,7 +151,7 @@ NeuroTrial runs on a 100% serverless AWS architecture deployed in `ap-south-1` (
 
 ---
 
-## 9. Future Extensibility & Global Vision
+## Future Extensibility & Global Vision
 
 1. **At-Home Clinical Drug Trials**: Pharmaceutical companies can remotely evaluate whether new Nystagmus medications reduce the frequency, amplitude, and stress-triggered severity of oscillations in daily life.
 2. **Scaling to Other Movement Disorders**: Readily expands to evaluate **Parkinson’s resting tremors, Essential Tremor, Multiple Sclerosis, and Ataxia** worldwide.
@@ -159,7 +159,7 @@ NeuroTrial runs on a 100% serverless AWS architecture deployed in `ap-south-1` (
 
 ---
 
-## 10. Conclusion
+## Conclusion
 
 **NeuroTrial** began with a deeply personal question: *Why does my head nod under stress?*
 
