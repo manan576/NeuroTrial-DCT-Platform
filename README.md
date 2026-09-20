@@ -9,6 +9,8 @@
 [![YouTube Video](https://img.shields.io/badge/Explainer%20Video-YouTube-FF0000.svg?logo=youtube)](https://www.youtube.com/watch?v=A8TrkLvEE-U)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
+> 📖 **Developer & Code Documentation**: For detailed architectural specifications, data schemas, buffer algorithms, and function-by-function breakdowns, please refer to [**`TECHNICAL_BREAKDOWN.md`**](./TECHNICAL_BREAKDOWN.md) and [**`HRV_Explainer.md`**](./HRV_Explainer.md).
+
 ---
 
 ## 🚀 Live Deployed Application (100% HTTPS • AWS Amplify)
