@@ -6,7 +6,7 @@
 [![AWS Region](https://img.shields.io/badge/AWS%20Region-ap--south--1%20(Mumbai)-blue.svg?logo=amazon-aws)](https://aws.amazon.com/)
 [![Amazon Bedrock](https://img.shields.io/badge/Amazon%20Bedrock-Claude%203.5%20Sonnet-6842FF.svg?logo=anthropic)](https://aws.amazon.com/bedrock/)
 [![Computer Vision](https://img.shields.io/badge/Computer%20Vision-MediaPipe%20%2B%20OpenCV-00C0FF.svg?logo=opencv)](https://mediapipe.dev)
-[![YouTube Video](https://img.shields.io/badge/Explainer%20Video-YouTube-FF0000.svg?logo=youtube)](https://www.youtube.com/watch?v=0W904keGQXI)
+[![YouTube Video](https://img.shields.io/badge/Explainer%20Video-YouTube-FF0000.svg?logo=youtube)](https://www.youtube.com/watch?v=A8TrkLvEE-U)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 ---
@@ -19,7 +19,7 @@
 | 🧑‍⚕️ **Patient Telemetry Studio** | **[Launch Patient Studio](https://main.dfms9o6dmkyla.amplifyapp.com/patient.html)** | [CloudFront Mirror](https://d3sigeid8sbgs9.cloudfront.net/patient.html) | In-browser MediaPipe FaceMesh tracking, BLE Polar H9 ECG, 10s ring buffer & Stroop stress test |
 | 🏥 **Clinician Verification Portal** | **[Launch Clinician Portal](https://main.dfms9o6dmkyla.amplifyapp.com/clinician.html)** | [CloudFront Mirror](https://d3sigeid8sbgs9.cloudfront.net/clinician.html) | Video triage queue, 1-click verification, 3 multi-session graphs & Bedrock AI progress notes |
 | ⚡ **AWS API Gateway REST API** | `https://x82idzhm6j.execute-api.ap-south-1.amazonaws.com` | — | Serverless HTTP API handling real-time telemetry ingestion, queries, and verification |
-| 🎬 **Project Explainer Video** | **[Watch on YouTube](https://www.youtube.com/watch?v=0W904keGQXI)** | Embedded in Landing Page | Full walkthrough of the problem, edge vision buffer, and AWS serverless architecture |
+| 🎬 **Project Explainer Video** | **[Watch on YouTube](https://www.youtube.com/watch?v=A8TrkLvEE-U)** | Embedded in Landing Page | Full walkthrough of the problem, edge vision buffer, and AWS serverless architecture |
 
 ---
 
