@@ -3,6 +3,8 @@
 **Author:** Manan Bhate (Team Leader)  
 **Track:** Bharat Builds AWS Hackathon — Healthcare & AI Innovation  
 **Live Deployed Application:** [https://main.dfms9o6dmkyla.amplifyapp.com](https://main.dfms9o6dmkyla.amplifyapp.com)  
+**Patient Studio:** [https://main.dfms9o6dmkyla.amplifyapp.com/patient.html](https://main.dfms9o6dmkyla.amplifyapp.com/patient.html)  
+**Clinician Portal:** [https://main.dfms9o6dmkyla.amplifyapp.com/clinician.html](https://main.dfms9o6dmkyla.amplifyapp.com/clinician.html)  
 **Explainer Video:** [Watch on YouTube (3 min)](https://www.youtube.com/watch?v=A8TrkLvEE-U)  
 **GitHub Repository:** [github.com/manan576/NeuroTrial-DCT-Platform](https://github.com/manan576/NeuroTrial-DCT-Platform)  
 
@@ -105,11 +107,6 @@ The Clinician Workstation (`clinician.html`) provides doctors with an optimized,
 During standardized testing on myself across cognitive stress challenges, NeuroTrial captured conclusive empirical proof that head oscillations in nystagmus are directly triggered by acute autonomic stress.
 
 [INSERT IMAGE: patient graph.png — Longitudinal Autonomic Telemetry: Calibrated Baseline vs Incident RMSSD Drop]
-
-### Key Statistical Results:
-* **Resting Baseline RMSSD**: Calibrated resting baseline averaged **52.7 ms**.
-* **Incident Vagal Collapse During Oscillations**: During verified head oscillation bursts (3.7 to 3.9 Hz), incident RMSSD plummeted to **17.5 ms**—representing an acute **66.8% collapse in parasympathetic vagal tone**.
-* **Statistical Significance (Mann-Whitney U Test)**: **p < 0.001** (Reject H0 with high significance), proving that true head oscillations coincide with acute autonomic stress.
 
 ---
 
