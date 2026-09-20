@@ -3,7 +3,7 @@
 **Author:** Manan Bhate (Team Leader)  
 **Track:** Bharat Builds AWS Hackathon — Healthcare & AI Innovation  
 **Live Deployed Application:** [https://main.dfms9o6dmkyla.amplifyapp.com](https://main.dfms9o6dmkyla.amplifyapp.com)  
-**Explainer Video:** [Watch on YouTube (3 min)](https://www.youtube.com/watch?v=0W904keGQXI)  
+**Explainer Video:** [Watch on YouTube (3 min)](https://www.youtube.com/watch?v=A8TrkLvEE-U)  
 **GitHub Repository:** [github.com/manan576/NeuroTrial-DCT-Platform](https://github.com/manan576/NeuroTrial-DCT-Platform)  
 
 ---
@@ -117,20 +117,14 @@ During standardized testing on myself across cognitive stress challenges, NeuroT
 
 NeuroTrial runs on a 100% serverless AWS architecture deployed in `ap-south-1` (Mumbai):
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                AWS SERVERLESS STACK                                    │
-├──────────────────────┬──────────────────────────────────┬──────────────────────────────┤
-│ AWS Service          │ Technical Role in NeuroTrial     │ Key Metrics & Specs          │
-├──────────────────────┼──────────────────────────────────┼──────────────────────────────┤
-│ AWS Amplify          │ Global HTTPS hosting & CI/CD     │ Automated Git edge delivery  │
-│ Amazon API Gateway   │ HTTP REST API entry point        │ Sub-40ms latency, CORS       │
-│ AWS Lambda           │ Serverless microservice compute  │ Python 3.11 runtimes         │
-│ Amazon DynamoDB      │ Single-table NoSQL telemetry     │ On-Demand, Sub-10ms queries  │
-│ Amazon S3            │ Encrypted 10s video vault        │ SSE-S3 AES-256, Presigned    │
-│ Amazon Bedrock       │ AI Clinical SOAP Progress Notes  │ Anthropic Claude 3.5 Sonnet  │
-└──────────────────────┴──────────────────────────────────┴──────────────────────────────┘
-```
+| AWS Service | Technical Role in NeuroTrial | Key Metrics & Specs |
+| :--- | :--- | :--- |
+| **AWS Amplify** | Global HTTPS hosting & CI/CD | Automated Git edge delivery |
+| **Amazon API Gateway** | HTTP REST API entry point | Sub-40ms latency, CORS |
+| **AWS Lambda** | Serverless microservice compute | Python 3.11 runtimes |
+| **Amazon DynamoDB** | Single-table NoSQL telemetry | On-Demand, Sub-10ms queries |
+| **Amazon S3** | Encrypted 10s video vault | SSE-S3 AES-256, Presigned |
+| **Amazon Bedrock** | AI Clinical SOAP Progress Notes | Anthropic Claude 3.5 Sonnet |
 
 * **AWS Amplify**: Continuously builds and deploys the frontend on every `git push`, provisioning valid HTTPS certificates required for Web Bluetooth and camera APIs.
 * **Amazon API Gateway & AWS Lambda**: Provides sub-40ms REST endpoints (`/events`, `/verify`, `/bedrock-summary`) using Python 3.11 microservices (`NeuroStressIngest`, `NeuroStressQuery`, `NeuroStressBedrockSummary`).
